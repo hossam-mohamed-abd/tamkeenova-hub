@@ -1,0 +1,47 @@
+<section class="hero">
+  <div class="hero-video">
+    <video  controls
+  muted
+  autoplay
+  loop
+  playsinline="metadata" >
+      <source src="images/hero-video.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <span class="hero-badge"> مستقبل أفضل يبدأ من هنا </span>
+
+    <h1>
+      تمكين وتأهيل كوادر صعيد مصر
+      <span>لسوق العمل المستقبلي</span>
+    </h1>
+
+    <p>
+      برامج تدريبية معتمدة، استشارات مؤسسية، ملتقيات توظيف، وتطبيق عملي لبناء كوادر قادرة على
+      المنافسة في سوق العمل.
+    </p>
+
+    <div class="hero-actions">
+      <a class="primary-btn"> استكشف البرامج </a>
+
+      <a class="secondary-btn"> تواصل معنا </a>
+    </div>
+
+    <div class="hero-stats">
+      @for (stat of stats; track stat.label) {
+        <div class="stat-card">
+          <h3>
+            {{ stat.value }}
+          </h3>
+
+          <span>
+            {{ stat.label }}
+          </span>
+        </div>
+      }
+    </div>
+  </div>
+</section>

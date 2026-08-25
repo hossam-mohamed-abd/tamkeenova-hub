@@ -1,0 +1,82 @@
+{
+  "nav": {
+    "tagline": "Empowerment & Training Platform",
+    "home": "Home",
+    "programs": "Programs",
+    "portal": "Trainee Portal",
+    "consulting": "Consulting",
+    "team": "Team",
+    "gallery": "Gallery",
+    "toggle_lang": "Change language",
+    "toggle_theme": "Toggle theme",
+    "toggle_menu": "Open menu",
+    "light_mode": "Light mode",
+    "dark_mode": "Dark mode"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Upper Egypt's leading training and empowerment platform",
+      "title_line1": "Empowering Upper Egypt's Workforce",
+      "title_line2": "For The Jobs Of Tomorrow",
+      "subtitle": "Closing the field gap between academic knowledge and market demands through certified programs, job fairs, and applied practice.",
+      "cta": "Explore Available Programs"
+    },
+    "partners": {
+      "label": "Strategic Partners & Accreditation"
+    },
+    "stats": {
+      "trainees": "Trainees & Beneficiaries",
+      "programs": "Development Programs",
+      "hours": "Certified Training Hours",
+      "partnerships": "Institutional Partnerships",
+      "team": "Advisory Team Members"
+    },
+    "services": {
+      "label": "Platform Extensions",
+      "title": "Everything you need for training, in one place",
+      "portal": {
+        "title": "Trainee Portal & Certificates",
+        "desc": "Verify your certificate using its printed authentication code, or track your training record by national ID.",
+        "link": "Go to the Portal"
+      },
+      "programs": {
+        "title": "Training Programs & Grants",
+        "desc": "Hands-on programs designed by experts and consultants, with certified outcomes tailored to the job market.",
+        "link": "Browse Programs"
+      },
+      "consulting": {
+        "title": "Services & Consulting",
+        "desc": "Institutional consulting and custom corporate training, plus personal career guidance for individuals.",
+        "link": "Request Consulting"
+      }
+    },
+    "team": {
+      "label": "Advisory Team",
+      "title": "Certified experts and trainers leading your path",
+      "link": "View All Experts & Trainers"
+    },
+    "gallery": {
+      "label": "From The Field",
+      "title": "A look inside our programs and workshops",
+      "desc": "Real moments from the halls and sessions of programs already delivered.",
+      "latest_event": "Annual Forum for Youth Empowerment & Partners",
+      "link": "Visit The Full Gallery"
+    }
+  },
+  "contact": {
+    "eyebrow": "Don't hesitate",
+    "title": "Get In Touch",
+    "subtitle": "Always here to support your training and institutional journey",
+    "phone_label": "Call Us",
+    "email_label": "Email Us",
+    "facebook_label": "Follow on Facebook",
+    "whatsapp_cta": "Chat with us on WhatsApp"
+  },
+  "footer": {
+    "tagline": "Upper Egypt's leading empowerment and training platform, closing the gap between education and the job market.",
+    "quick_links": "Quick Links",
+    "contact_title": "Get In Touch",
+    "rights": "© {{year}} TamkeeNova HUB. All rights reserved.",
+    "built_by": "Built by"
+  }
+}

@@ -1,0 +1,74 @@
+<header class="navbar" [class.is-scrolled]="isScrolled()">
+  <div class="navbar-inner">
+
+     <a routerLink="/" class="navbar-brand" (click)="closeMobileMenu()">
+      <img src="/images/logo.svg" alt="TamkeeNova" class="brand-mark">
+      <span class="brand-word">
+        <span class="brand-word-main">Tamkee<span class="brand-word-accent">Nova</span></span>
+        <span class="brand-word-sub">{{ 'nav.tagline' | translate }}</span>
+      </span>
+    </a>
+
+    <nav class="navbar-links" aria-label="Main navigation">
+      @for (link of navLinks; track link.route) {
+        <a [routerLink]="link.route"
+           routerLinkActive="is-active"
+           [routerLinkActiveOptions]="{ exact: link.route === '/' }"
+           class="navbar-link">
+          {{ link.labelKey | translate }}
+        </a>
+      }
+    </nav>
+
+    <div class="navbar-actions">
+      <button type="button" class="control-btn" (click)="toggleLanguage()" [attr.aria-label]="'nav.toggle_lang' | translate">
+        <i class="fa-solid fa-globe"></i>
+        <span class="control-btn-label">{{ isArabic() ? 'EN' : 'AR' }}</span>
+      </button>
+
+      <button type="button" class="control-btn control-btn-icon" (click)="toggleTheme()" [attr.aria-label]="'nav.toggle_theme' | translate">
+        <i class="fa-solid" [class.fa-moon]="!isDark()" [class.fa-sun]="isDark()"></i>
+      </button>
+
+      <a routerLink="/programs" class="btn-accent navbar-cta chamfer-sm">
+        {{ 'home.hero.cta' | translate }}
+      </a>
+
+      <button type="button"
+              class="menu-toggle"
+              (click)="toggleMobileMenu()"
+              [attr.aria-label]="'nav.toggle_menu' | translate"
+              [attr.aria-expanded]="isMobileMenuOpen()">
+        <i class="fa-solid" [class.fa-bars]="!isMobileMenuOpen()" [class.fa-xmark]="isMobileMenuOpen()"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-panel chamfer-lg" [class.is-open]="isMobileMenuOpen()">
+    <nav class="mobile-links" aria-label="Mobile navigation">
+      @for (link of navLinks; track link.route) {
+        <a [routerLink]="link.route"
+           routerLinkActive="is-active"
+           [routerLinkActiveOptions]="{ exact: link.route === '/' }"
+           class="mobile-link"
+           (click)="closeMobileMenu()">
+          {{ link.labelKey | translate }}
+          <i class="fa-solid fa-arrow-left mobile-link-icon rtl-flip"></i>
+        </a>
+      }
+    </nav>
+
+    <div class="mobile-panel-footer">
+      <button type="button" class="control-btn control-btn-block" (click)="toggleLanguage()">
+        <i class="fa-solid fa-globe"></i>
+        <span class="control-btn-label">{{ isArabic() ? 'English' : 'العربية' }}</span>
+      </button>
+      <button type="button" class="control-btn control-btn-block" (click)="toggleTheme()">
+        <i class="fa-solid" [class.fa-moon]="!isDark()" [class.fa-sun]="isDark()"></i>
+        <span class="control-btn-label">{{ isDark() ? ('nav.light_mode' | translate) : ('nav.dark_mode' | translate) }}</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-backdrop" [class.is-open]="isMobileMenuOpen()" (click)="closeMobileMenu()"></div>

@@ -1,0 +1,331 @@
+:host {
+  display: contents;
+}
+
+/* ============================================
+   NAVBAR SHELL — Glass
+   ============================================ */
+.navbar {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--color-surface) 62%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid transparent;
+  transition: background var(--transition-base), border-color var(--transition-base),
+              box-shadow var(--transition-base), padding-block var(--transition-base);
+}
+
+.navbar.is-scrolled {
+  background: color-mix(in srgb, var(--color-surface) 86%, transparent);
+  border-block-end-color: var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.navbar-inner {
+  max-width: 1360px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.15rem 6vw;
+  transition: padding-block var(--transition-base);
+}
+
+.navbar.is-scrolled .navbar-inner {
+  padding-block: 0.7rem;
+}
+
+/* ============================================
+   BRAND
+   ============================================ */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.brand-word {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brand-word-main {
+  font-family: var(--font-numeric);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--color-text);
+  letter-spacing: 0.01em;
+}
+
+.brand-word-accent {
+  color: var(--color-accent);
+}
+
+.brand-word-sub {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-block-start: 0.15rem;
+}
+
+html[dir='rtl'] .brand-word-sub {
+  letter-spacing: 0;
+}
+
+/* ============================================
+   DESKTOP LINKS
+   ============================================ */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2.1rem;
+}
+
+.navbar-link {
+  position: relative;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding-block: 0.4rem;
+  transition: color var(--transition-fast);
+}
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 3px;
+  background: var(--color-accent);
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%);
+  transform: scaleX(0);
+  transform-origin: inset-inline-start;
+  transition: transform var(--transition-base);
+}
+
+.navbar-link:hover {
+  color: var(--color-text);
+}
+
+.navbar-link:hover::after,
+.navbar-link.is-active::after {
+  transform: scaleX(1);
+}
+
+.navbar-link.is-active {
+  color: var(--color-text);
+}
+
+/* ============================================
+   ACTIONS / CONTROLS
+   ============================================ */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 40px;
+  padding-inline: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-surface-alt) 55%, transparent);
+  color: var(--color-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+}
+
+.control-btn:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.control-btn i {
+  color: var(--color-accent);
+  font-size: 0.95rem;
+}
+
+.control-btn-icon {
+  width: 40px;
+  padding-inline: 0;
+  justify-content: center;
+}
+
+.control-btn-icon .control-btn-label {
+  display: none;
+}
+
+.navbar-cta {
+  padding: 0.65rem 1.4rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface-alt) 55%, transparent);
+  color: var(--color-text);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+/* ============================================
+   MOBILE PANEL
+   ============================================ */
+.mobile-panel {
+  position: fixed;
+  top: 0;
+  inset-inline-end: 0;
+  width: min(360px, 86vw);
+  height: 100vh;
+  padding: 6.5rem 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border-inline-start: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  z-index: 101;
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--transition-slow), opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+html[dir='rtl'] .mobile-panel {
+  transform: translateX(-100%);
+}
+
+.mobile-panel.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.25rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.mobile-link-icon {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+html[dir='rtl'] .mobile-link-icon {
+  transform: translateX(6px);
+}
+
+.mobile-link:hover .mobile-link-icon,
+.mobile-link.is-active .mobile-link-icon {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-link.is-active {
+  color: var(--color-accent);
+}
+
+.mobile-panel-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.control-btn-block {
+  width: 100%;
+  justify-content: center;
+  height: 46px;
+}
+
+/* ============================================
+   BACKDROP
+   ============================================ */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(16, 30, 39, 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.mobile-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 960px) {
+  .navbar-links,
+  .navbar-cta {
+    display: none;
+  }
+  .menu-toggle {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .navbar-inner,
+  .navbar-link::after,
+  .mobile-panel,
+  .mobile-backdrop,
+  .mobile-link-icon {
+    transition: none;
+  }
+}
