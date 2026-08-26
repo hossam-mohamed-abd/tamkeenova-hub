@@ -11,7 +11,7 @@ export class ChatService {
   isOpen = signal(false);
   isTyping = signal(false);
   messages = signal<ChatMessage[]>([
-    { id: 0, role: 'assistant', text: '' } // بيتملى في init بترجمة رسالة الترحيب
+    { id: 0, role: 'assistant', text: '' }
   ]);
 
   private nextId = 1;

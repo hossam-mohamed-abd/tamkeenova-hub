@@ -2,9 +2,7 @@
   display: contents;
 }
 
-/* ============================================
-   NAVBAR SHELL — Glass
-   ============================================ */
+
 .navbar {
   position: fixed;
   inset-inline: 0;
@@ -39,9 +37,7 @@
   padding-block: 0.7rem;
 }
 
-/* ============================================
-   BRAND
-   ============================================ */
+
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -87,9 +83,7 @@ html[dir='rtl'] .brand-word-sub {
   letter-spacing: 0;
 }
 
-/* ============================================
-   DESKTOP LINKS
-   ============================================ */
+
 .navbar-links {
   display: flex;
   align-items: center;
@@ -133,9 +127,7 @@ html[dir='rtl'] .brand-word-sub {
   color: var(--color-text);
 }
 
-/* ============================================
-   ACTIONS / CONTROLS
-   ============================================ */
+
 .navbar-actions {
   display: flex;
   align-items: center;
@@ -200,9 +192,7 @@ html[dir='rtl'] .brand-word-sub {
   cursor: pointer;
 }
 
-/* ============================================
-   MOBILE PANEL
-   ============================================ */
+
 .mobile-panel {
   position: fixed;
   top: 0;
@@ -287,9 +277,7 @@ html[dir='rtl'] .mobile-link-icon {
   height: 46px;
 }
 
-/* ============================================
-   BACKDROP
-   ============================================ */
+
 .mobile-backdrop {
   position: fixed;
   inset: 0;
@@ -306,9 +294,7 @@ html[dir='rtl'] .mobile-link-icon {
   visibility: visible;
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+
 @media (max-width: 960px) {
   .navbar-links,
   .navbar-cta {

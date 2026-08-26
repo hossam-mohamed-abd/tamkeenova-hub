@@ -13,56 +13,7 @@ import { Program, ProgramFormat, ProgramLevel } from '../../core/models/program.
 })
 export class ProgramsComponent {
 
-  
-  // private allPrograms = signal<Program[]>([
-  //   {
-  //     id: 'prog-001',
-  //     slug: 'digital-transformation-basics',
-  //     title: { ar: 'أساسيات التحول الرقمي', en: 'Digital Transformation Basics' },
-  //     description: {
-  //       ar: 'برنامج تدريبي يقدّم أساسيات التحول الرقمي وتطبيقاته في بيئة العمل، بشهادة معتمدة.',
-  //       en: 'A training program covering digital transformation fundamentals and workplace applications.',
-  //     },
-  //     category: 'digital',
-  //     level: 'beginner',
-  //     format: 'hybrid',
-  //     durationHours: 24,
-  //     coverImage: '/images/programs/digital-transformation.jpg',
-  //     isOpen: true,
-  //     seatsLeft: 12,
-  //   },
-  //   {
-  //     id: 'prog-002',
-  //     slug: 'management-consulting-essentials',
-  //     title: { ar: 'أساسيات الاستشارات الإدارية', en: 'Management Consulting Essentials' },
-  //     description: {
-  //       ar: 'مقدمة عملية في مهارات الاستشارات الإدارية وتطوير الأعمال للمؤسسات والأفراد.',
-  //       en: 'A practical introduction to management consulting and business development skills.',
-  //     },
-  //     category: 'management',
-  //     level: 'intermediate',
-  //     format: 'onsite',
-  //     durationHours: 18,
-  //     coverImage: '/images/programs/management-consulting.jpg',
-  //     isOpen: true,
-  //     seatsLeft: 5,
-  //   },
-  //   {
-  //     id: 'prog-003',
-  //     slug: 'ai-for-business',
-  //     title: { ar: 'الذكاء الاصطناعي لريادة الأعمال', en: 'AI for Business' },
-  //     description: {
-  //       ar: 'كيفية توظيف أدوات الذكاء الاصطناعي في تطوير الأعمال واتخاذ القرار.',
-  //       en: 'How to leverage AI tools for business development and decision-making.',
-  //     },
-  //     category: 'digital',
-  //     level: 'advanced',
-  //     format: 'online',
-  //     durationHours: 30,
-  //     coverImage: '/images/programs/ai-for-business.jpg',
-  //     isOpen: false,
-  //   },
-  // ]);
+
   private allPrograms = signal<Program[]>([]);
 
   searchTerm = signal('');

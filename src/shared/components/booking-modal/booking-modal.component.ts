@@ -50,7 +50,7 @@ export class BookingModalComponent {
 
   close(): void {
     this.bookingService.close();
-    // نمسح الفورم بعد ما الأنيميشن تخلص عشان المستخدم ميشوفش الفورم بيتصفر قدامه
+
     setTimeout(() => {
       this.name.set('');
       this.phone.set('');
