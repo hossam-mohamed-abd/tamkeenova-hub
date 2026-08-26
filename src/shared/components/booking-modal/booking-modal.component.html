@@ -1,0 +1,137 @@
+@if (isOpen()) {
+  <div class="booking-backdrop" (click)="onBackdropClick($event)">
+    <div class="booking-modal surface chamfer-sm">
+      <button
+        type="button"
+        class="booking-close"
+        (click)="close()"
+        [attr.aria-label]="'booking.close' | translate"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      @if (!submitted()) {
+        <div class="booking-trainer-preview">
+          <div
+            class="booking-trainer-avatar"
+            [style.background-image]="'url(' + trainer()!.avatar + ')'"
+          ></div>
+          <div>
+            <span class="booking-eyebrow">{{ 'booking.eyebrow' | translate }}</span>
+            <h3 class="booking-trainer-name">{{ trainer()!.name }}</h3>
+            <p class="booking-trainer-spec">{{ trainer()!.specialization }}</p>
+          </div>
+        </div>
+
+        <form class="booking-form" (ngSubmit)="submit()">
+          <div class="form-field" [class.has-error]="touched() && !name()">
+            <label for="bookingName">
+              {{ 'booking.name_label' | translate }} <span class="required-mark">*</span>
+            </label>
+            <input
+              id="bookingName"
+              type="text"
+              class="form-control"
+              [ngModel]="name()"
+              (ngModelChange)="name.set($event)"
+              name="bookingName"
+              [placeholder]="'booking.name_placeholder' | translate"
+            />
+            @if (touched() && !name()) {
+              <span class="field-error">{{ 'booking.required_error' | translate }}</span>
+            }
+          </div>
+
+          <div class="form-field" [class.has-error]="touched() && !phone()">
+            <label for="bookingPhone">
+              {{ 'booking.phone_label' | translate }} <span class="required-mark">*</span>
+            </label>
+            <input
+              id="bookingPhone"
+              type="tel"
+              dir="ltr"
+              class="form-control form-control-ltr"
+              [ngModel]="phone()"
+              (ngModelChange)="phone.set($event)"
+              name="bookingPhone"
+              [placeholder]="'booking.phone_placeholder' | translate"
+            />
+            @if (touched() && !phone()) {
+              <span class="field-error">{{ 'booking.required_error' | translate }}</span>
+            }
+          </div>
+
+          <div class="form-field">
+            <label>{{ 'booking.contact_method_label' | translate }}</label>
+            <div class="contact-method-group">
+              <button
+                type="button"
+                [class.is-active]="contactMethod() === 'whatsapp'"
+                (click)="setContactMethod('whatsapp')"
+              >
+                <i class="fa-brands fa-whatsapp"></i>
+                {{ 'booking.method_whatsapp' | translate }}
+              </button>
+              <button
+                type="button"
+                [class.is-active]="contactMethod() === 'phone'"
+                (click)="setContactMethod('phone')"
+              >
+                <i class="fa-solid fa-phone"></i>
+                {{ 'booking.method_phone' | translate }}
+              </button>
+              <button
+                type="button"
+                [class.is-active]="contactMethod() === 'video'"
+                (click)="setContactMethod('video')"
+              >
+                <i class="fa-solid fa-video"></i>
+                {{ 'booking.method_video' | translate }}
+              </button>
+            </div>
+          </div>
+
+          <div class="form-field" [class.has-error]="touched() && !topic()">
+            <label for="bookingTopic">
+              {{ 'booking.topic_label' | translate }} <span class="required-mark">*</span>
+            </label>
+            <textarea
+              id="bookingTopic"
+              class="form-control"
+              rows="4"
+              [ngModel]="topic()"
+              (ngModelChange)="topic.set($event)"
+              name="bookingTopic"
+              [placeholder]="'booking.topic_placeholder' | translate"
+            ></textarea>
+            @if (touched() && !topic()) {
+              <span class="field-error">{{ 'booking.required_error' | translate }}</span>
+            }
+          </div>
+
+          <button type="submit" class="btn-primary btn-submit" [disabled]="submitting()">
+            @if (submitting()) {
+              <span class="spinner"></span>
+              <span>{{ 'booking.submitting' | translate }}</span>
+            } @else {
+              <span>{{ 'booking.submit' | translate }}</span>
+              <i class="fa-solid fa-paper-plane rtl-flip"></i>
+            }
+          </button>
+        </form>
+      } @else {
+        <div class="success-state">
+          <svg class="success-check" viewBox="0 0 80 80">
+            <circle class="success-check-circle" cx="40" cy="40" r="36" />
+            <path class="success-check-mark" d="M24 42 L35 53 L57 29" />
+          </svg>
+          <h3 class="success-title">{{ 'booking.success_title' | translate }}</h3>
+          <p class="success-text">{{ 'booking.success_text' | translate }}</p>
+          <button type="button" class="btn-accent" (click)="close()">
+            {{ 'booking.success_cta' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,86 @@
+<div class="showcase-wrapper">
+  <div class="showcase-stage" (mouseenter)="onStageEnter()" (mouseleave)="onStageLeave()">
+    <button
+      type="button"
+      class="showcase-nav showcase-nav-prev"
+      (click)="prev()"
+      aria-label="Previous"
+    >
+      <i class="fa-solid fa-chevron-left rtl-flip"></i>
+    </button>
+
+    <div class="showcase-grid">
+      @for (slot of slots(); track $index) {
+        <div class="team-box chamfer-sm">
+          <div class="team-box-track">
+            <!-- الكارت الحالي -->
+            <div
+              class="team-card"
+              [class.slide-out]="slot.sliding"
+              [class.no-transition]="slot.resetting"
+            >
+              <div
+                class="team-card-photo"
+                [style.background-image]="'url(' + slot.currentTrainer.avatar + ')'"
+              >
+                <span class="team-card-scrim"></span>
+                <span class="team-card-badge">
+                  <i class="fa-solid fa-star" style="color: #ffc857; font-size: 0.7rem"></i>
+                  <span style="color: #fff; font-size: 0.75rem; font-weight: 700">{{
+                    slot.currentTrainer.rating
+                  }}</span>
+                </span>
+              </div>
+              <div class="team-card-body">
+                <h3 class="team-card-name">{{ slot.currentTrainer.name }}</h3>
+                <p class="team-card-spec">{{ slot.currentTrainer.specialization }}</p>
+                <app-star-rating [rating]="slot.currentTrainer.rating"></app-star-rating>
+                <button
+                  type="button"
+                  class="team-card-btn"
+                  (click)="openBooking(slot.currentTrainer)"
+                >
+                  <i class="fa-solid fa-calendar-check"></i>
+                  {{ 'team.book_btn' | translate }}
+                </button>
+              </div>
+            </div>
+
+            <!-- الكارت الجاي -->
+            <div
+              class="team-card team-card-next"
+              [class.slide-in]="slot.sliding"
+              [class.no-transition]="slot.resetting"
+            >
+              <div
+                class="team-card-photo"
+                [style.background-image]="'url(' + slot.currentTrainer.avatar + ')'"
+              >
+                <span class="team-card-scrim"></span>
+                <span class="team-card-badge">
+                  <i class="fa-solid fa-star" style="color: #ffc857; font-size: 0.7rem"></i>
+                  <span style="color: #fff; font-size: 0.75rem; font-weight: 700">{{
+                    slot.currentTrainer.rating
+                  }}</span>
+                </span>
+              </div>
+              <div class="team-card-body">
+                <h3 class="team-card-name">{{ slot.nextTrainer.name }}</h3>
+                <p class="team-card-spec">{{ slot.nextTrainer.specialization }}</p>
+                <app-star-rating [rating]="slot.nextTrainer.rating"></app-star-rating>
+                <button type="button" class="team-card-btn" (click)="openBooking(slot.nextTrainer)">
+                  <i class="fa-solid fa-calendar-check"></i>
+                  {{ 'team.book_btn' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <button type="button" class="showcase-nav showcase-nav-next" (click)="next()" aria-label="Next">
+      <i class="fa-solid fa-chevron-right rtl-flip"></i>
+    </button>
+  </div>
+</div>

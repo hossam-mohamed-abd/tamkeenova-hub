@@ -31,13 +31,35 @@
      PARTNERS MARQUEE
      ============================================ -->
 <section class="partners" appScrollReveal>
-  <p class="partners-label">{{ 'home.partners.label' | translate }}</p>
-  <div class="marquee">
-    <div class="marquee-track">
-      @for (partner of partnersLoop; track $index) {
-        <img class="partner-logo" [src]="partner" alt="partner logo" loading="lazy" />
-      }
-    </div>
+  <div class="partners-heading">
+    <span class="partners-rule"></span>
+    <p class="partners-label">{{ 'home.partners.label' | translate }}</p>
+    <span class="partners-rule"></span>
+  </div>
+
+  <div class="partners-flip-grid">
+    @for (slot of slots(); track $index) {
+      <div class="partner-box surface chamfer-sm">
+        <div class="partner-box-track">
+          <img
+            class="partner-img partner-img-current"
+            [class.slide-out]="slot.sliding"
+            [class.no-transition]="slot.resetting"
+            [src]="slot.currentImg"
+            alt="partner logo"
+            loading="lazy"
+          />
+          <img
+            class="partner-img partner-img-next"
+            [class.slide-in]="slot.sliding"
+            [class.no-transition]="slot.resetting"
+            [src]="slot.nextImg"
+            alt="partner logo"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    }
   </div>
 </section>
 
@@ -90,22 +112,12 @@
     <h2 class="section-title display">{{ 'home.team.title' | translate }}</h2>
   </div>
 
-  <div class="team-scroller">
-    @for (member of teamPreview; track member.name) {
-      <div class="team-card surface chamfer-sm">
-        <div class="team-avatar">{{ member.initials }}</div>
-        <h3 class="team-name">{{ member.name }}</h3>
-        <p class="team-role">{{ member.role }}</p>
-      </div>
-    }
-  </div>
-
+  <app-team-showcase  [trainers]="featuredTrainers()"></app-team-showcase>
   <a routerLink="/team" class="btn-accent team-link">
     {{ 'home.team.link' | translate }}
     <i class="fa-solid fa-arrow-left rtl-flip"></i>
   </a>
 </section>
-
 <!-- ============================================
      GALLERY TEASER
      ============================================ -->

@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeroSectionComponent } from "../features/home/components/hero-section/hero-section.component";
-import { HomeComponent } from "../features/home/home.component";
 import { NavbarComponent } from "../shared/components/navbar/navbar.component";
+import { AiAssistantComponent } from "../shared/components/ai-assistant/ai-assistant.component";
+import { BookingModalComponent } from "../shared/components/booking-modal/booking-modal.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeroSectionComponent, HomeComponent, NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent, AiAssistantComponent, BookingModalComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

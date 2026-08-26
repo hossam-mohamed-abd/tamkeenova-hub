@@ -1,0 +1,15 @@
+<app-page-header
+  eyebrowKey="team.header.eyebrow"
+  titleKey="team.header.title"
+  subtitleKey="team.header.subtitle"
+></app-page-header>
+
+<section class="team-grid-section">
+  <div class="team-grid">
+    @for (trainer of trainers(); track trainer.id) {
+      <div>
+        <app-trainer-card [trainer]="trainer"></app-trainer-card>
+      </div>
+    }
+  </div>
+</section>

@@ -53,7 +53,8 @@
     "team": {
       "label": "Advisory Team",
       "title": "Certified experts and trainers leading your path",
-      "link": "View All Experts & Trainers"
+      "link": "View All Experts & Trainers",
+      "book_btn": "Book a Consultation"
     },
     "gallery": {
       "label": "From The Field",
@@ -78,5 +79,135 @@
     "contact_title": "Get In Touch",
     "rights": "© {{year}} TamkeeNova HUB. All rights reserved.",
     "built_by": "Built by"
+  },
+  "assistant": {
+    "name": "TamkeeNova Assistant",
+    "badge": "Gemini Powered",
+    "welcome": "Hi! I'm TamkeeNova's assistant. Ask me about programs, services, or anything on the platform.",
+    "placeholder": "Type your question...",
+    "open": "Open AI assistant",
+    "close": "Close chat",
+    "send": "Send"
+  },
+  "programs": {
+    "header": {
+      "eyebrow": "Certified Programs & Courses Directory",
+      "title": "Training Programs & Grants",
+      "subtitle": "Hands-on programs designed by experts and consultants, with certified outcomes and continuous updates tailored to the job market."
+    },
+    "search_placeholder": "Search for a program...",
+    "filter": {
+      "all_categories": "All Categories",
+      "all_formats": "All Formats",
+      "all_levels": "All Levels"
+    },
+    "format": {
+      "onsite": "On-site",
+      "online": "Online",
+      "hybrid": "Hybrid"
+    },
+    "level": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "hours_unit": "hours",
+    "seats_left": "{{count}} seats left",
+    "view_details": "Details & Enroll",
+    "status": {
+      "closed": "Enrollment Closed"
+    },
+    "no_results": "No matching programs. Try adjusting your filters.",
+    "empty": {
+      "title": "No Programs Available Right Now",
+      "text": "Stay tuned for upcoming programs and grants, or reach out for a custom training solution for your organization.",
+      "cta": "Contact Us Now"
+    }
+  },
+  "consultingPage": {
+    "header": {
+      "eyebrow": "Services & Consulting",
+      "title": "Request a Corporate Service or Private Consultation",
+      "subtitle": "Whether you're a company seeking a training partner or an individual looking for career guidance, we're here to help."
+    },
+    "account_notice": {
+      "text": "Submitting a consultation request requires a registered account on the platform.",
+      "cta": "Sign up / Create account"
+    },
+    "tabs": {
+      "b2b": "I represent a company / organization (B2B)",
+      "b2c": "I'm an individual (B2C)"
+    },
+    "form": {
+      "field_label": "Service or consultation field",
+      "field_placeholder": "Select a field",
+      "fields": {
+        "business_strategy": "Business Management & Strategy",
+        "digital_marketing": "Digital Marketing & Growth",
+        "financial": "Financial & Investment Consulting",
+        "hr_training": "Talent Development & Corporate Training",
+        "digital_transformation": "Digital Transformation & Software Solutions",
+        "governance_hr": "Governance & HR Consulting",
+        "other": "Other (specify in the dedicated field)"
+      },
+      "other_placeholder": "Specify the required field",
+      "name_label": "Company / Organization Name / Contact Person",
+      "name_placeholder": "Enter the name",
+      "phone_label": "Phone & WhatsApp",
+      "phone_placeholder": "01xxxxxxxxx",
+      "details_label": "Details of the requested service or consultation",
+      "details_placeholder": "Describe your needs in detail so our team can assist you better...",
+      "submit": "Send Request to Our Team",
+      "submitting": "Sending...",
+      "required_error": "This field is required"
+    },
+    "perks": {
+      "title": "Why work with us?",
+      "response": {
+        "title": "Fast Response",
+        "desc": "Our team responds within 24 business hours."
+      },
+      "confidential": {
+        "title": "Full Confidentiality",
+        "desc": "Your data and request details are kept fully private."
+      },
+      "experts": {
+        "title": "Specialized Experts",
+        "desc": "Your request is routed to the most suitable consultant."
+      }
+    },
+    "success": {
+      "title": "Your request has been sent successfully",
+      "text": "Our team will contact you soon to discuss the details.",
+      "cta": "Send a new request"
+    }
+  },
+  "booking": {
+    "eyebrow": "Book a consultation with",
+    "name_label": "Full Name",
+    "name_placeholder": "Enter your name",
+    "phone_label": "Phone / WhatsApp",
+    "phone_placeholder": "01xxxxxxxxx",
+    "contact_method_label": "Preferred contact method",
+    "method_whatsapp": "WhatsApp",
+    "method_phone": "Phone Call",
+    "method_video": "Video Call",
+    "topic_label": "Brief about what you need consulting on",
+    "topic_placeholder": "Briefly describe what you need help with...",
+    "required_error": "This field is required",
+    "submit": "Send Booking Request",
+    "submitting": "Sending...",
+    "close": "Close",
+    "success_title": "Booking request sent",
+    "success_text": "The trainer or our team will contact you soon to confirm the appointment.",
+    "success_cta": "Got it"
+  },
+  "team": {
+    "header": {
+      "eyebrow": "Advisory Team",
+      "title": "Certified experts and trainers leading your path",
+      "subtitle": "A select group of certified consultants and trainers across various fields to support you or your organization."
+    },
+    "book_btn": "Book a Consultation"
   }
 }

@@ -1,0 +1,29 @@
+<div class="trainer-card" [class.is-flipped]="flipped()" (click)="toggleFlip()">
+  <div class="trainer-card-inner">
+    <div class="trainer-face trainer-face-front chamfer-sm surface">
+      <div class="trainer-photo" [style.background-image]="'url(' + trainer().avatar + ')'"></div>
+      <div class="trainer-face-overlay"></div>
+      <div class="trainer-face-content">
+        <h3 class="trainer-name">{{ trainer().name }}</h3>
+        <p class="trainer-specialization">{{ trainer().specialization }}</p>
+        <app-star-rating [rating]="trainer().rating"></app-star-rating>
+        <button type="button" class="trainer-book-btn" (click)="openBooking($event)">
+          <i class="fa-solid fa-calendar-check"></i>
+          {{ 'team.book_btn' | translate }}
+        </button>
+      </div>
+      <span class="trainer-flip-hint"><i class="fa-solid fa-rotate"></i></span>
+    </div>
+
+    <div class="trainer-face trainer-face-back chamfer-sm surface">
+      <h3 class="trainer-name">{{ trainer().name }}</h3>
+      <p class="trainer-back-specialization">{{ trainer().specialization }}</p>
+      <p class="trainer-bio">{{ trainer().bio }}</p>
+      <app-star-rating [rating]="trainer().rating"></app-star-rating>
+      <button type="button" class="trainer-book-btn trainer-book-btn-back" (click)="openBooking($event)">
+        <i class="fa-solid fa-calendar-check"></i>
+        {{ 'team.book_btn' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

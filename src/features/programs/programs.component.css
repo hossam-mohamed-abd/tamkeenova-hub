@@ -1,0 +1,230 @@
+:host {
+  display: block;
+}
+
+
+
+/* ============================================
+   Filters
+   ============================================ */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 2.5rem 6vw 1.5rem;
+}
+
+.filters-search {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.filters-search i {
+  position: absolute;
+  inset-inline-start: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+}
+
+.filters-search input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.75rem;
+  padding-inline-start: 2.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
+.filters-search input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.filters-selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filters-selects select {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filters-selects select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* ============================================
+   Programs Grid
+   ============================================ */
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 6vw 5rem;
+}
+
+.program-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.program-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-primary);
+}
+
+.program-cover {
+  position: relative;
+  height: 170px;
+  background-color: var(--color-surface-alt);
+  background-size: cover;
+  background-position: center;
+}
+
+.program-badge {
+  position: absolute;
+  top: 0.85rem;
+  inset-inline-start: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.program-badge-closed {
+  background: var(--color-danger);
+  color: #ffffff;
+}
+
+.program-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.program-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  margin-block-end: 1rem;
+}
+
+.program-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.program-meta i {
+  color: var(--color-accent);
+}
+
+.program-title {
+  color: var(--color-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block-end: 0.6rem;
+}
+
+.program-desc {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  margin-block-end: 1rem;
+  flex: 1;
+}
+
+.program-seats {
+  color: var(--color-success);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-block-end: 1rem;
+}
+
+.program-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  text-decoration: none;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-muted);
+}
+
+.no-results i {
+  font-size: 2rem;
+  margin-block-end: 1rem;
+  display: block;
+}
+
+/* ============================================
+   Coming Soon (empty state)
+   ============================================ */
+.coming-soon {
+  padding: 5rem 6vw;
+  display: flex;
+  justify-content: center;
+}
+
+.coming-soon-card {
+  max-width: 520px;
+  text-align: center;
+  padding: 3.5rem 2.5rem;
+}
+
+.coming-soon-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 1.75rem;
+  margin-block-end: 1.75rem;
+}
+
+.coming-soon-title {
+  color: var(--color-text);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-block-end: 1rem;
+}
+
+.coming-soon-text {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-block-end: 2rem;
+}
+
+@media (max-width: 960px) {
+  .programs-grid {
+    grid-template-columns: 1fr;
+  }
+}

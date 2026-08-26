@@ -1,0 +1,182 @@
+<app-page-header
+  eyebrowKey="consultingPage.header.eyebrow"
+  titleKey="consultingPage.header.title"
+  subtitleKey="consultingPage.header.subtitle"
+></app-page-header>
+
+<section class="account-notice" appScrollReveal>
+  <div class="account-notice-inner surface chamfer-sm">
+    <span class="account-notice-icon"><i class="fa-solid fa-circle-info"></i></span>
+    <p class="account-notice-text">{{ 'consultingPage.account_notice.text' | translate }}</p>
+    <a routerLink="/register" class="btn-accent account-notice-cta">
+      {{ 'consultingPage.account_notice.cta' | translate }}
+    </a>
+  </div>
+</section>
+
+<section class="consulting-main">
+  <!-- ============ FORM CARD ============ -->
+  <div class="consulting-form-card surface chamfer-sm" appScrollReveal>
+    @if (!submitted()) {
+      <div class="audience-toggle" [class.is-b2c]="audience() === 'b2c'">
+        <span class="audience-toggle-pill"></span>
+        <button
+          type="button"
+          [class.is-active]="audience() === 'b2b'"
+          (click)="setAudience('b2b')"
+        >
+          {{ 'consultingPage.tabs.b2b' | translate }}
+        </button>
+        <button
+          type="button"
+          [class.is-active]="audience() === 'b2c'"
+          (click)="setAudience('b2c')"
+        >
+          {{ 'consultingPage.tabs.b2c' | translate }}
+        </button>
+      </div>
+
+      <form class="consulting-form" (ngSubmit)="submit()">
+        <div class="form-field" [class.has-error]="touched() && !serviceField()">
+          <label for="serviceField">
+            {{ 'consultingPage.form.field_label' | translate }} <span class="required-mark">*</span>
+          </label>
+          <select
+            id="serviceField"
+            class="form-control"
+            [ngModel]="serviceField()"
+            (ngModelChange)="serviceField.set($event)"
+            name="serviceField"
+          >
+            <option value="" disabled>{{ 'consultingPage.form.field_placeholder' | translate }}</option>
+            @for (opt of serviceFieldOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.labelKey | translate }}</option>
+            }
+          </select>
+          @if (touched() && !serviceField()) {
+            <span class="field-error">{{ 'consultingPage.form.required_error' | translate }}</span>
+          }
+        </div>
+
+        @if (isOther()) {
+          <div class="form-field" [class.has-error]="touched() && !otherFieldDetail()">
+            <input
+              type="text"
+              class="form-control"
+              [ngModel]="otherFieldDetail()"
+              (ngModelChange)="otherFieldDetail.set($event)"
+              name="otherFieldDetail"
+              [placeholder]="'consultingPage.form.other_placeholder' | translate"
+            />
+          </div>
+        }
+
+        <div class="form-field" [class.has-error]="touched() && !contactName()">
+          <label for="contactName">
+            {{ 'consultingPage.form.name_label' | translate }} <span class="required-mark">*</span>
+          </label>
+          <input
+            id="contactName"
+            type="text"
+            class="form-control"
+            [ngModel]="contactName()"
+            (ngModelChange)="contactName.set($event)"
+            name="contactName"
+            [placeholder]="'consultingPage.form.name_placeholder' | translate"
+          />
+          @if (touched() && !contactName()) {
+            <span class="field-error">{{ 'consultingPage.form.required_error' | translate }}</span>
+          }
+        </div>
+
+        <div class="form-field" [class.has-error]="touched() && !phone()">
+          <label for="phone">
+            {{ 'consultingPage.form.phone_label' | translate }} <span class="required-mark">*</span>
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            dir="ltr"
+            class="form-control form-control-ltr"
+            [ngModel]="phone()"
+            (ngModelChange)="phone.set($event)"
+            name="phone"
+            [placeholder]="'consultingPage.form.phone_placeholder' | translate"
+          />
+          @if (touched() && !phone()) {
+            <span class="field-error">{{ 'consultingPage.form.required_error' | translate }}</span>
+          }
+        </div>
+
+        <div class="form-field" [class.has-error]="touched() && !details()">
+          <label for="details">
+            {{ 'consultingPage.form.details_label' | translate }} <span class="required-mark">*</span>
+          </label>
+          <textarea
+            id="details"
+            class="form-control"
+            rows="5"
+            [ngModel]="details()"
+            (ngModelChange)="details.set($event)"
+            name="details"
+            [placeholder]="'consultingPage.form.details_placeholder' | translate"
+          ></textarea>
+          @if (touched() && !details()) {
+            <span class="field-error">{{ 'consultingPage.form.required_error' | translate }}</span>
+          }
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit" [disabled]="submitting()">
+          @if (submitting()) {
+            <span class="spinner"></span>
+            <span>{{ 'consultingPage.form.submitting' | translate }}</span>
+          } @else {
+            <span>{{ 'consultingPage.form.submit' | translate }}</span>
+            <i class="fa-solid fa-paper-plane rtl-flip"></i>
+          }
+        </button>
+      </form>
+    } @else {
+      <div class="success-state">
+        <svg class="success-check" viewBox="0 0 80 80">
+          <circle class="success-check-circle" cx="40" cy="40" r="36" />
+          <path class="success-check-mark" d="M24 42 L35 53 L57 29" />
+        </svg>
+        <h3 class="success-title">{{ 'consultingPage.success.title' | translate }}</h3>
+        <p class="success-text">{{ 'consultingPage.success.text' | translate }}</p>
+        <button type="button" class="btn-accent" (click)="resetForm()">
+          {{ 'consultingPage.success.cta' | translate }}
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- ============ PERKS PANEL ============ -->
+  <aside class="consulting-perks" appScrollReveal>
+    <h2 class="perks-title display">{{ 'consultingPage.perks.title' | translate }}</h2>
+
+    <div class="perk-item">
+      <span class="perk-icon"><i class="fa-solid fa-bolt"></i></span>
+      <div>
+        <h3 class="perk-title">{{ 'consultingPage.perks.response.title' | translate }}</h3>
+        <p class="perk-desc">{{ 'consultingPage.perks.response.desc' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="perk-item">
+      <span class="perk-icon"><i class="fa-solid fa-lock"></i></span>
+      <div>
+        <h3 class="perk-title">{{ 'consultingPage.perks.confidential.title' | translate }}</h3>
+        <p class="perk-desc">{{ 'consultingPage.perks.confidential.desc' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="perk-item">
+      <span class="perk-icon"><i class="fa-solid fa-user-tie"></i></span>
+      <div>
+        <h3 class="perk-title">{{ 'consultingPage.perks.experts.title' | translate }}</h3>
+        <p class="perk-desc">{{ 'consultingPage.perks.experts.desc' | translate }}</p>
+      </div>
+    </div>
+  </aside>
+</section>

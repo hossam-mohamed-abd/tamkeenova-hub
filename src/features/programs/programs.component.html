@@ -1,0 +1,93 @@
+<app-page-header
+  eyebrowKey="programs.header.eyebrow"
+  titleKey="programs.header.title"
+  subtitleKey="programs.header.subtitle"
+></app-page-header>
+
+@if (hasAnyPrograms()) {
+  <section class="filters" appScrollReveal>
+    <div class="filters-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        type="text"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        [placeholder]="'programs.search_placeholder' | translate"
+      />
+    </div>
+
+    <div class="filters-selects">
+      <select [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+        <option value="all">{{ 'programs.filter.all_categories' | translate }}</option>
+        @for (cat of categories(); track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+
+      <select [ngModel]="selectedFormat()" (ngModelChange)="selectedFormat.set($event)">
+        <option value="all">{{ 'programs.filter.all_formats' | translate }}</option>
+        <option value="onsite">{{ 'programs.format.onsite' | translate }}</option>
+        <option value="online">{{ 'programs.format.online' | translate }}</option>
+        <option value="hybrid">{{ 'programs.format.hybrid' | translate }}</option>
+      </select>
+
+      <select [ngModel]="selectedLevel()" (ngModelChange)="selectedLevel.set($event)">
+        <option value="all">{{ 'programs.filter.all_levels' | translate }}</option>
+        <option value="beginner">{{ 'programs.level.beginner' | translate }}</option>
+        <option value="intermediate">{{ 'programs.level.intermediate' | translate }}</option>
+        <option value="advanced">{{ 'programs.level.advanced' | translate }}</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="programs-grid">
+    @for (program of filteredPrograms(); track program.id; let i = $index) {
+      <article class="program-card surface chamfer-sm" >
+        <div class="program-cover" [style.background-image]="'url(' + program.coverImage + ')'">
+          @if (!program.isOpen) {
+            <span class="program-badge program-badge-closed">{{ 'programs.status.closed' | translate }}</span>
+          }
+        </div>
+        <div class="program-body">
+          <div class="program-meta">
+            <span><i class="fa-solid fa-signal"></i> {{ levelLabelKey(program.level) | translate }}</span>
+            <span><i class="fa-solid fa-location-dot"></i> {{ formatLabelKey(program.format) | translate }}</span>
+            <span><i class="fa-regular fa-clock"></i> {{ program.durationHours }} {{ 'programs.hours_unit' | translate }}</span>
+          </div>
+          <h3 class="program-title">{{ program.title.ar }}</h3>
+          <p class="program-desc">{{ program.description.ar }}</p>
+
+          @if (program.seatsLeft !== undefined) {
+            <span class="program-seats">{{ 'programs.seats_left' | translate: { count: program.seatsLeft } }}</span>
+          }
+
+          <a class="btn-primary program-cta">
+            {{ 'programs.view_details' | translate }}
+            <i class="fa-solid fa-arrow-left rtl-flip"></i>
+          </a>
+        </div>
+      </article>
+    }
+
+    @if (filteredPrograms().length === 0) {
+      <div class="no-results">
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+        <p>{{ 'programs.no_results' | translate }}</p>
+      </div>
+    }
+  </section>
+} @else {
+  <section class="coming-soon" appScrollReveal>
+    <div class="coming-soon-card chamfer-lg surface">
+      <span class="coming-soon-icon">
+        <i class="fa-regular fa-hourglass-half"></i>
+      </span>
+      <h2 class="coming-soon-title display">{{ 'programs.empty.title' | translate }}</h2>
+      <p class="coming-soon-text">{{ 'programs.empty.text' | translate }}</p>
+      <a routerLink="/consulting" class="btn-accent">
+        {{ 'programs.empty.cta' | translate }}
+        <i class="fa-solid fa-arrow-left rtl-flip"></i>
+      </a>
+    </div>
+  </section>
+}
