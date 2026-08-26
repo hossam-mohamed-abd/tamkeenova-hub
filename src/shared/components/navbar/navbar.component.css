@@ -318,3 +318,16 @@ html[dir='rtl'] .mobile-link-icon {
 }
 
 
+.desktop-only {
+  display: inline-flex;
+}
+
+@media (max-width: 960px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .navbar-actions {
+    gap: 0;
+  }
+}
