@@ -2,9 +2,7 @@
   display: block;
 }
 
-/* ============================================
-   HERO
-   ============================================ */
+
 .hero {
   position: relative;
   min-height: 100vh;
@@ -89,9 +87,7 @@
   font-weight: 600;
 }
 
-/* ============================================
-   PARTNERS — Sequential wave slide
-   ============================================ */
+
 .partners {
   padding: 4rem 0;
   border-block: 1px solid var(--color-border);
@@ -179,9 +175,7 @@
   .partner-img { transition: none; }
 }
 
-/* ============================================
-   STATS
-   ============================================ */
+
 .stats {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -212,9 +206,7 @@
   font-size: 0.9rem;
 }
 
-/* ============================================
-   SECTION HEADING (shared)
-   ============================================ */
+
 .section-heading {
   max-width: 640px;
   margin-inline: auto;
@@ -236,9 +228,7 @@
   color: var(--color-text);
 }
 
-/* ============================================
-   SERVICES
-   ============================================ */
+
 .services {
   padding: 5rem 6vw;
 }
@@ -298,16 +288,12 @@
   margin-block-start: auto;
 }
 
-/* ============================================
-   TEAM PREVIEW
-   ============================================ */
+
 .team-preview {
   padding: 5rem 6vw;
   background: var(--color-surface-alt);
 }
-/* ============================================
-   GALLERY TEASER
-   ============================================ */
+
 .gallery-teaser {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -360,9 +346,7 @@
 .gallery-cta {
   padding: 1rem 2.25rem;
 }
-/* ============================================
-   Responsive
-   ============================================ */
+
 @media (max-width: 960px) {
   .stats {
     grid-template-columns: repeat(2, 1fr);
@@ -379,9 +363,7 @@
 }
 
 
-/* ============================================
-   CONTACT — Banner + strong signature animation
-   ============================================ */
+
 .contact {
   position: relative;
   overflow: hidden;

@@ -4,9 +4,7 @@
 
 
 
-/* ============================================
-   Filters
-   ============================================ */
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -67,9 +65,7 @@
   border-color: var(--color-primary);
 }
 
-/* ============================================
-   Programs Grid
-   ============================================ */
+
 .programs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -182,9 +178,7 @@
   display: block;
 }
 
-/* ============================================
-   Coming Soon (empty state)
-   ============================================ */
+
 .coming-soon {
   padding: 5rem 6vw;
   display: flex;

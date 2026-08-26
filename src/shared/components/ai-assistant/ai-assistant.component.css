@@ -2,9 +2,7 @@
   position: relative;
 }
 
-/* ============================================
-   Backdrop
-   ============================================ */
+
 .assistant-backdrop {
   position: fixed;
   inset: 0;
@@ -25,9 +23,7 @@
   pointer-events: auto;
 }
 
-/* ============================================
-   Shell — الموقع والحجم بيتحطوا inline من JS (rAF)
-   ============================================ */
+
 .assistant-shell {
   position: fixed;
   z-index: 1000;
@@ -43,9 +39,7 @@
   transition: opacity 320ms ease 200ms;
 }
 
-/* ============================================
-   Trigger
-   ============================================ */
+
 .trigger {
   position: absolute;
   inset: 0;
@@ -89,12 +83,10 @@
   height: 30px;
   object-fit: contain;
   transform: translate(-50%, -50%) rotate(0deg) scale(1);
-  filter: brightness(0) invert(1); /* شيل السطر ده لو عايز ألوان اللوجو الأصلية تبان */
+  filter: brightness(0) invert(1);
 }
 
-/* ============================================
-   Spark trail
-   ============================================ */
+
 .spark-layer {
   position: fixed;
   inset: 0;
@@ -129,9 +121,7 @@
   }
 }
 
-/* ============================================
-   Panel content
-   ============================================ */
+
 .panel-content {
   position: absolute;
   inset: 0;
@@ -210,9 +200,7 @@
   color: var(--color-text);
 }
 
-/* ============================================
-   Messages (سكرول ألطف)
-   ============================================ */
+
 .panel-messages {
   flex: 1;
   overflow-y: auto;
@@ -287,9 +275,7 @@
   30% { transform: translateY(-5px); opacity: 1; }
 }
 
-/* ============================================
-   Input (سكرول ألطف للـ textarea)
-   ============================================ */
+
 .panel-input {
   display: flex;
   align-items: flex-end;

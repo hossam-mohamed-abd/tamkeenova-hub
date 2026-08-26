@@ -33,7 +33,7 @@ export class TeamShowcaseComponent implements OnInit, OnDestroy {
   private bookingService = inject(BookingService);
   private readonly prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ===== نفس ميكانيزم الـ Partners wave-slide =====
+
   private readonly staggerMs = 220;
   private readonly slideDurationMs = 650;
   private readonly wavePauseMs = 1400;
@@ -137,7 +137,7 @@ export class TeamShowcaseComponent implements OnInit, OnDestroy {
     this.timers.push(this.waveScheduleTimer);
   }
 
-  /** بينادى موجة فورية — بتتستخدم من أزرار التالي/السابق كمان */
+
   private triggerWave(dir: 1 | -1): void {
     const total = this.trainers().length;
     const count = this.slots().length;

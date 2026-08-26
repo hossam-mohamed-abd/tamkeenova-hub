@@ -18,9 +18,7 @@
   gap: 1.25rem;
 }
 
-/* ============================================
-   Grid — نفس فكرة partner-box بس بحجم كارت مدرب
-   ============================================ */
+
 .showcase-grid {
   flex: 1 1 auto;
   display: grid;
@@ -38,9 +36,7 @@
   .showcase-grid { grid-template-columns: 1fr; }
 }
 
-/* ============================================
-   Card box — الشكل الجامد الجديد
-   ============================================ */
+
 .team-box {
   position: relative;
   height: 440px;
@@ -82,9 +78,7 @@
   height: 100%;
 }
 
-/* ============================================
-   Card slide (نفس ميكانيزم partner-img بالظبط)
-   ============================================ */
+
 .team-card {
   position: absolute;
   inset: 0;
@@ -115,9 +109,7 @@
   transform: translateX(0);
 }
 
-/* ============================================
-   Photo — full bleed
-   ============================================ */
+
 .team-card-photo {
   position: absolute;
   inset: 0;
@@ -138,7 +130,7 @@
   pointer-events: none;
 }
 
-/* شارة زجاجية للتقييم فوق الصورة */
+
 .team-card-badge {
   position: absolute;
   top: 1rem;
@@ -155,9 +147,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* ============================================
-   Floating glass body — عايم فوق حافة الصورة
-   ============================================ */
+
 .team-card-body {
   position: relative;
   z-index: 2;
@@ -227,9 +217,7 @@
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
 }
 
-/* ============================================
-   Nav buttons
-   ============================================ */
+
 .showcase-nav {
   flex: 0 0 auto;
   width: 44px;

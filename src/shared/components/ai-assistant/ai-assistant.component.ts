@@ -96,9 +96,9 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
   }
 
-  // ============================================
-  // Boxes
-  // ============================================
+
+  // note
+
   private closedBox(): Box {
     return { x: 24, y: window.innerHeight - 24 - 60, w: 60, h: 60, r: 30 };
   }
@@ -126,9 +126,9 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     mark.style.transform = 'translate(-50%, -50%) rotate(0deg) scale(1)';
   }
 
-  // ============================================
-  // Launch — طيران + تحول في حركة واحدة متصلة
-  // ============================================
+
+
+
   private launch(): void {
     const shell = this.shellRef?.nativeElement;
     const mark = this.markRef?.nativeElement;
@@ -150,7 +150,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    // نقطة تحكم فوق المسار عشان الحركة تتقوس بشكل طبيعي بدل خط مستقيم جامد
+
     const startCx = start.x + start.w / 2;
     const startCy = start.y + start.h / 2;
     const endCx = end.x + end.w / 2;
@@ -202,9 +202,9 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     this.rafId = requestAnimationFrame(tick);
   }
 
-  // ============================================
-  // Retract — رجوع البانل لمكانه الأصلي كزرار
-  // ============================================
+
+
+
   private retract(): void {
     const shell = this.shellRef?.nativeElement;
     const mark = this.markRef?.nativeElement;
@@ -245,9 +245,9 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     }, this.CLOSE_MS);
   }
 
-  // ============================================
-  // Sparks
-  // ============================================
+
+  // note
+
   private spawnSpark(shell: HTMLDivElement): void {
     const layer = this.sparkLayerRef?.nativeElement;
     if (!layer) return;
@@ -269,9 +269,9 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => el.remove(), 760);
   }
 
-  // ============================================
-  // Math helpers
-  // ============================================
+
+  // note
+
   private lerp(a: number, b: number, t: number): number {
     return a + (b - a) * t;
   }

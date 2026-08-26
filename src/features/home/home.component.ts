@@ -18,8 +18,8 @@ interface ServiceCard {
 interface PartnerSlot {
   currentImg: string;
   nextImg: string;
-  sliding: boolean; // بيتفعل وقت حركة الانزلاق
-  resetting: boolean; // بيتفعل لحظة واحدة بس عشان نرجّع الوضع بدون transition
+  sliding: boolean;
+  resetting: boolean;
 }
 
 @Component({
@@ -92,11 +92,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     '/images/partners/partners5.png',
   ];
 
-  // ===== Partners wave-slide =====
-  private readonly slotsCount = 5; // عدد المربعات الظاهرة (لازم <= عدد partnersImages)
-  private readonly staggerMs = 220; // الفاصل بين مربع والتاني في نفس الموجة
-  private readonly slideDurationMs = 650; // مدة انزلاق كل مربع (لازم تساوي مدة الـ transition في الـ CSS)
-  private readonly wavePauseMs = 2200; // وقفة بعد ما الموجة تخلص قبل ما تبدأ تاني
+
+  private readonly slotsCount = 5;
+  private readonly staggerMs = 220;
+  private readonly slideDurationMs = 650;
+  private readonly wavePauseMs = 2200;
 
   private slotPointers: number[] = [];
   private partnerTimers: ReturnType<typeof setTimeout>[] = [];
@@ -184,7 +184,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.partnerTimers.push(t);
   }
 
-  /** بتشغّل الموجة: كل مربع يبدأ ينزلق بعد التاني اللي قبله بفاصل staggerMs */
+
   private runWave(): void {
     for (let i = 0; i < this.slotsCount; i++) {
       const t = setTimeout(() => this.startSlide(i), i * this.staggerMs);
@@ -211,7 +211,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       currentImg: updated[idx].nextImg,
       nextImg: updated[idx].nextImg,
       sliding: false,
-      resetting: true, // نمنع الـ transition لحظة الرجوع للوضع الطبيعي
+      resetting: true,
     };
     this.slots.set(updated);
 

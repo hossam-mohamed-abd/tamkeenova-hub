@@ -1,6 +1,4 @@
-<!-- ============================================
-     HERO
-     ============================================ -->
+
 <section class="hero">
   <div class="hero-media chamfer-lg">
     @for (img of heroImages; track img; let i = $index) {
@@ -27,9 +25,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     PARTNERS MARQUEE
-     ============================================ -->
+
 <section class="partners" appScrollReveal>
   <div class="partners-heading">
     <span class="partners-rule"></span>
@@ -63,9 +59,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     STATS
-     ============================================ -->
+
 <section class="stats">
   @for (stat of stats; track stat.labelKey; let i = $index) {
     <div class="stat-item" appScrollReveal>
@@ -77,9 +71,7 @@
   }
 </section>
 
-<!-- ============================================
-     SERVICES (بوابة المتدربين / البرامج / الاستشارات)
-     ============================================ -->
+
 <section class="services">
   <div class="section-heading" appScrollReveal>
     <span class="section-label">{{ 'home.services.label' | translate }}</span>
@@ -103,9 +95,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     TEAM PREVIEW
-     ============================================ -->
+
 <section class="team-preview" appScrollReveal>
   <div class="section-heading">
     <span class="section-label">{{ 'home.team.label' | translate }}</span>
@@ -118,9 +108,7 @@
     <i class="fa-solid fa-arrow-left rtl-flip"></i>
   </a>
 </section>
-<!-- ============================================
-     GALLERY TEASER
-     ============================================ -->
+
 <section class="gallery-teaser" appScrollReveal>
   <div class="gallery-content">
     <span class="section-label">{{ 'home.gallery.label' | translate }}</span>
@@ -145,9 +133,7 @@
   </div>
 </section>
 
-<!-- ============================================
-     CONTACT — أهم سكشن، بانر بارز
-     ============================================ -->
+
 <section class="contact">
   <div class="contact-inner contact-reveal" appScrollReveal>
     <div class="contact-heading">
