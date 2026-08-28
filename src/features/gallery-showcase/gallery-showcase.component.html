@@ -1,0 +1,131 @@
+<!-- ============================================
+     HERO — إطار واحد، Ken Burns fade كل ~2.6 ثانية
+     ============================================ -->
+<section class="gshowcase-hero" appScrollReveal>
+  <div class="ghero-frame chamfer-lg">
+    @for (img of heroImages(); track img; let i = $index) {
+      <div
+        class="ghero-slide"
+        [class.is-active]="activeHeroIndex() === i"
+        [style.background-image]="'url(' + img + ')'"
+      ></div>
+    }
+    <div class="ghero-overlay"></div>
+  </div>
+</section>
+
+<!-- ============================================
+     PROGRAMS BENTO GRID
+     ============================================ -->
+<section class="gshowcase-section">
+  <div class="section-heading" appScrollReveal>
+    <span class="section-label">{{ 'gallery_page.programs_label' | translate }}</span>
+    <h2 class="section-title display">{{ 'gallery_page.programs_title' | translate }}</h2>
+  </div>
+
+  <div class="gmasonry-grid">
+    @for (tile of programTiles(); track tile.image.src; let i = $index) {
+      <button
+        type="button"
+        class="gmasonry-tile chamfer-sm {{ tile.tileClass }}"
+        appScrollReveal
+        [style.--i]="i"
+        (click)="openLightbox($event, 'programs', i)"
+      >
+        <span class="gmasonry-skeleton" [class.is-hidden]="isImageLoaded(tile.image.src)"></span>
+        <img
+          [src]="tile.image.src"
+          [alt]="tile.image.alt || ''"
+          loading="lazy"
+          class="gmasonry-img"
+          [class.is-loaded]="isImageLoaded(tile.image.src)"
+          (load)="onImageLoad(tile.image.src)"
+        />
+        <span class="gmasonry-tile-overlay">
+          <span class="gmasonry-tile-icon"><i class="fa-solid fa-expand"></i></span>
+        </span>
+      </button>
+    }
+  </div>
+</section>
+
+<!-- ============================================
+     EVENTS BENTO GRID
+     ============================================ -->
+<section class="gshowcase-section">
+  <div class="section-heading" appScrollReveal>
+    <span class="section-label">{{ 'gallery_page.events_label' | translate }}</span>
+    <h2 class="section-title display">{{ 'gallery_page.events_title' | translate }}</h2>
+  </div>
+
+  <div class="gmasonry-grid">
+    @for (tile of eventTiles(); track tile.image.src; let i = $index) {
+      <button
+        type="button"
+        class="gmasonry-tile chamfer-sm {{ tile.tileClass }}"
+        appScrollReveal
+        [style.--i]="i"
+        (click)="openLightbox($event, 'events', i)"
+      >
+        <span class="gmasonry-skeleton" [class.is-hidden]="isImageLoaded(tile.image.src)"></span>
+        <img
+          [src]="tile.image.src"
+          [alt]="tile.image.alt || ''"
+          loading="lazy"
+          class="gmasonry-img"
+          [class.is-loaded]="isImageLoaded(tile.image.src)"
+          (load)="onImageLoad(tile.image.src)"
+        />
+        <span class="gmasonry-tile-overlay">
+          <span class="gmasonry-tile-icon"><i class="fa-solid fa-expand"></i></span>
+        </span>
+      </button>
+    }
+  </div>
+</section>
+
+<!-- ============================================
+     LIGHTBOX
+     ============================================ -->
+@if (isLightboxOpen) {
+  <div class="glightbox-backdrop" (click)="closeLightbox()">
+    <div
+      class="glightbox-frame"
+      [style.--origin-x.%]="originX()"
+      [style.--origin-y.%]="originY()"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="glightbox-glow"></div>
+
+      <button type="button" class="glightbox-close" (click)="closeLightbox()" aria-label="Close">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      @if (currentImage(); as img) {
+        <img
+          class="glightbox-image"
+          [class.is-visible]="imgVisible()"
+          [src]="img.src"
+          [alt]="img.alt || ''"
+        />
+      }
+
+      <button
+        type="button"
+        class="glightbox-nav glightbox-nav-prev"
+        (click)="lightboxPrev()"
+        aria-label="Previous"
+      >
+        <i class="fa-solid fa-chevron-left rtl-flip"></i>
+      </button>
+      <button
+        type="button"
+        class="glightbox-nav glightbox-nav-next"
+        (click)="lightboxNext()"
+        aria-label="Next"
+      >
+        <i class="fa-solid fa-chevron-right rtl-flip"></i>
+      </button>
+    </div>
+  </div>
+}

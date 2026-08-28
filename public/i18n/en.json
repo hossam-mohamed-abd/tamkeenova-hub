@@ -209,5 +209,11 @@
       "subtitle": "A select group of certified consultants and trainers across various fields to support you or your organization."
     },
     "book_btn": "Book a Consultation"
+  },
+  "gallery_page": {
+    "programs_label": "Trainings & Programs",
+    "programs_title": "Moments From Our Training Halls",
+    "events_label": "Events & Occasions",
+    "events_title": "Our Highlighted Events & Forums"
   }
 }
