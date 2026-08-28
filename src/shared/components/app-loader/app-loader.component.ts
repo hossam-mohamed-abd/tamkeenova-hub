@@ -33,7 +33,6 @@ export class AppLoaderComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    // بنحسب طول كل مسار فعلياً بدل ما نفترض رقم ثابت، عشان الرسم يبقى دقيق مهما اتغيرت الأبعاد
     const gateLength = gate.getTotalLength();
     const tLength = t.getTotalLength();
 
@@ -42,7 +41,6 @@ export class AppLoaderComponent implements AfterViewInit, OnDestroy {
     t.style.strokeDasharray = `${tLength}`;
     t.style.strokeDashoffset = `${tLength}`;
 
-    // فريمين فاضيين عشان نضمن القيم الابتدائية دي اتطبقت فعلاً قبل ما نشغّل الـ transition
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.schedule(() => {

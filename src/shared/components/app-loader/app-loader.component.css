@@ -21,13 +21,11 @@
   overflow: visible;
 }
 
-/* ============================================
-   Path — بيبدأ كخط بس (فاضي من جوه)، وبيتحول لملء صلب لما يخلص يترسم
-   ============================================ */
+
 .loader-path {
-  fill: var(--color-primary);
+  fill: #004265;
   fill-opacity: 0;
-  stroke: var(--color-primary);
+  stroke: #004265;
   stroke-width: 7;
   stroke-linecap: square;
   stroke-linejoin: miter;
@@ -45,9 +43,7 @@
   filter: drop-shadow(0 0 0 transparent);
 }
 
-/* ============================================
-   Pulse — نبضة تأكيد أخيرة بعد اكتمال الرسم
-   ============================================ */
+
 .app-loader.is-pulsing .loader-mark {
   animation: loader-pulse 500ms ease;
 }
