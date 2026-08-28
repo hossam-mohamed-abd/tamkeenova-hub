@@ -26,12 +26,8 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   private readonly prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   loadedImages = signal<Set<string>>(new Set());
-  /** نسبة العرض/الارتفاع الحقيقية لكل صورة — بتتحسب وقت أول تحميل، وبتتحط كـ aspect-ratio عشان الـ masonry يحترم الحجم الأصلي */
   imageAspect = signal<Map<string, number>>(new Map());
 
-  // ============================================
-  // Marquee (صفين بيتحركوا بعكس بعض، loop لانهائي)
-  // ============================================
   marqueeRowTop = computed(() => this.buildMarqueeRow(0));
   marqueeRowBottom = computed(() => this.buildMarqueeRow(1));
 
@@ -39,13 +35,10 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     const all = this.heroImages();
     const row = all.filter((_, i) => i % 2 === offset);
     if (!row.length) return [];
-    // بتتكرر مرتين عشان الـ translate(-50%) يعمل loop سلس بدون فجوة
     return [...row, ...row];
   }
 
-  // ============================================
   // Lightbox state
-  // ============================================
   lightboxSection = signal<LightboxSection>(null);
   lightboxIndex = signal(0);
   originX = signal(50);
@@ -78,9 +71,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return [];
   }
 
-  // ============================================
-  // Image loading — بيحسب النسبة الحقيقية للصورة
-  // ============================================
+  // Image loading 
   onImageLoad(event: Event, src: string): void {
     const img = event.target as HTMLImageElement;
     if (img.naturalWidth && img.naturalHeight) {
@@ -101,9 +92,6 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return this.imageAspect().get(src) ?? null;
   }
 
-  // ============================================
-  // 3D Tilt + glow يتبع الماوس
-  // ============================================
   onTileTilt(event: MouseEvent): void {
     if (this.prefersReduced) return;
     const el = event.currentTarget as HTMLElement;
@@ -124,9 +112,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     el.style.setProperty('--tilt-y', '0deg');
   }
 
-  // ============================================
   // Lightbox actions
-  // ============================================
   openLightbox(event: MouseEvent, section: 'programs' | 'events', index: number): void {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -159,7 +145,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.lightboxIndex.update((i) => (i + dir + total) % total);
       this.imgVisible.set(true);
-    }, 180); // لازم يساوي مدة fade-out في الـ CSS
+    }, 180); 
   }
 
   @HostListener('document:keydown', ['$event'])

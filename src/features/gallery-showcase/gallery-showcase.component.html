@@ -1,6 +1,3 @@
-<!-- ============================================
-     HERO — عنوان بيدخل بحركة قوية + Marquee بيلف لانهائي
-     ============================================ -->
 <section class="gshowcase-hero">
   <div class="ghero-heading" appScrollReveal>
     <span class="ghero-eyebrow">{{ 'gallery_page.hero_eyebrow' | translate }}</span>
@@ -30,9 +27,9 @@
   </div>
 </section>
 
-<!-- ============================================
+<!-- 
      PROGRAMS MASONRY
-     ============================================ -->
+      -->
 <section class="gshowcase-section">
   <div class="section-heading" appScrollReveal>
     <span class="section-label">{{ 'gallery_page.programs_label' | translate }}</span>
@@ -69,9 +66,9 @@
   </div>
 </section>
 
-<!-- ============================================
+<!-- 
      EVENTS MASONRY
-     ============================================ -->
+      -->
 <section class="gshowcase-section">
   <div class="section-heading" appScrollReveal>
     <span class="section-label">{{ 'gallery_page.events_label' | translate }}</span>
@@ -108,9 +105,9 @@
   </div>
 </section>
 
-<!-- ============================================
+<!-- 
      LIGHTBOX
-     ============================================ -->
+      -->
 @if (isLightboxOpen) {
   <div class="glightbox-backdrop" (click)="closeLightbox()">
     <div
@@ -134,10 +131,20 @@
         />
       }
 
-      <button type="button" class="glightbox-nav glightbox-nav-prev" (click)="lightboxPrev()" aria-label="Previous">
+      <button
+        type="button"
+        class="glightbox-nav glightbox-nav-prev"
+        (click)="lightboxPrev()"
+        aria-label="Previous"
+      >
         <i class="fa-solid fa-chevron-left rtl-flip"></i>
       </button>
-      <button type="button" class="glightbox-nav glightbox-nav-next" (click)="lightboxNext()" aria-label="Next">
+      <button
+        type="button"
+        class="glightbox-nav glightbox-nav-next"
+        (click)="lightboxNext()"
+        aria-label="Next"
+      >
         <i class="fa-solid fa-chevron-right rtl-flip"></i>
       </button>
     </div>
