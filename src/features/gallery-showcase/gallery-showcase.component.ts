@@ -7,11 +7,6 @@ export interface GalleryImage {
   alt?: string;
 }
 
-interface Tile {
-  image: GalleryImage;
-  tileClass: string;
-}
-
 type LightboxSection = 'programs' | 'events' | null;
 
 @Component({
@@ -28,18 +23,25 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   programs = signal<GalleryImage[]>([]);
   events = signal<GalleryImage[]>([]);
 
-  // 4 أشكال خلايا متنوعة تتكرر بترتيب يعطي شكل Bento منظم مهما كان عدد الصور
-  private readonly tilePattern = ['t-a', 't-c', 't-d', 't-b'];
-
   private readonly prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  private readonly heroIntervalMs = 2600;
-  private heroTimer?: ReturnType<typeof setInterval>;
 
-  activeHeroIndex = signal(0);
   loadedImages = signal<Set<string>>(new Set());
+  /** نسبة العرض/الارتفاع الحقيقية لكل صورة — بتتحسب وقت أول تحميل، وبتتحط كـ aspect-ratio عشان الـ masonry يحترم الحجم الأصلي */
+  imageAspect = signal<Map<string, number>>(new Map());
 
-  programTiles = computed<Tile[]>(() => this.buildTiles(this.programs()));
-  eventTiles = computed<Tile[]>(() => this.buildTiles(this.events()));
+  // ============================================
+  // Marquee (صفين بيتحركوا بعكس بعض، loop لانهائي)
+  // ============================================
+  marqueeRowTop = computed(() => this.buildMarqueeRow(0));
+  marqueeRowBottom = computed(() => this.buildMarqueeRow(1));
+
+  private buildMarqueeRow(offset: 0 | 1): string[] {
+    const all = this.heroImages();
+    const row = all.filter((_, i) => i % 2 === offset);
+    if (!row.length) return [];
+    // بتتكرر مرتين عشان الـ translate(-50%) يعمل loop سلس بدون فجوة
+    return [...row, ...row];
+  }
 
   // ============================================
   // Lightbox state
@@ -60,28 +62,13 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    // TODO: لما الباك اند يجهز، الدوال دي جوه GalleryService هي اللي هتتغيّر
     this.heroImages.set(this.galleryService.getHeroImages());
     this.programs.set(this.galleryService.getPrograms());
     this.events.set(this.galleryService.getEvents());
-
-    if (!this.prefersReduced && this.heroImages().length > 1) {
-      this.heroTimer = setInterval(() => {
-        this.activeHeroIndex.update((i) => (i + 1) % this.heroImages().length);
-      }, this.heroIntervalMs);
-    }
   }
 
   ngOnDestroy(): void {
-    if (this.heroTimer) clearInterval(this.heroTimer);
     document.body.style.overflow = '';
-  }
-
-  private buildTiles(images: GalleryImage[]): Tile[] {
-    return images.map((image, i) => ({
-      image,
-      tileClass: this.tilePattern[i % this.tilePattern.length],
-    }));
   }
 
   private activeList(): GalleryImage[] {
@@ -91,16 +78,55 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return [];
   }
 
-  onImageLoad(src: string): void {
-    const updated = new Set(this.loadedImages());
-    updated.add(src);
-    this.loadedImages.set(updated);
+  // ============================================
+  // Image loading — بيحسب النسبة الحقيقية للصورة
+  // ============================================
+  onImageLoad(event: Event, src: string): void {
+    const img = event.target as HTMLImageElement;
+    if (img.naturalWidth && img.naturalHeight) {
+      const updated = new Map(this.imageAspect());
+      updated.set(src, img.naturalWidth / img.naturalHeight);
+      this.imageAspect.set(updated);
+    }
+    const loaded = new Set(this.loadedImages());
+    loaded.add(src);
+    this.loadedImages.set(loaded);
   }
 
   isImageLoaded(src: string): boolean {
     return this.loadedImages().has(src);
   }
 
+  getAspectRatio(src: string): number | null {
+    return this.imageAspect().get(src) ?? null;
+  }
+
+  // ============================================
+  // 3D Tilt + glow يتبع الماوس
+  // ============================================
+  onTileTilt(event: MouseEvent): void {
+    if (this.prefersReduced) return;
+    const el = event.currentTarget as HTMLElement;
+    const rect = el.getBoundingClientRect();
+    const px = (event.clientX - rect.left) / rect.width;
+    const py = (event.clientY - rect.top) / rect.height;
+    const rotateY = (px - 0.5) * 8;
+    const rotateX = (0.5 - py) * 8;
+    el.style.setProperty('--tilt-x', `${rotateX}deg`);
+    el.style.setProperty('--tilt-y', `${rotateY}deg`);
+    el.style.setProperty('--glow-x', `${px * 100}%`);
+    el.style.setProperty('--glow-y', `${py * 100}%`);
+  }
+
+  onTileTiltReset(event: MouseEvent): void {
+    const el = event.currentTarget as HTMLElement;
+    el.style.setProperty('--tilt-x', '0deg');
+    el.style.setProperty('--tilt-y', '0deg');
+  }
+
+  // ============================================
+  // Lightbox actions
+  // ============================================
   openLightbox(event: MouseEvent, section: 'programs' | 'events', index: number): void {
     const vw = window.innerWidth;
     const vh = window.innerHeight;

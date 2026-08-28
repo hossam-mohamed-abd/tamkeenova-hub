@@ -211,9 +211,12 @@
     "book_btn": "Book a Consultation"
   },
   "gallery_page": {
-    "programs_label": "Trainings & Programs",
-    "programs_title": "Moments From Our Training Halls",
-    "events_label": "Events & Occasions",
-    "events_title": "Our Highlighted Events & Forums"
+    "hero_eyebrow": "Our Moments",
+    "hero_title": "A Glimpse Into Our Journey",
+    "hero_subtitle": "Explore highlights from our training programs, workshops, and events  captured moments that tell the story of every session we run.",
+    "programs_label": "Training Programs",
+    "programs_title": "Inside Our Sessions",
+    "events_label": "Events",
+    "events_title": "Highlights & Gatherings"
   }
 }
