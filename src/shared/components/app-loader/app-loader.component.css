@@ -5,8 +5,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-background);
-  transition: opacity 500ms ease, transform 500ms ease;
+  background: #bbbfc6;
+  transition:
+    opacity 500ms ease,
+    transform 500ms ease;
 }
 
 .app-loader.is-leaving {
@@ -21,7 +23,6 @@
   overflow: visible;
 }
 
-
 .loader-path {
   fill: #004265;
   fill-opacity: 0;
@@ -32,26 +33,39 @@
 }
 
 .loader-path.is-drawing {
-  transition: stroke-dashoffset 1100ms cubic-bezier(0.65, 0, 0.35, 1), filter 1100ms ease;
+  transition:
+    stroke-dashoffset 1100ms cubic-bezier(0.65, 0, 0.35, 1),
+    filter 1100ms ease;
   filter: drop-shadow(0 0 10px var(--color-accent));
 }
 
 .app-loader.is-filled .loader-path {
-  transition: fill-opacity 460ms ease, stroke-opacity 460ms ease, filter 460ms ease;
+  transition:
+    fill-opacity 460ms ease,
+    stroke-opacity 460ms ease,
+    filter 460ms ease;
   fill-opacity: 1;
   stroke-opacity: 0;
   filter: drop-shadow(0 0 0 transparent);
 }
-
 
 .app-loader.is-pulsing .loader-mark {
   animation: loader-pulse 500ms ease;
 }
 
 @keyframes loader-pulse {
-  0%   { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
-  45%  { transform: scale(1.08); filter: drop-shadow(0 0 26px var(--color-accent)); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  45% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 26px var(--color-accent));
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 transparent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
