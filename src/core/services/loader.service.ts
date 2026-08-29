@@ -4,7 +4,11 @@ import { Injectable, signal } from '@angular/core';
 export class LoaderService {
   isVisible = signal(true);
 
-  dismiss(): void {
+  show(): void {
+    this.isVisible.set(true);
+  }
+
+  hide(): void {
     this.isVisible.set(false);
   }
 }

@@ -218,5 +218,14 @@
     "programs_title": "Inside Our Sessions",
     "events_label": "Events",
     "events_title": "Highlights & Gatherings"
+  },
+  "loader": {
+    "loading": "Loading"
+  },
+  "notfound": {
+    "title": "This page doesn't exist",
+    "subtitle": "The link may have changed or the page was removed. Head back home or browse our programs.",
+    "cta_home": "Back to Home",
+    "cta_programs": "Browse Programs"
   }
 }
