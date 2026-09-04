@@ -1,0 +1,11 @@
+<section class="profile-page">
+  <div class="profile-card surface chamfer-sm">
+    <h1>{{ 'profile.title' | translate }}</h1>
+
+    @if (currentUser(); as user) {
+      <p><strong>{{ 'auth.fields.full_name' | translate }}:</strong> {{ user.full_name }}</p>
+      <p><strong>{{ 'auth.fields.email' | translate }}:</strong> {{ user.email }}</p>
+      <p><strong>{{ 'auth.fields.phone' | translate }}:</strong> {{ user.phone }}</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,120 @@
+<section class="auth-page">
+  <div class="auth-card surface chamfer-sm">
+
+    <h1 class="auth-title">{{ 'auth.register.title' |
+      translate }}</h1>
+    <p class="auth-subtitle text-muted">{{
+      'auth.register.subtitle' | translate }}</p>
+
+
+    <!-- اختيار نوع الحساب -->
+    <div class="role-switch">
+      <button type="button" class="role-btn"
+        [class.is-active]="form.controls.role.value === 'STUDENT'"
+        (click)="selectRole('STUDENT')">
+        <i class="fa-solid fa-user-graduate"></i>
+        {{ 'auth.register.role_student' | translate }}
+      </button>
+
+      <button type="button" class="role-btn"
+        [class.is-active]="form.controls.role.value === 'TRAINER'"
+        (click)="selectRole('TRAINER')">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        {{ 'auth.register.role_trainer' | translate }}
+      </button>
+    </div>
+
+    @if (form.controls.role.value === 'TRAINER') {
+    <p class="trainer-note text-muted">
+      <i class="fa-solid fa-circle-info"></i>
+      {{ 'auth.register.trainer_note' | translate }}
+    </p>
+    }
+
+
+    <form [formGroup]="form" (ngSubmit)="submit()"
+      class="auth-form">
+
+      <div class="form-group">
+        <label>{{ 'auth.fields.full_name' | translate
+          }}</label>
+        <input type="text" class="input"
+          formControlName="full_name" />
+        @if (form.controls.full_name.touched &&
+        form.controls.full_name.invalid) {
+        <span class="field-error">{{ 'auth.errors.full_name'
+          | translate }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.fields.email' | translate }}</label>
+        <input type="email" class="input"
+          formControlName="email" />
+        @if (form.controls.email.touched &&
+        form.controls.email.invalid) {
+        <span class="field-error">{{ 'auth.errors.email' |
+          translate }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.fields.username' | translate
+          }}</label>
+        <input type="text" class="input"
+          formControlName="username" />
+        @if (form.controls.username.touched &&
+        form.controls.username.invalid) {
+        <span class="field-error">{{ 'auth.errors.username'
+          | translate }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.fields.phone' | translate }}</label>
+        <input type="tel" class="input"
+          formControlName="phone"
+          placeholder="01xxxxxxxxx" />
+        @if (form.controls.phone.touched &&
+        form.controls.phone.invalid) {
+        <span class="field-error">{{ 'auth.errors.phone' |
+          translate }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>{{ 'auth.fields.password' | translate
+          }}</label>
+        <input type="password" class="input"
+          formControlName="password" />
+        @if (form.controls.password.touched &&
+        form.controls.password.invalid) {
+        <span class="field-error">{{ 'auth.errors.password'
+          | translate }}</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+      <p class="form-error text-danger">{{ errorMessage() |
+        translate }}</p>
+      }
+
+      <button type="submit" class="btn-primary auth-submit"
+        [disabled]="isLoading()">
+        @if (isLoading()) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        } @else {
+        {{ 'auth.register.submit' | translate }}
+        }
+      </button>
+
+    </form>
+
+    <p class="auth-switch text-muted">
+      {{ 'auth.register.have_account' | translate }}
+      <a routerLink="/login">{{ 'auth.login.title' |
+        translate }}</a>
+    </p>
+
+  </div>
+</section>

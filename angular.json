@@ -59,7 +59,13 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "tamkeenova-hub_anguler:build:production"
+              "buildTarget": "tamkeenova-hub_anguler:build:production",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "buildTarget": "tamkeenova-hub_anguler:build:development"

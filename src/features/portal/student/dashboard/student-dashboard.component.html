@@ -1,0 +1,18 @@
+<section class="dashboard-page">
+  <div class="dashboard-header">
+    <h1>{{ 'dashboard.welcome' | translate }} {{ currentUser()?.full_name }}</h1>
+    <p class="text-muted">{{ 'dashboard.student_subtitle' | translate }}</p>
+  </div>
+
+  <div class="dashboard-grid">
+    <a routerLink="/portal/student/profile" class="dashboard-card surface chamfer-sm">
+      <i class="fa-solid fa-user"></i>
+      <span>{{ 'nav.my_profile' | translate }}</span>
+    </a>
+
+    <a routerLink="/programs" class="dashboard-card surface chamfer-sm">
+      <i class="fa-solid fa-book"></i>
+      <span>{{ 'nav.programs' | translate }}</span>
+    </a>
+  </div>
+</section>

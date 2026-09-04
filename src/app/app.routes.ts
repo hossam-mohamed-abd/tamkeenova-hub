@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from '../features/home/home.component';
 import { NotFoundComponent } from '../features/not-found/not-found.component.js';
+import { guestGuard } from '../core/guards/guest.guard';
+import { authGuard } from '../core/guards/auth.guard';
+import { roleGuard } from '../core/guards/role.guard';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent,
-  },
+  { path: '', component: HomeComponent },
   {
     path: 'programs',
     loadComponent: () =>
@@ -28,8 +28,62 @@ export const routes: Routes = [
         (m) => m.GalleryShowcaseComponent,
       ),
   },
+
+  // ---- Auth ----
   {
-    path: '**',
-    component: NotFoundComponent,
+    path: 'register',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('../features/auth/register/register.component').then((m) => m.RegisterComponent),
   },
+  {
+    path: 'verify-otp',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('../features/auth/verify-otp/verify-otp.component').then((m) => m.VerifyOtpComponent),
+  },
+  {
+    path: 'login',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('../features/auth/login/login.component').then((m) => m.LoginComponent),
+  },
+
+  // ---- Student Portal ----
+  {
+    path: 'portal/student',
+    canActivate: [authGuard, roleGuard(['STUDENT'])],
+    loadComponent: () =>
+      import('../features/portal/student/dashboard/student-dashboard.component').then(
+        (m) => m.StudentDashboardComponent,
+      ),
+  },
+  {
+    path: 'portal/student/profile',
+    canActivate: [authGuard, roleGuard(['STUDENT'])],
+    loadComponent: () =>
+      import('../features/portal/student/profile/student-profile.component').then(
+        (m) => m.StudentProfileComponent,
+      ),
+  },
+
+  // ---- Trainer Portal ----
+  {
+    path: 'portal/trainer',
+    canActivate: [authGuard, roleGuard(['TRAINER'])],
+    loadComponent: () =>
+      import('../features/portal/trainer/dashboard/trainer-dashboard.component').then(
+        (m) => m.TrainerDashboardComponent,
+      ),
+  },
+  {
+    path: 'portal/trainer/profile',
+    canActivate: [authGuard, roleGuard(['TRAINER'])],
+    loadComponent: () =>
+      import('../features/portal/trainer/profile/trainer-profile.component').then(
+        (m) => m.TrainerProfileComponent,
+      ),
+  },
+
+  { path: '**', component: NotFoundComponent },
 ];

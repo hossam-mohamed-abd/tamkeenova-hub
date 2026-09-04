@@ -11,7 +11,19 @@
     "toggle_theme": "Toggle theme",
     "toggle_menu": "Open menu",
     "light_mode": "Light mode",
-    "dark_mode": "Dark mode"
+    "dark_mode": "Dark mode",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "my_profile": "My Profile",
+    "account": "Account",
+    "dashboard": "Dashboard",
+    "role_student": "Student",
+    "role_trainer": "Trainer",
+    "role_admin": "Admin"
+  },
+  "profile": {
+    "title": "My Profile"
   },
   "home": {
     "hero": {
@@ -227,5 +239,54 @@
     "subtitle": "The link may have changed or the page was removed. Head back home or browse our programs.",
     "cta_home": "Back to Home",
     "cta_programs": "Browse Programs"
+  },
+
+  "auth": {
+    "fields": {
+      "full_name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "password": "Password",
+      "otp": "Verification Code",
+      "username": "Username"
+    },
+    "errors": {
+      "full_name": "Please enter your full name (at least 3 characters)",
+      "email": "Please enter a valid email",
+      "phone": "Please enter a valid Egyptian phone number",
+      "password": "Password must be at least 8 characters",
+      "password_required": "Password is required",
+      "otp": "Please enter a valid code",
+      "username": "Username is required (English letters and numbers only)",
+      "generic": "Something went wrong, please try again",
+      "invalid_credentials": "Invalid email or password"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join TamkeeNova and start your journey",
+      "role_student": "Student",
+      "role_trainer": "Trainer",
+      "trainer_note": "Trainer accounts require admin approval before activation",
+      "submit": "Create Account",
+      "have_account": "Already have an account?"
+    },
+    "otp": {
+      "title": "Verify Your Email",
+      "subtitle": "We sent a verification code to",
+      "submit": "Verify",
+      "resend": "Resend code",
+      "resent": "Code sent successfully"
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Welcome back, login to continue",
+      "submit": "Login",
+      "no_account": "Don't have an account?"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome,",
+    "student_subtitle": "Here's an overview of your learning journey",
+    "trainer_subtitle": "Manage your programs and sessions"
   }
 }

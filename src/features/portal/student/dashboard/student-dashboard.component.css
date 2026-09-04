@@ -1,0 +1,45 @@
+.dashboard-page {
+  min-height: 100vh;
+  padding: 8rem 6vw 3rem;
+  background-color: var(--color-background);
+}
+
+.dashboard-header h1 {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.dashboard-header p {
+  margin-top: 0.4rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+.dashboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-text);
+  font-weight: 600;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.dashboard-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-3px);
+}
+
+.dashboard-card i {
+  font-size: 1.6rem;
+  color: var(--color-accent);
+}
