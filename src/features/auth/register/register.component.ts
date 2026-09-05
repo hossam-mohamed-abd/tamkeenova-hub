@@ -1,17 +1,19 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
-import { RegisterRequest, UserRole } from '../../../core/models/auth.model';
+import { UserRole } from '../../../core/models/auth.model';
+import { AuthVisualPanelComponent } from '../../../shared/components/auth-visual-panel/auth-visual-panel.component';
+import { PASSWORD_REQUIREMENTS, passwordScore } from '../../../core/utils/password-strength';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, TranslatePipe, AuthVisualPanelComponent],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrls: ['../auth-shared.css', './register.component.css'],
 })
 export class RegisterComponent {
   private fb = inject(FormBuilder);
@@ -20,88 +22,93 @@ export class RegisterComponent {
 
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
+  showPassword = signal(false);
+  passwordValue = signal('');
+  private touchedFields = signal<Set<string>>(new Set());
+
+  readonly passwordRequirements = PASSWORD_REQUIREMENTS;
 
   form = this.fb.nonNullable.group({
     full_name: ['', [Validators.required, Validators.minLength(3)]],
+    username: ['', [Validators.pattern(/^[a-zA-Z0-9_]{3,20}$/)]],
     email: ['', [Validators.required, Validators.email]],
-    username: [
-      '',
-      [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-z0-9._]+$/)],
-    ],
-    phone: ['', [Validators.required, Validators.pattern(/^01[0-2,5]\d{8}$/)]],
+    phone: ['', [Validators.required, Validators.pattern(/^01[0125]\d{8}$/)]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    role: ['STUDENT' as UserRole, Validators.required], // ← عدّل هنا
+    role: ['STUDENT' as UserRole, Validators.required],
   });
 
-  constructor() {
-    // لما الإيميل يتغير → يولد الـ username تلقائي (لو المستخدم لسه معدلهوش يدوي)
-    this.form.controls.email.valueChanges.subscribe((email) => {
-      const currentUsername = this.form.controls.username.value;
-      const autoUsername = this.generateUsername(email);
+  passwordScore = computed(() => passwordScore(this.passwordValue()));
 
-      // لو الـ username فاضي أو لسه مطابق للـ auto السابق → حدثه
-      if (!currentUsername || currentUsername === this.lastAutoUsername) {
-        this.form.controls.username.setValue(autoUsername, { emitEvent: false });
-        this.lastAutoUsername = autoUsername;
-      }
-    });
+  strengthLevel = computed<'weak' | 'fair' | 'strong'>(() => {
+    const score = this.passwordScore();
+    if (score <= 1) return 'weak';
+    if (score <= 3) return 'fair';
+    return 'strong';
+  });
+
+  isRequirementMet(test: (v: string) => boolean): boolean {
+    return test(this.passwordValue());
   }
 
-  private lastAutoUsername = '';
+  markTouched(field: string): void {
+    if (!this.touchedFields().has(field)) {
+      this.touchedFields.update((set) => new Set(set).add(field));
+    }
+  }
 
-  private generateUsername(email: string): string {
-    if (!email || !email.includes('@')) return '';
-    return email
-      .split('@')[0]
-      .toLowerCase()
-      .replace(/[^a-z0-9._]/g, '');
+  isTouched(field: string): boolean {
+    return this.touchedFields().has(field);
+  }
+
+  isFieldValid(field: string): boolean {
+    const control = this.form.get(field);
+    return !!control && control.valid && this.isTouched(field) && !!control.value;
+  }
+
+  isFieldInvalid(field: string): boolean {
+    const control = this.form.get(field);
+    return !!control && control.invalid && this.isTouched(field);
+  }
+
+  onPasswordInput(value: string): void {
+    this.markTouched('password');
+    this.passwordValue.set(value);
   }
 
   selectRole(role: UserRole): void {
     this.form.controls.role.setValue(role);
   }
 
-  private extractErrorMessage(err: any): string {
-    const msg = err?.error?.message;
-
-    if (Array.isArray(msg)) {
-      return msg[0];
-    }
-    if (typeof msg === 'string') {
-      return msg;
-    }
-    return 'auth.errors.generic';
+  togglePasswordVisibility(): void {
+    this.showPassword.update((v) => !v);
   }
 
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      Object.keys(this.form.controls).forEach((key) => this.markTouched(key));
       return;
     }
 
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    const formValue = this.form.getRawValue();
-
-    const payload: RegisterRequest = {
-      full_name: formValue.full_name,
-      email: formValue.email,
-      phone: formValue.phone,
-      password: formValue.password,
-      role: formValue.role,
-      username: formValue.username,
+    const payload = this.form.getRawValue();
+    const cleanPayload = {
+      ...payload,
+      username: payload.username || undefined,
     };
 
-    this.authService.register(payload).subscribe({
+    this.authService.register(cleanPayload).subscribe({
       next: () => {
-        this.authService.setPendingEmail(formValue.email);
+        this.authService.setPendingEmail(payload.email);
         this.isLoading.set(false);
         this.router.navigate(['/verify-otp']);
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.errorMessage.set(this.extractErrorMessage(err));
+        const msg = err?.error?.message;
+        this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
       },
     });
   }

@@ -261,11 +261,36 @@
       "generic": "Something went wrong, please try again",
       "invalid_credentials": "Invalid email or password"
     },
+    "optional": "optional",
+    "toggle_password": "Show/hide password",
+    "visual": {
+      "login_title": "Welcome back to TamkeeNova",
+      "login_subtitle": "Sign in and continue your training journey right where you left off.",
+      "register_title": "Start your journey with TamkeeNova",
+      "register_subtitle": "From learning to mastery, step by step, ending with a certified credential.",
+      "steps": {
+        "learn": "Learn",
+        "practice": "Practice",
+        "certify": "Certify",
+        "career": "Career"
+      },
+      "quote": "Over 1,200 trainees have started their career path here."
+    },
+    "password_rules": {
+      "length": "At least 8 characters",
+      "upper": "One uppercase letter (A-Z)",
+      "lower": "One lowercase letter (a-z)",
+      "number": "At least one number"
+    },
     "register": {
+      "eyebrow": "New Account",
       "title": "Create Account",
       "subtitle": "Join TamkeeNova and start your journey",
+      "role_label": "Account Type",
       "role_student": "Student",
       "role_trainer": "Trainer",
+      "role_student_desc": "I want to learn and enroll in programs",
+      "role_trainer_desc": "I want to deliver programs and sessions",
       "trainer_note": "Trainer accounts require admin approval before activation",
       "submit": "Create Account",
       "have_account": "Already have an account?"
@@ -278,6 +303,7 @@
       "resent": "Code sent successfully"
     },
     "login": {
+      "eyebrow": "Sign In",
       "title": "Login",
       "subtitle": "Welcome back, login to continue",
       "submit": "Login",

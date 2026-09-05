@@ -1,120 +1,209 @@
-<section class="auth-page">
-  <div class="auth-card surface chamfer-sm">
+<div class="auth-page">
+  <section class="auth-visual-col">
+    <app-auth-visual-panel mode="register" />
+  </section>
 
-    <h1 class="auth-title">{{ 'auth.register.title' |
-      translate }}</h1>
-    <p class="auth-subtitle text-muted">{{
-      'auth.register.subtitle' | translate }}</p>
+  <section class="auth-form-col">
+    <div class="auth-card">
 
+      <span class="auth-eyebrow">{{ 'auth.register.eyebrow' | translate }}</span>
+      <h1 class="auth-title">{{ 'auth.register.title' | translate }}</h1>
+      <p class="auth-subtitle text-muted">{{ 'auth.register.subtitle' | translate }}</p>
 
-    <!-- اختيار نوع الحساب -->
-    <div class="role-switch">
-      <button type="button" class="role-btn"
-        [class.is-active]="form.controls.role.value === 'STUDENT'"
-        (click)="selectRole('STUDENT')">
-        <i class="fa-solid fa-user-graduate"></i>
-        {{ 'auth.register.role_student' | translate }}
-      </button>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" novalidate>
 
-      <button type="button" class="role-btn"
-        [class.is-active]="form.controls.role.value === 'TRAINER'"
-        (click)="selectRole('TRAINER')">
-        <i class="fa-solid fa-chalkboard-user"></i>
-        {{ 'auth.register.role_trainer' | translate }}
-      </button>
+        <!-- Role -->
+        <div class="field">
+          <span class="field-label">{{ 'auth.register.role_label' | translate }}</span>
+          <div class="role-switch">
+            <button
+              type="button"
+              class="role-option"
+              [class.is-active]="form.controls.role.value === 'STUDENT'"
+              (click)="selectRole('STUDENT')">
+              <span class="role-option-check"></span>
+              <span class="role-option-icon"><i class="fa-solid fa-user-graduate"></i></span>
+              <span class="role-option-title">{{ 'auth.register.role_student' | translate }}</span>
+              <span class="role-option-desc">{{ 'auth.register.role_student_desc' | translate }}</span>
+            </button>
+
+            <button
+              type="button"
+              class="role-option"
+              [class.is-active]="form.controls.role.value === 'TRAINER'"
+              (click)="selectRole('TRAINER')">
+              <span class="role-option-check"></span>
+              <span class="role-option-icon"><i class="fa-solid fa-chalkboard-user"></i></span>
+              <span class="role-option-title">{{ 'auth.register.role_trainer' | translate }}</span>
+              <span class="role-option-desc">{{ 'auth.register.role_trainer_desc' | translate }}</span>
+            </button>
+          </div>
+
+          @if (form.controls.role.value === 'TRAINER') {
+            <div class="trainer-note">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>{{ 'auth.register.trainer_note' | translate }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Full name -->
+        <div class="field" [class.is-valid]="isFieldValid('full_name')" [class.is-invalid]="isFieldInvalid('full_name')">
+          <label class="field-label" for="full_name">{{ 'auth.fields.full_name' | translate }}</label>
+          <div class="field-input-wrap">
+            <input
+              id="full_name"
+              type="text"
+              class="field-input"
+              formControlName="full_name"
+              (input)="markTouched('full_name')"
+              autocomplete="name" />
+            <i class="fa-solid fa-check field-status-icon is-valid" [class.is-visible]="isFieldValid('full_name')"></i>
+            <i class="fa-solid fa-xmark field-status-icon is-invalid" [class.is-visible]="isFieldInvalid('full_name')"></i>
+          </div>
+          <span class="field-hint" [class.is-error]="isFieldInvalid('full_name')">
+            @if (isFieldInvalid('full_name')) {
+              {{ 'auth.errors.full_name' | translate }}
+            }
+          </span>
+        </div>
+
+        <!-- Username -->
+        <div class="field" [class.is-valid]="isFieldValid('username')" [class.is-invalid]="isFieldInvalid('username')">
+          <label class="field-label" for="username">
+            {{ 'auth.fields.username' | translate }}
+            <span class="text-muted">({{ 'auth.optional' | translate }})</span>
+          </label>
+          <div class="field-input-wrap">
+            <input
+              id="username"
+              type="text"
+              class="field-input"
+              formControlName="username"
+              (input)="markTouched('username')"
+              autocomplete="username"
+              dir="ltr" />
+            <i class="fa-solid fa-check field-status-icon is-valid" [class.is-visible]="isFieldValid('username')"></i>
+            <i class="fa-solid fa-xmark field-status-icon is-invalid" [class.is-visible]="isFieldInvalid('username')"></i>
+          </div>
+          <span class="field-hint" [class.is-error]="isFieldInvalid('username')">
+            @if (isFieldInvalid('username')) {
+              {{ 'auth.errors.username' | translate }}
+            }
+          </span>
+        </div>
+
+        <!-- Email -->
+        <div class="field" [class.is-valid]="isFieldValid('email')" [class.is-invalid]="isFieldInvalid('email')">
+          <label class="field-label" for="email">{{ 'auth.fields.email' | translate }}</label>
+          <div class="field-input-wrap">
+            <input
+              id="email"
+              type="email"
+              class="field-input"
+              formControlName="email"
+              (input)="markTouched('email')"
+              autocomplete="email"
+              dir="ltr" />
+            <i class="fa-solid fa-check field-status-icon is-valid" [class.is-visible]="isFieldValid('email')"></i>
+            <i class="fa-solid fa-xmark field-status-icon is-invalid" [class.is-visible]="isFieldInvalid('email')"></i>
+          </div>
+          <span class="field-hint" [class.is-error]="isFieldInvalid('email')">
+            @if (isFieldInvalid('email')) {
+              {{ 'auth.errors.email' | translate }}
+            }
+          </span>
+        </div>
+
+        <!-- Phone -->
+        <div class="field" [class.is-valid]="isFieldValid('phone')" [class.is-invalid]="isFieldInvalid('phone')">
+          <label class="field-label" for="phone">{{ 'auth.fields.phone' | translate }}</label>
+          <div class="field-input-wrap">
+            <input
+              id="phone"
+              type="tel"
+              class="field-input"
+              formControlName="phone"
+              (input)="markTouched('phone')"
+              placeholder="01xxxxxxxxx"
+              autocomplete="tel"
+              dir="ltr" />
+            <i class="fa-solid fa-check field-status-icon is-valid" [class.is-visible]="isFieldValid('phone')"></i>
+            <i class="fa-solid fa-xmark field-status-icon is-invalid" [class.is-visible]="isFieldInvalid('phone')"></i>
+          </div>
+          <span class="field-hint" [class.is-error]="isFieldInvalid('phone')">
+            @if (isFieldInvalid('phone')) {
+              {{ 'auth.errors.phone' | translate }}
+            }
+          </span>
+        </div>
+
+        <!-- Password -->
+        <div class="field" [class.is-valid]="isFieldValid('password')" [class.is-invalid]="isFieldInvalid('password')">
+          <label class="field-label" for="password">{{ 'auth.fields.password' | translate }}</label>
+          <div class="field-input-wrap">
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              id="password"
+              class="field-input"
+              formControlName="password"
+              (input)="onPasswordInput($any($event.target).value)"
+              autocomplete="new-password" />
+            <button
+              type="button"
+              class="field-toggle-visibility"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="'auth.toggle_password' | translate">
+              <i class="fa-solid" [class.fa-eye]="!showPassword()" [class.fa-eye-slash]="showPassword()"></i>
+            </button>
+          </div>
+
+          @if (isTouched('password')) {
+            <div class="password-meter">
+              @for (i of [0, 1, 2, 3]; track i) {
+                <span
+                  class="password-meter-bar"
+                  [attr.data-level]="strengthLevel()"
+                  [class.is-filled]="passwordScore() > i"></span>
+              }
+            </div>
+
+            <div class="password-requirements">
+              @for (req of passwordRequirements; track req.key) {
+                <span class="password-requirement" [class.is-met]="isRequirementMet(req.test)">
+                  <i
+                    class="fa-solid"
+                    [class.fa-circle-check]="isRequirementMet(req.test)"
+                    [class.fa-circle]="!isRequirementMet(req.test)"></i>
+                  {{ req.labelKey | translate }}
+                </span>
+              }
+            </div>
+          }
+        </div>
+
+        @if (errorMessage()) {
+          <div class="form-error-banner">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>{{ errorMessage() | translate }}</span>
+          </div>
+        }
+
+        <button type="submit" class="btn-primary auth-submit" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <i class="fa-solid fa-spinner"></i>
+          } @else {
+            {{ 'auth.register.submit' | translate }}
+          }
+        </button>
+
+      </form>
+
+      <p class="auth-switch text-muted">
+        {{ 'auth.register.have_account' | translate }}
+        <a routerLink="/login">{{ 'auth.login.title' | translate }}</a>
+      </p>
+
     </div>
-
-    @if (form.controls.role.value === 'TRAINER') {
-    <p class="trainer-note text-muted">
-      <i class="fa-solid fa-circle-info"></i>
-      {{ 'auth.register.trainer_note' | translate }}
-    </p>
-    }
-
-
-    <form [formGroup]="form" (ngSubmit)="submit()"
-      class="auth-form">
-
-      <div class="form-group">
-        <label>{{ 'auth.fields.full_name' | translate
-          }}</label>
-        <input type="text" class="input"
-          formControlName="full_name" />
-        @if (form.controls.full_name.touched &&
-        form.controls.full_name.invalid) {
-        <span class="field-error">{{ 'auth.errors.full_name'
-          | translate }}</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label>{{ 'auth.fields.email' | translate }}</label>
-        <input type="email" class="input"
-          formControlName="email" />
-        @if (form.controls.email.touched &&
-        form.controls.email.invalid) {
-        <span class="field-error">{{ 'auth.errors.email' |
-          translate }}</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label>{{ 'auth.fields.username' | translate
-          }}</label>
-        <input type="text" class="input"
-          formControlName="username" />
-        @if (form.controls.username.touched &&
-        form.controls.username.invalid) {
-        <span class="field-error">{{ 'auth.errors.username'
-          | translate }}</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label>{{ 'auth.fields.phone' | translate }}</label>
-        <input type="tel" class="input"
-          formControlName="phone"
-          placeholder="01xxxxxxxxx" />
-        @if (form.controls.phone.touched &&
-        form.controls.phone.invalid) {
-        <span class="field-error">{{ 'auth.errors.phone' |
-          translate }}</span>
-        }
-      </div>
-
-      <div class="form-group">
-        <label>{{ 'auth.fields.password' | translate
-          }}</label>
-        <input type="password" class="input"
-          formControlName="password" />
-        @if (form.controls.password.touched &&
-        form.controls.password.invalid) {
-        <span class="field-error">{{ 'auth.errors.password'
-          | translate }}</span>
-        }
-      </div>
-
-      @if (errorMessage()) {
-      <p class="form-error text-danger">{{ errorMessage() |
-        translate }}</p>
-      }
-
-      <button type="submit" class="btn-primary auth-submit"
-        [disabled]="isLoading()">
-        @if (isLoading()) {
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        } @else {
-        {{ 'auth.register.submit' | translate }}
-        }
-      </button>
-
-    </form>
-
-    <p class="auth-switch text-muted">
-      {{ 'auth.register.have_account' | translate }}
-      <a routerLink="/login">{{ 'auth.login.title' |
-        translate }}</a>
-    </p>
-
-  </div>
-</section>
+  </section>
+</div>
