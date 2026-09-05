@@ -82,34 +82,41 @@ export class RegisterComponent {
   togglePasswordVisibility(): void {
     this.showPassword.update((v) => !v);
   }
-
-  submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      Object.keys(this.form.controls).forEach((key) => this.markTouched(key));
-      return;
-    }
-
-    this.isLoading.set(true);
-    this.errorMessage.set(null);
-
-    const payload = this.form.getRawValue();
-    const cleanPayload = {
-      ...payload,
-      username: payload.username || undefined,
-    };
-
-    this.authService.register(cleanPayload).subscribe({
-      next: () => {
-        this.authService.setPendingEmail(payload.email);
-        this.isLoading.set(false);
-        this.router.navigate(['/verify-otp']);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        const msg = err?.error?.message;
-        this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
-      },
-    });
+submit(): void {
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    Object.keys(this.form.controls).forEach((key) => this.markTouched(key));
+    return;
   }
+
+  this.isLoading.set(true);
+  this.errorMessage.set(null);
+
+  const formValue = this.form.getRawValue();
+
+  // تنظيف البيانات قبل الإرسال
+  const payload = {
+    full_name: formValue.full_name.trim(),
+    email: formValue.email.trim().toLowerCase(),
+    phone: formValue.phone.trim(),
+    password: formValue.password, // متشوّشش عليه
+    role: formValue.role,
+    username: formValue.username?.trim() || undefined,
+  };
+
+
+
+  this.authService.register(payload).subscribe({
+    next: () => {
+      this.authService.setPendingEmail(payload.email);
+      this.isLoading.set(false);
+      this.router.navigate(['/verify-otp']);
+    },
+    error: (err) => {
+      this.isLoading.set(false);
+      const msg = err?.error?.message;
+      this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+    },
+  });
+}
 }
