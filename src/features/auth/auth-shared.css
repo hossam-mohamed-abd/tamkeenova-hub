@@ -1,4 +1,4 @@
-/* ============ Layout ============ */
+/* Layout */
 .auth-page {
   min-height: 100vh;
   display: grid;
@@ -88,7 +88,7 @@ html[dir='rtl'] .auth-form-col {
   line-height: 1.55;
 }
 
-/* ============ Form ============ */
+/* Form */
 .auth-form {
   margin-top: 2rem;
   display: flex;
@@ -224,7 +224,7 @@ html[dir='rtl'] .auth-form-col {
   color: var(--color-danger);
 }
 
-/* ============ Password strength ============ */
+/* Password Strength */
 .password-meter {
   display: flex;
   gap: 0.3rem;
@@ -307,7 +307,7 @@ html[dir='rtl'] .auth-form-col {
   }
 }
 
-/* ============ Role toggle (register) ============ */
+/* Role Toggle */
 .role-switch {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -422,7 +422,7 @@ html[dir='rtl'] .auth-form-col {
   margin-top: 0.15rem;
 }
 
-/* ============ Submit ============ */
+/* Submit */
 .auth-submit {
   position: relative;
   width: 100%;

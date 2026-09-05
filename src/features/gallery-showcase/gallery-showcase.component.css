@@ -2,7 +2,7 @@
   display: block;
 }
 
-/*  HERO HEADING — entrance */
+/* Hero Heading */
 .gshowcase-hero {
   padding-block-start: 4rem;
   margin-block-end: 3.5rem;
@@ -51,13 +51,14 @@
     opacity: 0;
     transform: translateY(22px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* MARQUEE */
+/* Marquee */
 .ghero-marquee {
   position: relative;
   display: flex;
@@ -95,6 +96,7 @@
   from {
     transform: translate3d(0, 0, 0);
   }
+
   to {
     transform: translate3d(-50%, 0, 0);
   }
@@ -104,6 +106,7 @@
   from {
     transform: translate3d(-50%, 0, 0);
   }
+
   to {
     transform: translate3d(0, 0, 0);
   }
@@ -154,7 +157,7 @@
   }
 }
 
-/*  SECTION HEADING */
+/* Section Heading */
 .gshowcase-section {
   padding: 0 6vw 5rem;
 }
@@ -180,7 +183,7 @@
   color: var(--color-text);
 }
 
-/*  MASONRY  */
+/* Masonry */
 .gmasonry-grid {
   column-count: 4;
   column-gap: 1.1rem;
@@ -191,12 +194,14 @@
     column-count: 3;
   }
 }
+
 @media (max-width: 760px) {
   .gmasonry-grid {
     column-count: 2;
     column-gap: 0.75rem;
   }
 }
+
 @media (max-width: 460px) {
   .gmasonry-grid {
     column-count: 1;
@@ -219,7 +224,7 @@
   opacity: 0;
   transform: translateY(28px) scale(0.97);
 
-  /* aspect-ratio */
+  /* Aspect Ratio */
   aspect-ratio: attr(style type(<number>)), 1;
 
   transform-style: preserve-3d;
@@ -235,7 +240,7 @@
   }
 }
 
-/* Entrance stagger - appScrollReveal الموجودة أصلًا */
+/* Entrance Stagger */
 @supports (animation-timeline: view()) {
   .gmasonry-tile[appScrollReveal] {
     animation-delay: calc(var(--i, 0) * 70ms);
@@ -250,12 +255,10 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    100deg,
-    var(--color-surface-alt) 30%,
-    var(--color-border) 50%,
-    var(--color-surface-alt) 70%
-  );
+  background: linear-gradient(100deg,
+      var(--color-surface-alt) 30%,
+      var(--color-border) 50%,
+      var(--color-surface-alt) 70%);
   background-size: 250% 100%;
   animation: skeleton-shimmer 1.6s ease-in-out infinite;
   transition: opacity 400ms ease;
@@ -270,6 +273,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -50% 0;
   }
@@ -296,17 +300,15 @@
   transform: scale(1.07);
 }
 
-/* Glow  */
+/* Glow */
 .gmasonry-glow {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(
-    circle at var(--glow-x, 50%) var(--glow-y, 50%),
-    rgba(255, 255, 255, 0.25) 0%,
-    transparent 45%
-  );
+  background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 45%);
   opacity: 0;
   transition: opacity 300ms ease;
 }
@@ -355,7 +357,7 @@
   transform: scale(1) translateY(0);
 }
 
-/* LIGHTBOX */
+/* Lightbox */
 .glightbox-backdrop {
   position: fixed;
   inset: 0;
@@ -373,6 +375,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -394,6 +397,7 @@
     opacity: 0;
     transform: scale(0.4);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -483,6 +487,7 @@
 .glightbox-nav-prev {
   inset-inline-start: -1.5rem;
 }
+
 .glightbox-nav-next {
   inset-inline-end: -1.5rem;
 }
@@ -491,9 +496,11 @@
   .glightbox-nav-prev {
     inset-inline-start: 0.25rem;
   }
+
   .glightbox-nav-next {
     inset-inline-end: 0.25rem;
   }
+
   .glightbox-close {
     top: 0.5rem;
     inset-inline-end: 0.5rem;
@@ -501,6 +508,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .ghero-eyebrow,
   .ghero-title,
   .ghero-subtitle,
@@ -520,6 +528,7 @@
     animation: none !important;
     transition: none !important;
   }
+
   .ghero-eyebrow,
   .ghero-title,
   .ghero-subtitle,
@@ -527,11 +536,13 @@
     opacity: 1;
     transform: none;
   }
+
   .gmasonry-img,
   .glightbox-image {
     opacity: 1;
     transform: none;
   }
+
   .gmasonry-tile {
     transform: none;
     opacity: 1;

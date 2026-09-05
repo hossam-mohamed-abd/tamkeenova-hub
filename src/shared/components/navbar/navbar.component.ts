@@ -32,7 +32,6 @@ export class NavbarComponent {
   isLoggedIn = this.authService.isLoggedIn;
   currentUser = this.authService.currentUser;
 
-  // أول حرفين من الاسم عشان الـ avatar fallback
   userInitials = computed(() => {
     const name = this.currentUser()?.full_name ?? '';
     return name
@@ -76,7 +75,6 @@ export class NavbarComponent {
     this.isScrolled.set(window.scrollY > 24);
   }
 
-  // يقفل الـ dropdown لو ضغط بره الناف بار
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.isUserMenuOpen()) return;
@@ -86,7 +84,6 @@ export class NavbarComponent {
     }
   }
 
-  // يقفل الـ dropdown بزرار Escape
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.isUserMenuOpen.set(false);
@@ -126,7 +123,6 @@ export class NavbarComponent {
 
 
 
-  // اللينك بتاع "بياناتي الشخصية" اللي هيفتح كومبوننت البروفايل حسب الدور
   profileRoute = computed(() => {
     const role = this.authService.role();
     if (role === 'TRAINER') return '/portal/trainer/profile';

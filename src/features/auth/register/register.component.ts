@@ -94,12 +94,11 @@ submit(): void {
 
   const formValue = this.form.getRawValue();
 
-  // تنظيف البيانات قبل الإرسال
   const payload = {
     full_name: formValue.full_name.trim(),
     email: formValue.email.trim().toLowerCase(),
     phone: formValue.phone.trim(),
-    password: formValue.password, // متشوّشش عليه
+    password: formValue.password,
     role: formValue.role,
     username: formValue.username?.trim() || undefined,
   };

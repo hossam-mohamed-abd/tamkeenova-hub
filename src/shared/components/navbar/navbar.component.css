@@ -335,7 +335,7 @@ html[dir='rtl'] .mobile-link-icon {
   }
 }
 
-/* ===== User Menu (Desktop) ===== */
+/* User Menu */
 .user-menu {
   position: relative;
 }
@@ -490,7 +490,7 @@ html[dir='rtl'] .mobile-link-icon {
   color: var(--color-danger);
 }
 
-/* ===== Mobile User Card ===== */
+/* Mobile User Card */
 .mobile-user-card {
   display: flex;
   align-items: center;

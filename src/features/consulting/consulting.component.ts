@@ -62,7 +62,6 @@ export class ConsultingComponent {
 
     this.submitting.set(true);
 
-    // TODO: استبدل الـ setTimeout ده بنداء API حقيقي على الـ backend لما يجهز
     setTimeout(() => {
       this.submitting.set(false);
       this.submitted.set(true);

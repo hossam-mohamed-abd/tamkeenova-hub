@@ -19,7 +19,6 @@ const SPECIALIZATIONS = [
 
 const RATINGS = [5, 4.5, 4, 4.5, 5, 4];
 
-// TODO: دي بيانات وهمية للمعاينة فقط - هتتشال لما نربط الـ backend
 export const TRAINERS: Trainer[] = NAMES.map((name, i) => {
   const index = i + 1;
   return {

@@ -4,7 +4,6 @@ import { TRAINERS } from '../data/trainers.data';
 
 @Injectable({ providedIn: 'root' })
 export class TrainersService {
-  // TODO: لما الباك اند يجهز، استبدل جسم الدوال دي بنداء HttpClient على /api/trainers
 
 
   getAll(): Trainer[] {

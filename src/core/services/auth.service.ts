@@ -22,7 +22,6 @@ export class AuthService {
   private router = inject(Router);
   private baseUrl = `${environment.apiUrl}/auth`;
 
-  // الحالة الحالية للمستخدم كـ signal
   private _currentUser = signal<User | null>(this.readUserFromStorage());
   currentUser = this._currentUser.asReadonly();
 
@@ -32,22 +31,22 @@ export class AuthService {
   isStudent = computed(() => this.role() === 'STUDENT');
   isAdmin = computed(() => this.role() === 'ADMIN');
 
-  // ---------- Register ----------
+  // Register
   register(payload: RegisterRequest) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/register`, payload);
   }
 
-  // ---------- Verify Email OTP ----------
+  // Verify Email
   verifyEmail(payload: VerifyEmailRequest) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/verify-email`, payload);
   }
 
-  // ---------- Resend OTP ----------
+  // Resend OTP
   resendOtp(payload: ResendOtpRequest) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/resend-otp`, payload);
   }
 
-  // ---------- Login ----------
+  // Login
   login(payload: LoginRequest) {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, payload);
   }
@@ -59,7 +58,7 @@ export class AuthService {
     this._currentUser.set(user);
   }
 
-  // ---------- Get Current User ----------
+  // Current User
   fetchCurrentUser() {
     return this.http.get<ApiDataResponse<User>>(`${this.baseUrl}/me`);
   }
@@ -74,7 +73,7 @@ export class AuthService {
     });
   }
 
-  // ---------- Token / Storage Helpers ----------
+  // Storage Helpers
   getToken(): string | null {
     try {
       return localStorage.getItem(TOKEN_KEY);
@@ -96,7 +95,7 @@ export class AuthService {
     }
   }
 
-  // ---------- Logout ----------
+  // Logout
   logout(redirect = true): void {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
@@ -104,7 +103,6 @@ export class AuthService {
     if (redirect) this.router.navigate(['/login']);
   }
 
-  // بيتنادى بعد التسجيل عشان يحفظ الإيميل قبل ما نروح لصفحة الـ OTP
   private pendingEmail = signal<string | null>(null);
   setPendingEmail(email: string): void {
     this.pendingEmail.set(email);

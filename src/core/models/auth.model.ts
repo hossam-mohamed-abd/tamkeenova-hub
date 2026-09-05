@@ -24,7 +24,6 @@ export interface LoginRequest {
   password: string;
 }
 
-// الشكل الفعلي اللي بيرجعه الباك اند (ملفوف جوا data)
 export interface LoginResponseData {
   access_token: string;
   user: User;

@@ -41,7 +41,6 @@ export class BookingModalComponent {
 
     this.submitting.set(true);
 
-    // TODO: استبدل بنداء API حقيقي لما الباك اند يجهز - ابعت trainer()!.id مع باقي البيانات
     setTimeout(() => {
       this.submitting.set(false);
       this.submitted.set(true);

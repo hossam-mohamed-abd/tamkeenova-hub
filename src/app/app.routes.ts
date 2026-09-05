@@ -29,7 +29,7 @@ export const routes: Routes = [
       ),
   },
 
-  // ---- Auth ----
+  // Auth
   {
     path: 'register',
     canActivate: [guestGuard],
@@ -49,7 +49,7 @@ export const routes: Routes = [
       import('../features/auth/login/login.component').then((m) => m.LoginComponent),
   },
 
-  // ---- Student Portal ----
+  // Student Portal
   {
     path: 'portal/student',
     canActivate: [authGuard, roleGuard(['STUDENT'])],
@@ -67,7 +67,7 @@ export const routes: Routes = [
       ),
   },
 
-  // ---- Trainer Portal ----
+  // Trainer Portal
   {
     path: 'portal/trainer',
     canActivate: [authGuard, roleGuard(['TRAINER'])],

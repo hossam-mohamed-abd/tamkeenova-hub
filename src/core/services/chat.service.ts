@@ -44,7 +44,6 @@ export class ChatService {
     this.messages.update((msgs) => [...msgs, { id: this.nextId++, role: 'user', text: trimmed }]);
     this.isTyping.set(true);
 
-    // TODO: استبدال المحاكاة دي بنداء API فعلي لـ Gemini backend لما يجهز
     const reply = await this.fakeAssistantReply(trimmed);
 
     this.isTyping.set(false);
