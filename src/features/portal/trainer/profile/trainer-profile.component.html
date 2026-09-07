@@ -1,1 +1,249 @@
-<p>trainer-profile works!</p>
+<section class="portal-page">
+  @if (isLoading()) {
+  <div class="empty-state"><i
+      class="fa-solid fa-spinner fa-spin"></i></div>
+  } @else if (profile(); as p) {
+
+  <div class="portal-header">
+    <div>
+      <h1>{{ 'nav.my_profile' | translate }}</h1>
+      <p class="text-muted">{{ p.users.full_name }} · {{
+        p.users.email }}</p>
+    </div>
+    <span class="badge"
+      [class.badge-pending]="p.trainer_status === 'PENDING'"
+      [class.badge-approved]="p.trainer_status === 'APPROVED'"
+      [class.badge-rejected]="p.trainer_status === 'REJECTED'">
+      {{ 'trainer_status.' + (p.trainer_status | lowercase)
+      + '_badge' | translate }}
+    </span>
+  </div>
+
+  <div class="portal-card surface chamfer-sm">
+    <h2 class="portal-section-title">{{
+      'trainer_profile.specialization_section' | translate
+      }}</h2>
+    <p class="text-muted">{{ p.specializations.name_ar }} /
+      {{ p.specializations.name_en }}</p>
+
+    <button type="button" class="btn-outline"
+      (click)="toggleSpecRequest()">
+      {{ 'trainer_profile.request_new_specialization' |
+      translate }}
+    </button>
+
+    @if (showSpecRequest()) {
+    <div class="section-divider"></div>
+
+    @if (specRequestDone()) {
+    <p class="text-success">{{
+      'trainer_profile.spec_request_sent' | translate }}</p>
+    } @else {
+    <form [formGroup]="specRequestForm"
+      (ngSubmit)="submitSpecRequest()" class="form-grid">
+      <div class="field">
+        <label class="field-label">{{
+          'trainer_profile.spec_name_ar' | translate
+          }}</label>
+        <input type="text" class="field-input"
+          formControlName="name_ar" />
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'trainer_profile.spec_name_en' | translate
+          }}</label>
+        <input type="text" class="field-input"
+          formControlName="name_en" dir="ltr" />
+      </div>
+      <div class="form-actions field-full">
+        <button type="submit" class="btn-primary"
+          [disabled]="specRequestSaving()">
+          @if (specRequestSaving()) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          } @else {
+          {{ 'trainer_profile.send_request' | translate }}
+          }
+        </button>
+      </div>
+    </form>
+    }
+    }
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()"
+    class="portal-card surface chamfer-sm">
+
+    <h2 class="portal-section-title">{{
+      'trainer_profile.about_section' | translate }}</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.bio_ar_label' | translate
+          }}</label>
+        <textarea class="field-input field-textarea"
+          formControlName="bio_ar" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.bio_en_label' | translate
+          }}</label>
+        <textarea class="field-input field-textarea"
+          formControlName="bio_en" rows="2"
+          dir="ltr"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.description_ar_label' |
+          translate }}</label>
+        <textarea class="field-input field-textarea"
+          formControlName="description_ar"
+          rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.description_en_label' |
+          translate }}</label>
+        <textarea class="field-input field-textarea"
+          formControlName="description_en" rows="3"
+          dir="ltr"></textarea>
+      </div>
+    </div>
+
+    <h2 class="portal-section-title">{{
+      'trainer_profile.links_section' | translate }}</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.linkedin_label' | translate
+          }}</label>
+        <input type="url" class="field-input"
+          formControlName="linkedin_url" dir="ltr" />
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.facebook_label' | translate
+          }}</label>
+        <input type="url" class="field-input"
+          formControlName="facebook_url" dir="ltr" />
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.website_label' | translate
+          }}</label>
+        <input type="url" class="field-input"
+          formControlName="website_url" dir="ltr" />
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.portfolio_label' |
+          translate }}</label>
+        <input type="url" class="field-input"
+          formControlName="portfolio_url" dir="ltr" />
+      </div>
+    </div>
+
+    <h2 class="portal-section-title">{{
+      'trainer_profile.pricing_section' | translate }}</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.price_from_label' |
+          translate }}</label>
+        <input type="number" min="0" class="field-input"
+          formControlName="consultation_price_from"
+          dir="ltr" />
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.price_to_label' | translate
+          }}</label>
+        <input type="number" min="0" class="field-input"
+          formControlName="consultation_price_to"
+          dir="ltr" />
+      </div>
+      <div class="field">
+        <label class="field-label">{{
+          'auth.trainer_register.duration_label' | translate
+          }}</label>
+        <input type="number" min="0" class="field-input"
+          formControlName="consultation_duration"
+          dir="ltr" />
+      </div>
+    </div>
+
+    <h2 class="portal-section-title">{{
+      'auth.trainer_register.certificates_label' | translate
+      }}</h2>
+    <div class="dynamic-list">
+      @for (ctrl of certificateUrls.controls; track $index)
+      {
+      <div class="dynamic-list-row">
+        <input type="url" class="field-input"
+          [formControl]="ctrl" dir="ltr" />
+        <button type="button" class="dynamic-list-remove"
+          (click)="removeCertificate($index)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+      }
+    </div>
+    <button type="button" class="dynamic-list-add"
+      (click)="addCertificate()">
+      <i class="fa-solid fa-plus"></i> {{
+      'auth.trainer_register.add_certificate' | translate }}
+    </button>
+
+    <h2 class="portal-section-title">{{
+      'auth.trainer_register.documents_label' | translate }}
+    </h2>
+    <div class="dynamic-list">
+      @for (group of documents.controls; track $index) {
+      <div class="dynamic-list-row dynamic-list-row-doc"
+        [formGroup]="group">
+        <input type="text" class="field-input"
+          formControlName="file_name"
+          [placeholder]="'auth.trainer_register.file_name_label' | translate" />
+        <input type="url" class="field-input"
+          formControlName="file_url" dir="ltr"
+          [placeholder]="'auth.trainer_register.file_url_label' | translate" />
+        <select class="field-input"
+          formControlName="file_type">
+          <option value="CV">CV</option>
+          <option value="CERTIFICATE">Certificate</option>
+          <option value="OTHER">Other</option>
+        </select>
+        <button type="button" class="dynamic-list-remove"
+          (click)="removeDocument($index)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+      }
+    </div>
+    <button type="button" class="dynamic-list-add"
+      (click)="addDocument()">
+      <i class="fa-solid fa-plus"></i> {{
+      'auth.trainer_register.add_document' | translate }}
+    </button>
+
+    @if (errorMessage()) {
+    <div class="form-error-banner">{{ errorMessage() |
+      translate }}</div>
+    }
+    @if (saveSuccess()) {
+    <p class="text-success save-success-msg">{{
+      'trainer_profile.save_success' | translate }}</p>
+    }
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary"
+        [disabled]="isSaving()">
+        @if (isSaving()) {
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        } @else {
+        {{ 'trainer_profile.save' | translate }}
+        }
+      </button>
+    </div>
+  </form>
+  }
+</section>

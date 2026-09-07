@@ -1,16 +1,220 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AuthService } from '../../../../core/services/auth.service';
+import { TrainerService } from '../../../../core/services/trainer.service';
+import { SpecializationService } from '../../../../core/services/specialization.service';
+import { TrainerProfile } from '../../../../core/models/trainer-profile.model';
+
+const URL_PATTERN = /^https?:\/\/.+/;
 
 @Component({
   selector: 'app-trainer-profile',
   standalone: true,
-  imports: [TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   templateUrl: './trainer-profile.component.html',
-  styleUrl: './trainer-profile.component.css',
+  styleUrls: ['../../portal-shared.css', './trainer-profile.component.css'],
 })
 export class TrainerProfileComponent {
-  authService = inject(AuthService);
-  currentUser = this.authService.currentUser;
+  private fb = inject(FormBuilder);
+  private trainerService = inject(TrainerService);
+  private specializationService = inject(SpecializationService);
 
+  isLoading = signal(true);
+  isSaving = signal(false);
+  saveSuccess = signal(false);
+  errorMessage = signal<string | null>(null);
+  profile = signal<TrainerProfile | null>(null);
+
+  showSpecRequest = signal(false);
+  specRequestSaving = signal(false);
+  specRequestDone = signal(false);
+
+  specRequestForm = this.fb.nonNullable.group({
+    name_ar: ['', Validators.required],
+    name_en: ['', Validators.required],
+  });
+
+  form = this.fb.nonNullable.group({
+    bio_ar: [''],
+    bio_en: [''],
+    description_ar: [''],
+    description_en: [''],
+    linkedin_url: ['', [Validators.pattern(URL_PATTERN)]],
+    facebook_url: ['', [Validators.pattern(URL_PATTERN)]],
+    website_url: ['', [Validators.pattern(URL_PATTERN)]],
+    portfolio_url: ['', [Validators.pattern(URL_PATTERN)]],
+    consultation_price_from: this.fb.control<number | null>(null),
+    consultation_price_to: this.fb.control<number | null>(null),
+    consultation_duration: this.fb.control<number | null>(null),
+  });
+
+  certificateUrls = new FormArray<FormControl<string>>([]);
+  documents = new FormArray<
+    FormGroup<{
+      file_name: FormControl<string>;
+      file_url: FormControl<string>;
+      file_type: FormControl<string>;
+    }>
+  >([]);
+
+  constructor() {
+    this.load();
+  }
+
+  load(): void {
+    this.isLoading.set(true);
+
+    this.trainerService.getMyProfile().subscribe({
+      next: (profile) => {
+        this.profile.set(profile);
+
+        this.form.patchValue({
+          bio_ar: profile.bio_ar ?? '',
+          bio_en: profile.bio_en ?? '',
+          description_ar: profile.description_ar ?? '',
+          description_en: profile.description_en ?? '',
+          linkedin_url: profile.linkedin_url ?? '',
+          facebook_url: profile.facebook_url ?? '',
+          website_url: profile.website_url ?? '',
+          portfolio_url: profile.portfolio_url ?? '',
+          consultation_price_from: profile.consultation_price_from
+            ? Number(profile.consultation_price_from)
+            : null,
+          consultation_price_to: profile.consultation_price_to
+            ? Number(profile.consultation_price_to)
+            : null,
+          consultation_duration: profile.consultation_duration,
+        });
+
+        this.certificateUrls.clear();
+        profile.trainer_certificates.forEach((c) => {
+          this.certificateUrls.push(
+            new FormControl(c.certificate_url, {
+              nonNullable: true,
+              validators: [Validators.required, Validators.pattern(URL_PATTERN)],
+            }),
+          );
+        });
+
+        this.documents.clear();
+        profile.trainer_documents.forEach((d) => {
+          this.documents.push(
+            this.fb.nonNullable.group({
+              file_name: [d.file_name, Validators.required],
+              file_url: [d.file_url, [Validators.required, Validators.pattern(URL_PATTERN)]],
+              file_type: [d.file_type, Validators.required],
+            }),
+          );
+        });
+
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+        this.errorMessage.set('auth.errors.generic');
+      },
+    });
+  }
+
+  addCertificate(): void {
+    this.certificateUrls.push(
+      new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.pattern(URL_PATTERN)],
+      }),
+    );
+  }
+
+  removeCertificate(index: number): void {
+    this.certificateUrls.removeAt(index);
+  }
+
+  addDocument(): void {
+    this.documents.push(
+      this.fb.nonNullable.group({
+        file_name: ['', Validators.required],
+        file_url: ['', [Validators.required, Validators.pattern(URL_PATTERN)]],
+        file_type: ['CV', Validators.required],
+      }),
+    );
+  }
+
+  removeDocument(index: number): void {
+    this.documents.removeAt(index);
+  }
+
+  toggleSpecRequest(): void {
+    this.showSpecRequest.update((v) => !v);
+    this.specRequestDone.set(false);
+  }
+
+  submitSpecRequest(): void {
+    if (this.specRequestForm.invalid) {
+      this.specRequestForm.markAllAsTouched();
+      return;
+    }
+
+    this.specRequestSaving.set(true);
+
+    this.specializationService.requestNew(this.specRequestForm.getRawValue()).subscribe({
+      next: () => {
+        this.specRequestSaving.set(false);
+        this.specRequestDone.set(true);
+        this.specRequestForm.reset();
+      },
+      error: () => {
+        this.specRequestSaving.set(false);
+      },
+    });
+  }
+
+  save(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.isSaving.set(true);
+    this.saveSuccess.set(false);
+    this.errorMessage.set(null);
+
+    const raw = this.form.getRawValue();
+
+    const payload = {
+      bio_ar: raw.bio_ar || undefined,
+      bio_en: raw.bio_en || undefined,
+      description_ar: raw.description_ar || undefined,
+      description_en: raw.description_en || undefined,
+      linkedin_url: raw.linkedin_url || undefined,
+      facebook_url: raw.facebook_url || undefined,
+      website_url: raw.website_url || undefined,
+      portfolio_url: raw.portfolio_url || undefined,
+      consultation_price_from: raw.consultation_price_from ?? undefined,
+      consultation_price_to: raw.consultation_price_to ?? undefined,
+      consultation_duration: raw.consultation_duration ?? undefined,
+      certificate_urls: this.certificateUrls.getRawValue().filter((v) => !!v),
+      documents: this.documents.getRawValue(),
+    };
+
+    this.trainerService.updateMyProfile(payload).subscribe({
+      next: () => {
+        this.isSaving.set(false);
+        this.saveSuccess.set(true);
+        this.load();
+      },
+      error: (err) => {
+        this.isSaving.set(false);
+        const msg = err?.error?.message;
+        this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+      },
+    });
+  }
 }

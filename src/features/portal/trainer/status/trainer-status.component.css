@@ -1,0 +1,134 @@
+.status-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--color-background);
+}
+
+.status-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 2.75rem 2.25rem;
+  text-align: center;
+}
+
+.status-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.status-loading i {
+  font-size: 1.5rem;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.status-icon-pending {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent);
+  animation: pulse-icon 2s ease-in-out infinite;
+}
+
+@keyframes pulse-icon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-icon-pending { animation: none; }
+}
+
+.status-icon-rejected {
+  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+  color: var(--color-danger);
+}
+
+.status-icon-error {
+  background: color-mix(in srgb, var(--color-text-muted) 15%, transparent);
+  color: var(--color-text-muted);
+}
+
+.status-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.status-text {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.status-reason {
+  margin-top: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  text-align: start;
+}
+
+.status-reason-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-danger);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.status-reason p {
+  font-size: 0.88rem;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.status-action {
+  margin-top: 1.5rem;
+  height: 46px;
+  padding-inline: 1.5rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.status-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-logout:hover {
+  color: var(--color-danger);
+}

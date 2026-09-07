@@ -1,0 +1,52 @@
+<section class="status-page">
+  <div class="status-card surface chamfer-sm">
+
+    @if (isLoading()) {
+      <div class="status-loading">
+        <i class="fa-solid fa-spinner"></i>
+        <p>{{ 'loader.loading' | translate }}</p>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="status-icon status-icon-error">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <h1 class="status-title">{{ 'trainer_status.error_title' | translate }}</h1>
+      <p class="status-text text-muted">{{ errorMessage() | translate }}</p>
+      <button type="button" class="btn-primary status-action" (click)="refresh()">
+        {{ 'trainer_status.retry' | translate }}
+      </button>
+    } @else if (status()?.status === 'PENDING') {
+      <div class="status-icon status-icon-pending">
+        <i class="fa-solid fa-hourglass-half"></i>
+      </div>
+      <h1 class="status-title">{{ 'trainer_status.pending_title' | translate }}</h1>
+      <p class="status-text text-muted">
+        {{ 'trainer_status.pending_text' | translate }} <strong>{{ authCurrentUser()?.full_name }}</strong>
+      </p>
+      <button type="button" class="btn-primary status-action" (click)="refresh()">
+        <i class="fa-solid fa-rotate"></i>
+        {{ 'trainer_status.check_again' | translate }}
+      </button>
+    } @else if (status()?.status === 'REJECTED') {
+      <div class="status-icon status-icon-rejected">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </div>
+      <h1 class="status-title">{{ 'trainer_status.rejected_title' | translate }}</h1>
+
+      @if (status()?.rejection_reason) {
+        <div class="status-reason">
+          <span class="status-reason-label">{{ 'trainer_status.reason_label' | translate }}</span>
+          <p>{{ status()?.rejection_reason }}</p>
+        </div>
+      } @else {
+        <p class="status-text text-muted">{{ 'trainer_status.rejected_text' | translate }}</p>
+      }
+    }
+
+    <button type="button" class="status-logout" (click)="logout()">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      {{ 'nav.logout' | translate }}
+    </button>
+
+  </div>
+</section>

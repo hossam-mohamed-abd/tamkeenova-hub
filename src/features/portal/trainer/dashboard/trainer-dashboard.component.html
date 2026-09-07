@@ -1,13 +1,61 @@
 <section class="dashboard-page">
   <div class="dashboard-header">
-    <h1>{{ 'dashboard.welcome' | translate }} {{ currentUser()?.full_name }}</h1>
-    <p class="text-muted">{{ 'dashboard.trainer_subtitle' | translate }}</p>
+    <h1>{{ 'dashboard.welcome' | translate }} {{
+      currentUser()?.full_name }}</h1>
+    <p class="text-muted">{{ 'dashboard.trainer_subtitle' |
+      translate }}</p>
   </div>
 
+  @if (!isLoading() && stats(); as s) {
+  <div class="stats-grid">
+    <div class="stat-card surface">
+      <span class="stat-value">{{ s.programs_count }}</span>
+      <span class="stat-label">{{
+        'trainer_dashboard.programs_count' | translate
+        }}</span>
+    </div>
+    <div class="stat-card surface">
+      <span class="stat-value">{{ s.reviews_count }}</span>
+      <span class="stat-label">{{
+        'trainer_dashboard.reviews_count' | translate
+        }}</span>
+    </div>
+    <div class="stat-card surface">
+      <span class="stat-value">{{ s.availability_count
+        }}</span>
+      <span class="stat-label">{{
+        'trainer_dashboard.availability_count' | translate
+        }}</span>
+    </div>
+    <div class="stat-card surface">
+      <span class="stat-value">{{ s.average_rating }}<i
+          class="fa-solid fa-star stat-star"></i></span>
+      <span class="stat-label">{{
+        'trainer_dashboard.average_rating' | translate
+        }}</span>
+    </div>
+  </div>
+  }
+
   <div class="dashboard-grid">
-    <a routerLink="/portal/trainer/profile" class="dashboard-card surface chamfer-sm">
+    <a routerLink="/portal/trainer/profile"
+      class="dashboard-card surface chamfer-sm">
       <i class="fa-solid fa-user"></i>
       <span>{{ 'nav.my_profile' | translate }}</span>
+    </a>
+
+    <a routerLink="/portal/trainer/programs"
+      class="dashboard-card surface chamfer-sm">
+      <i class="fa-solid fa-book"></i>
+      <span>{{ 'trainer_dashboard.programs_link' | translate
+        }}</span>
+    </a>
+
+    <a routerLink="/portal/trainer/availability"
+      class="dashboard-card surface chamfer-sm">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>{{ 'trainer_dashboard.availability_link' |
+        translate }}</span>
     </a>
   </div>
 </section>

@@ -5,6 +5,6 @@ export interface Trainer {
   specialization: string;
   bio: string;
   avatar: string;
-  rating: number; 
+  rating: number;
   sessionsCount?: number;
 }

@@ -17,6 +17,28 @@ export interface RegisterRequest {
   password: string;
   role: UserRole;
   username?: string;
+  // حقول المدرب — تتبعت بس لما role = 'TRAINER'
+  specialization_id?: string;
+  bio_ar?: string;
+  bio_en?: string;
+  description_ar?: string;
+  description_en?: string;
+  cover_letter?: string;
+  linkedin_url?: string;
+  facebook_url?: string;
+  website_url?: string;
+  portfolio_url?: string;
+  consultation_price_from?: number;
+  consultation_price_to?: number;
+  consultation_duration?: number;
+  certificate_urls?: string[];
+  documents?: { file_name: string; file_url: string; file_type: string }[];
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  user_id?: string; // بيرجع مع تسجيل المدرب بس
 }
 
 export interface LoginRequest {

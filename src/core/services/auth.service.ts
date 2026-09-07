@@ -11,6 +11,7 @@ import {
   ResendOtpRequest,
   User,
   VerifyEmailRequest,
+  type RegisterResponse,
 } from '../models/auth.model';
 
 const TOKEN_KEY = 'token';
@@ -33,7 +34,7 @@ export class AuthService {
 
   // Register
   register(payload: RegisterRequest) {
-    return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/register`, payload);
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, payload);
   }
 
   // Verify Email

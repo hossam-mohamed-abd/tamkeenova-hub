@@ -259,7 +259,9 @@
       "otp": "Please enter a valid code",
       "username": "Username is required (English letters and numbers only)",
       "generic": "Something went wrong, please try again",
-      "invalid_credentials": "Invalid email or password"
+      "invalid_credentials": "Invalid email or password",
+      "specialization": "Please choose your specialization",
+      "url": "Please enter a valid URL (starting with http:// or https://)"
     },
     "optional": "optional",
     "toggle_password": "Show/hide password",
@@ -308,6 +310,41 @@
       "subtitle": "Welcome back, login to continue",
       "submit": "Login",
       "no_account": "Don't have an account?"
+    },
+
+    "trainer_register": {
+      "eyebrow": "Trainer Registration",
+      "title": "Join TamkeeNova as a Trainer",
+      "subtitle": "Submit your application in 3 simple steps and we'll review it and get back to you.",
+      "steps": {
+        "account": "Account Info",
+        "profile": "Professional Profile",
+        "links": "Links & Certificates"
+      },
+      "specialization_label": "Specialization",
+      "specialization_not_found": "Can't find your specialization? Pick the closest one for now — you can request a new one from your profile after your account is approved.",
+      "bio_ar_label": "Short Bio (Arabic)",
+      "bio_en_label": "Short Bio (English)",
+      "description_ar_label": "Detailed Description (Arabic)",
+      "description_en_label": "Detailed Description (English)",
+      "cover_letter_label": "Cover Letter",
+      "linkedin_label": "LinkedIn URL",
+      "facebook_label": "Facebook URL",
+      "website_label": "Personal Website",
+      "portfolio_label": "Portfolio URL",
+      "price_from_label": "Consultation Price From",
+      "price_to_label": "Consultation Price To",
+      "duration_label": "Consultation Duration (min)",
+      "certificates_label": "Certificates",
+      "add_certificate": "Add Certificate",
+      "documents_label": "Documents",
+      "add_document": "Add Document",
+      "file_name_label": "File Name",
+      "file_url_label": "File URL",
+      "remove": "Remove",
+      "back": "Back",
+      "next": "Next",
+      "submit": "Submit Application"
     }
   },
   "dashboard": {

@@ -257,7 +257,9 @@
       "otp": "من فضلك ادخل كود صحيح",
       "username": "اسم المستخدم مطلوب (حروف إنجليزي وأرقام فقط)",
       "generic": "حدث خطأ ما، حاول مرة أخرى",
-      "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
+      "invalid_credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+      "specialization": "من فضلك اختر تخصصك",
+      "url": "من فضلك ادخل رابط صحيح (يبدأ بـ http:// أو https://)"
     },
     "optional": "اختياري",
     "toggle_password": "إظهار/إخفاء كلمة المرور",
@@ -306,6 +308,40 @@
       "subtitle": "أهلاً بعودتك، سجل دخول للمتابعة",
       "submit": "دخول",
       "no_account": "لسه معملتش حساب؟"
+    },
+    "trainer_register": {
+      "eyebrow": "تسجيل كمدرب",
+      "title": "انضم كمدرب في تمكينوفا",
+      "subtitle": "قدّم طلبك في 3 خطوات بسيطة، وهنراجعه ونرجعلك بالرد.",
+      "steps": {
+        "account": "بيانات الحساب",
+        "profile": "الملف الاحترافي",
+        "links": "روابط وشهادات"
+      },
+      "specialization_label": "التخصص",
+      "specialization_not_found": "مش لاقي تخصصك؟ اختار الأقرب دلوقتي، وهتقدر تطلب إضافة تخصص جديد من صفحة البروفايل بعد تفعيل حسابك.",
+      "bio_ar_label": "نبذة مختصرة (عربي)",
+      "bio_en_label": "نبذة مختصرة (إنجليزي)",
+      "description_ar_label": "وصف تفصيلي (عربي)",
+      "description_en_label": "وصف تفصيلي (إنجليزي)",
+      "cover_letter_label": "خطاب التقديم",
+      "linkedin_label": "رابط LinkedIn",
+      "facebook_label": "رابط Facebook",
+      "website_label": "الموقع الشخصي",
+      "portfolio_label": "رابط الأعمال (Portfolio)",
+      "price_from_label": "سعر الاستشارة من",
+      "price_to_label": "سعر الاستشارة إلى",
+      "duration_label": "مدة الاستشارة (دقيقة)",
+      "certificates_label": "الشهادات",
+      "add_certificate": "إضافة شهادة",
+      "documents_label": "المستندات",
+      "add_document": "إضافة مستند",
+      "file_name_label": "اسم الملف",
+      "file_url_label": "رابط الملف",
+      "remove": "حذف",
+      "back": "السابق",
+      "next": "التالي",
+      "submit": "إرسال الطلب"
     }
   },
   "dashboard": {

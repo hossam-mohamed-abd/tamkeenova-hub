@@ -37,6 +37,14 @@ export const routes: Routes = [
       import('../features/auth/register/register.component').then((m) => m.RegisterComponent),
   },
   {
+    path: 'register/trainer',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('../features/auth/register-trainer/trainer-register.component').then(
+        (m) => m.TrainerRegisterComponent,
+      ),
+  },
+  {
     path: 'verify-otp',
     canActivate: [guestGuard],
     loadComponent: () =>

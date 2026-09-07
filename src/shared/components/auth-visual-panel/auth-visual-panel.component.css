@@ -3,7 +3,7 @@
 }
 
 .auth-visual {
-  position: relative;
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

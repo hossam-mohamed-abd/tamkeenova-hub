@@ -4,7 +4,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
-import { UserRole } from '../../../core/models/auth.model';
 import { AuthVisualPanelComponent } from '../../../shared/components/auth-visual-panel/auth-visual-panel.component';
 import { PASSWORD_REQUIREMENTS, passwordScore } from '../../../core/utils/password-strength';
 
@@ -34,7 +33,6 @@ export class RegisterComponent {
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern(/^01[0125]\d{8}$/)]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    role: ['STUDENT' as UserRole, Validators.required],
   });
 
   passwordScore = computed(() => passwordScore(this.passwordValue()));
@@ -75,47 +73,38 @@ export class RegisterComponent {
     this.passwordValue.set(value);
   }
 
-  selectRole(role: UserRole): void {
-    this.form.controls.role.setValue(role);
-  }
-
   togglePasswordVisibility(): void {
     this.showPassword.update((v) => !v);
   }
-submit(): void {
-  if (this.form.invalid) {
-    this.form.markAllAsTouched();
-    Object.keys(this.form.controls).forEach((key) => this.markTouched(key));
-    return;
+
+  submit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      Object.keys(this.form.controls).forEach((key) => this.markTouched(key));
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+
+    const payload = this.form.getRawValue();
+    const cleanPayload = {
+      ...payload,
+      username: payload.username || undefined,
+      role: 'STUDENT' as const,
+    };
+
+    this.authService.register(cleanPayload).subscribe({
+      next: () => {
+        this.authService.setPendingEmail(payload.email);
+        this.isLoading.set(false);
+        this.router.navigate(['/verify-otp']);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        const msg = err?.error?.message;
+        this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+      },
+    });
   }
-
-  this.isLoading.set(true);
-  this.errorMessage.set(null);
-
-  const formValue = this.form.getRawValue();
-
-  const payload = {
-    full_name: formValue.full_name.trim(),
-    email: formValue.email.trim().toLowerCase(),
-    phone: formValue.phone.trim(),
-    password: formValue.password,
-    role: formValue.role,
-    username: formValue.username?.trim() || undefined,
-  };
-
-
-
-  this.authService.register(payload).subscribe({
-    next: () => {
-      this.authService.setPendingEmail(payload.email);
-      this.isLoading.set(false);
-      this.router.navigate(['/verify-otp']);
-    },
-    error: (err) => {
-      this.isLoading.set(false);
-      const msg = err?.error?.message;
-      this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
-    },
-  });
-}
 }

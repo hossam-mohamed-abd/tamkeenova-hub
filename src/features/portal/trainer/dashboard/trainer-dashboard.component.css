@@ -43,3 +43,38 @@
   font-size: 1.6rem;
   color: var(--color-accent);
 }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.stat-value {
+  font-family: var(--font-numeric);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.stat-star {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  margin-inline-start: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
