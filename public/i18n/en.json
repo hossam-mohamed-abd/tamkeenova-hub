@@ -63,10 +63,12 @@
       }
     },
     "team": {
-      "label": "Advisory Team",
-      "title": "Certified experts and trainers leading your path",
+      "label": "Team",
+      "title": "Certified Experts & Trainers",
+      "subtitle": "A select group of certified consultants and trainers across various fields",
       "link": "View All Experts & Trainers",
-      "book_btn": "Book a Consultation"
+      "empty_title": "No trainers available yet",
+      "empty_text": "Approved trainers will be displayed after review"
     },
     "gallery": {
       "label": "From The Field",
@@ -227,7 +229,13 @@
       "title": "Certified experts and trainers leading your path",
       "subtitle": "A select group of certified consultants and trainers across various fields to support you or your organization."
     },
-    "book_btn": "Book a Consultation"
+    "book_btn": "Book a Consultation",
+    "card": {
+      "years": "yrs exp",
+      "consultation_price": "Consultation Price",
+      "minutes": "min",
+      "view_profile": "View Profile"
+    }
   },
   "gallery_page": {
     "hero_eyebrow": "Our Moments",
@@ -497,5 +505,29 @@
     "empty": "No reviews yet",
     "based_on": "Based on {{count}} reviews",
     "no_comment": "No comment"
+  },
+  "team_details": {
+    "back": "Back",
+    "back_to_team": "Back to Team",
+    "not_found_title": "Trainer Not Found",
+    "not_found_text": "The link may have changed or the trainer is not available right now.",
+    "years_exp": "Years of Experience",
+    "students": "Students",
+    "programs": "Programs",
+    "certificates": "Certificates",
+    "reviews": "Reviews",
+    "bio": "Bio",
+    "about": "About",
+    "certificates_title": "Certificates",
+    "no_certificates": "No certificates added yet",
+    "programs_title": "Training Programs",
+    "no_programs": "No programs added yet",
+    "consultation_price": "Consultation Price",
+    "duration": "min",
+    "links": "Social Links",
+    "linkedin": "LinkedIn",
+    "website": "Website",
+    "facebook": "Facebook",
+    "portfolio": "Portfolio"
   }
 }

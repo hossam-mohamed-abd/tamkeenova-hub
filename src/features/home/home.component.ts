@@ -1,12 +1,9 @@
-import { Component, OnDestroy, OnInit, signal,computed } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
-import { Trainer } from '../../core/models/trainer.model';
-import { TrainersService } from '../../core/services/trainers.service';
-import { TrainerCardComponent } from '../../shared/components/trainer-card/trainer-card.component';
-import { TeamShowcaseComponent } from '../../shared/components/team-showcase/team-showcase.component';
-
+// import { TrainersShowcaseComponent } from '../trainers-showcase/trainers-showcase.component';
+import { TrainersShowcaseComponent } from './trainers-showcase/trainers-showcase.component';
 interface ServiceCard {
   icon: string;
   titleKey: string;
@@ -25,13 +22,11 @@ interface PartnerSlot {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, TranslatePipe, FooterComponent, TrainerCardComponent, TeamShowcaseComponent],
+  imports: [RouterLink, TranslatePipe, FooterComponent, TrainersShowcaseComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  constructor(private trainersService: TrainersService) {}
-
   heroImages = [
     '/images/hero/hero1.jpg',
     '/images/hero/hero2.jpg',
@@ -81,8 +76,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       route: '/consulting',
     },
   ];
-  featuredTrainers = signal<Trainer[]>([]);
-  teamMarqueeItems = computed(() => [...this.featuredTrainers(), ...this.featuredTrainers()]);
 
   partnersImages: string[] = [
     '/images/partners/partners1.png',
@@ -91,7 +84,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     '/images/partners/partners4.png',
     '/images/partners/partners5.png',
   ];
-
 
   private readonly slotsCount = 5;
   private readonly staggerMs = 220;
@@ -148,7 +140,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     this.initPartnersWave();
-    this.featuredTrainers.set(this.trainersService.getFeatured(8));
   }
 
   ngOnDestroy(): void {
@@ -183,7 +174,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }, totalDelay);
     this.partnerTimers.push(t);
   }
-
 
   private runWave(): void {
     for (let i = 0; i < this.slotsCount; i++) {

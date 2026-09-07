@@ -1,23 +1,47 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Trainer } from '../models/trainer.model';
-import { TRAINERS } from '../data/trainers.data';
+import { ApiDataResponse } from '../models/auth.model';
+
+interface TrainersListResponse {
+  success: boolean;
+  count: number;
+  data: Trainer[];
+}
+
+interface TrainerSingleResponse {
+  success: boolean;
+  data: Trainer;
+}
 
 @Injectable({ providedIn: 'root' })
 export class TrainersService {
+  private http = inject(HttpClient);
+  private baseUrl = `${environment.apiUrl}/trainers`;
 
-
-  // -- Retrieve All Trainers --
-  getAll(): Trainer[] {
-    return TRAINERS;
+  getAll(): Observable<Trainer[]> {
+    return this.http.get<TrainersListResponse>(this.baseUrl).pipe(map((res) => res.data ?? []));
   }
 
-  // -- Retrieve Featured Trainers --
-  getFeatured(limit = 8): Trainer[] {
-    return TRAINERS.slice(0, limit);
+  getFeatured(limit = 8): Observable<Trainer[]> {
+    return this.getAll().pipe(map((list) => list.slice(0, limit)));
   }
 
-  // -- Retrieve a Trainer by Slug --
-  getBySlug(slug: string): Trainer | undefined {
-    return TRAINERS.find((t) => t.slug === slug);
+  getBySlug(slug: string): Observable<Trainer | null> {
+    return this.http
+      .get<TrainerSingleResponse>(`${this.baseUrl}/${slug}`)
+      .pipe(map((res) => res.data ?? null));
+  }
+
+  getMyProfile(): Observable<Trainer | null> {
+    return this.http
+      .get<TrainerSingleResponse>(`${this.baseUrl}/me`)
+      .pipe(map((res) => res.data ?? null));
+  }
+
+  getTrainerBySlug(slug: string) {
+    return this.http.get<ApiDataResponse<Trainer>>(`${this.baseUrl}/profile/${slug}`);
   }
 }

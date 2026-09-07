@@ -130,5 +130,13 @@ export const routes: Routes = [
     ],
   },
 
+  {
+    path: 'team/:slug',
+    loadComponent: () =>
+      import('../features/team/trainer-details/trainer-details.component').then(
+        (m) => m.TrainerDetailsComponent,
+      ),
+  },
+
   { path: '**', component: NotFoundComponent },
 ];

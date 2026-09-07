@@ -1,19 +1,11 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  HostListener,
-  effect,
-  input,
-  signal,
-  inject,
-} from '@angular/core';
+import { Component, computed, input, OnDestroy, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Trainer } from '../../../core/models/trainer.model';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { BookingService } from '../../../core/services/booking.service';
 
-interface TeamSlot {
+interface TrainerSlot {
   currentTrainer: Trainer;
   nextTrainer: Trainer;
   sliding: boolean;
@@ -23,145 +15,105 @@ interface TeamSlot {
 @Component({
   selector: 'app-team-showcase',
   standalone: true,
-  imports: [StarRatingComponent, TranslatePipe],
+  imports: [CommonModule, RouterLink, TranslatePipe, StarRatingComponent],
   templateUrl: './team-showcase.component.html',
   styleUrl: './team-showcase.component.css',
 })
-export class TeamShowcaseComponent implements OnInit, OnDestroy {
+export class TeamShowcaseComponent implements OnDestroy {
   trainers = input.required<Trainer[]>();
 
-  private bookingService = inject(BookingService);
-  private readonly prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  private readonly slotsCount = 4;
+  private readonly staggerMs = 280;
+  private readonly slideDurationMs = 700;
+  private readonly wavePauseMs = 3000;
 
-
-  private readonly staggerMs = 220;
-  private readonly slideDurationMs = 650;
-  private readonly wavePauseMs = 1400;
-
-  private slotsCount = 4;
   private slotPointers: number[] = [];
   private timers: ReturnType<typeof setTimeout>[] = [];
-  private waveScheduleTimer?: ReturnType<typeof setTimeout>;
-  private isPaused = false;
 
-  slots = signal<TeamSlot[]>([]);
+  slots = signal<TrainerSlot[]>([]);
+
+  // ✅ دالة لحساب الـ rating
+  getTrainerRating(trainer: Trainer): number {
+    if (!trainer.average_rating) return 0;
+
+    if (typeof trainer.average_rating === 'string') {
+      const parsed = parseFloat(trainer.average_rating);
+      return isNaN(parsed) ? 0 : parsed;
+    }
+
+    return Number(trainer.average_rating) || 0;
+  }
+
+  // ✅ دالة للحصول على الاسم
+  getTrainerName(trainer: Trainer): string {
+    return trainer.users?.full_name || 'Unknown';
+  }
+
+  // ✅ دالة للحصول على التخصص
+  getTrainerSpecialization(trainer: Trainer): string {
+    return trainer.specializations?.name_ar || trainer.specializations?.name_en || '';
+  }
+
+  // ✅ دالة للحصول على الصورة
+  getTrainerAvatar(trainer: Trainer): string | null {
+    return trainer.users?.profile_image || null;
+  }
 
   constructor() {
-    effect(() => {
-      const list = this.trainers();
-      if (list.length) this.initSlots();
-    });
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    const prevCount = this.slotsCount;
-    this.updateSlotsCount();
-    if (prevCount !== this.slotsCount) this.initSlots();
-  }
-
-  ngOnInit(): void {
-    this.updateSlotsCount();
+    this.initMarquee();
   }
 
   ngOnDestroy(): void {
-    this.clearTimers();
+    this.timers.forEach((t) => clearTimeout(t));
   }
 
-  onStageEnter(): void {
-    this.isPaused = true;
-  }
-
-  onStageLeave(): void {
-    this.isPaused = false;
-  }
-
-  next(): void {
-    this.triggerWave(1);
-  }
-
-  prev(): void {
-    this.triggerWave(-1);
-  }
-
-  openBooking(trainer: Trainer): void {
-    this.bookingService.open(trainer);
-  }
-
-  private updateSlotsCount(): void {
-    const w = window.innerWidth;
-    if (w >= 1200) this.slotsCount = 4;
-    else if (w >= 900) this.slotsCount = 3;
-    else if (w >= 640) this.slotsCount = 2;
-    else this.slotsCount = 1;
-  }
-
-  private initSlots(): void {
-    this.clearTimers();
+  private initMarquee(): void {
     const list = this.trainers();
-    const total = list.length;
-    if (!total) {
-      this.slots.set([]);
-      return;
-    }
+    if (list.length === 0) return;
 
-    const count = Math.min(this.slotsCount, total);
-    this.slotPointers = Array.from({ length: count }, (_, i) => i % total);
+    const initial = list.slice(0, Math.min(this.slotsCount, list.length));
+    this.slotPointers = initial.map((_, i) => i);
+
     this.slots.set(
-      this.slotPointers.map((ptr) => ({
-        currentTrainer: list[ptr],
-        nextTrainer: list[ptr],
+      initial.map((trainer) => ({
+        currentTrainer: trainer,
+        nextTrainer: trainer,
         sliding: false,
         resetting: false,
       })),
     );
 
-    if (this.prefersReduced || total <= count) return;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
 
-    const startDelay = setTimeout(() => {
-      this.runWave(1);
+    const t = setTimeout(() => {
+      this.runWave();
       this.scheduleNextWave();
-    }, 1400);
-    this.timers.push(startDelay);
+    }, 1500);
+    this.timers.push(t);
   }
 
   private scheduleNextWave(): void {
-    const count = this.slots().length;
-    const waveDuration = (count - 1) * this.staggerMs + this.slideDurationMs;
+    const waveDuration = (this.slotsCount - 1) * this.staggerMs + this.slideDurationMs;
     const totalDelay = waveDuration + this.wavePauseMs;
 
-    this.waveScheduleTimer = setTimeout(() => {
-      if (!this.isPaused) this.runWave(1);
+    const t = setTimeout(() => {
+      this.runWave();
       this.scheduleNextWave();
     }, totalDelay);
-    this.timers.push(this.waveScheduleTimer);
+    this.timers.push(t);
   }
 
-
-  private triggerWave(dir: 1 | -1): void {
-    const total = this.trainers().length;
-    const count = this.slots().length;
-    if (!total || total <= count) return;
-    this.runWave(dir);
-  }
-
-  private runWave(dir: 1 | -1): void {
-    const count = this.slots().length;
-    for (let i = 0; i < count; i++) {
-      const t = setTimeout(() => this.startSlide(i, dir), i * this.staggerMs);
+  private runWave(): void {
+    for (let i = 0; i < this.slotsCount; i++) {
+      const t = setTimeout(() => this.startSlide(i), i * this.staggerMs);
       this.timers.push(t);
     }
   }
 
-  private startSlide(idx: number, dir: 1 | -1): void {
-    const list = this.trainers();
-    const total = list.length;
+  private startSlide(idx: number): void {
     const current = this.slots();
-    if (!current[idx]) return;
-
-    const ptr = (((this.slotPointers[idx] + dir) % total) + total) % total;
-    this.slotPointers[idx] = ptr;
-    const nextTrainer = list[ptr];
+    const nextTrainer = this.pickNextTrainer(idx);
 
     const updated = [...current];
     updated[idx] = { ...updated[idx], nextTrainer, sliding: true };
@@ -173,7 +125,6 @@ export class TeamShowcaseComponent implements OnInit, OnDestroy {
 
   private finishSlide(idx: number): void {
     const s = this.slots();
-    if (!s[idx]) return;
     const updated = [...s];
     updated[idx] = {
       currentTrainer: updated[idx].nextTrainer,
@@ -186,7 +137,6 @@ export class TeamShowcaseComponent implements OnInit, OnDestroy {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const s2 = this.slots();
-        if (!s2[idx]) return;
         const u2 = [...s2];
         u2[idx] = { ...u2[idx], resetting: false };
         this.slots.set(u2);
@@ -194,9 +144,11 @@ export class TeamShowcaseComponent implements OnInit, OnDestroy {
     });
   }
 
-  private clearTimers(): void {
-    this.timers.forEach((t) => clearTimeout(t));
-    this.timers = [];
-    if (this.waveScheduleTimer) clearTimeout(this.waveScheduleTimer);
+  private pickNextTrainer(slotIdx: number): Trainer {
+    const list = this.trainers();
+    const total = list.length;
+    const ptr = (this.slotPointers[slotIdx] + 1) % total;
+    this.slotPointers[slotIdx] = ptr;
+    return list[ptr];
   }
 }

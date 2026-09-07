@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiDataResponse, ApiSuccessMessage } from '../models/auth.model';
@@ -19,18 +19,30 @@ import {
 export class TrainerService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/trainers`;
-
-  // -- Cache the Approval State for Route Guards --
-  private approvedCached = false;
-
+  private approvedStatus = signal(false);
   get isApprovedCached(): boolean {
-    return this.approvedCached;
+    return this.approvedStatus();
   }
 
-  // -- Clear the Cached Approval State --
   resetCache(): void {
-    this.approvedCached = false;
+    this.approvedStatus.set(false);
   }
+
+  getApplicationStatus() {
+    return this.http
+      .get<ApiDataResponse<ApplicationStatusData>>(`${this.baseUrl}/application-status`)
+      .pipe(
+        tap((res) => {
+          // ✅ لو معتمد، احفظ في الـ cache
+          if (res.data.status === 'APPROVED') {
+            this.approvedStatus.set(true);
+          } else {
+            this.approvedStatus.set(false);
+          }
+        }),
+      );
+  }
+
 
   // -- Retrieve the Current Trainer Profile --
   getMyProfile() {
@@ -42,16 +54,6 @@ export class TrainerService {
     return this.http.patch<ApiSuccessMessage>(`${this.baseUrl}/me`, payload);
   }
 
-  // -- Retrieve and Cache the Application Status --
-  getApplicationStatus() {
-    return this.http
-      .get<ApiDataResponse<ApplicationStatusData>>(`${this.baseUrl}/application-status`)
-      .pipe(
-        tap((res) => {
-          if (res.data.status === 'APPROVED') this.approvedCached = true;
-        }),
-      );
-  }
 
   // -- Retrieve Trainer Programs --
   getPrograms() {
