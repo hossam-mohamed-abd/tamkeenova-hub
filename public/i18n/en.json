@@ -351,5 +351,114 @@
     "welcome": "Welcome,",
     "student_subtitle": "Here's an overview of your learning journey",
     "trainer_subtitle": "Manage your programs and sessions"
+  },
+  "days": {
+    "sun": "Sunday",
+    "mon": "Monday",
+    "tue": "Tuesday",
+    "wed": "Wednesday",
+    "thu": "Thursday",
+    "fri": "Friday",
+    "sat": "Saturday"
+  },
+  "trainer_status": {
+    "pending_badge": "Under Review",
+    "approved_badge": "Approved",
+    "rejected_badge": "Rejected",
+    "pending_title": "Your application is under review",
+    "pending_text": "Our team is reviewing your details. We'll email you as soon as your account is approved. Reviews usually take 24–72 hours.",
+    "rejected_title": "Unfortunately, your application was rejected",
+    "rejected_text": "Check the reason below, update your details from your profile page, and we'll review your application again.",
+    "rejection_reason": "Rejection Reason",
+    "no_reason": "No reason was provided.",
+    "timeline_submitted": "Application Sent",
+    "timeline_review": "Admin Review",
+    "timeline_decision": "Final Decision",
+    "refresh": "Refresh Status",
+    "edit_profile": "Edit My Details",
+    "approved_redirect": "Your account is approved! Redirecting to your dashboard..."
+  },
+  "trainer_dashboard": {
+    "programs_count": "Programs",
+    "reviews_count": "Reviews",
+    "availability_count": "Available Slots",
+    "average_rating": "Average Rating",
+    "programs_link": "My Programs",
+    "availability_link": "Availability",
+    "reviews_link": "Reviews"
+  },
+  "trainer_profile": {
+    "specialization_section": "Specialization",
+    "request_new_specialization": "Request a New Specialization",
+    "spec_name_ar": "Specialization Name (Arabic)",
+    "spec_name_en": "Specialization Name (English)",
+    "send_request": "Send Request",
+    "spec_request_sent": "Your request has been sent. The specialization will appear once approved by admin.",
+    "about_section": "Bio & Description",
+    "links_section": "Social Links",
+    "pricing_section": "Consultation Pricing",
+    "save": "Save Changes",
+    "save_success": "Your details were saved successfully"
+  },
+  "trainer_programs": {
+    "title": "My Programs",
+    "subtitle": "Add and manage the training programs you offer",
+    "add": "New Program",
+    "add_first": "Add your first program",
+    "empty": "You haven't added any programs yet",
+    "create_title": "Add New Program",
+    "edit_title": "Edit Program",
+    "create": "Add Program",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "currency": "EGP",
+    "delete_confirm_title": "Delete this program?",
+    "delete_confirm_text": "This action cannot be undone. The program will be permanently deleted.",
+    "fields": {
+      "title": "Program Title",
+      "image_url": "Cover Image URL",
+      "short_description": "Short Description",
+      "description": "Full Description",
+      "price": "Price",
+      "discount_price": "Discounted Price",
+      "duration_hours": "Duration (hours)",
+      "level": "Level"
+    },
+    "errors": {
+      "title": "Program title is required (at least 3 characters)",
+      "price": "Please enter a valid price",
+      "discount_gte_price": "Discounted price must be lower than the original price"
+    }
+  },
+  "trainer_availability": {
+    "title": "Availability",
+    "subtitle": "Set the days and times you're available for consultations",
+    "add": "Add Slot",
+    "add_first": "Add your first slot",
+    "empty": "You haven't set your availability yet",
+    "create_title": "Add New Slot",
+    "edit_title": "Edit Slot",
+    "create": "Add",
+    "save": "Save",
+    "total_slots": "Total Slots",
+    "active_days": "Active Days",
+    "weekly_hours": "Hours / Week",
+    "fields": {
+      "day": "Day",
+      "start": "From",
+      "end": "To"
+    },
+    "errors": {
+      "time_range": "End time must be after start time"
+    }
+  },
+  "trainer_reviews": {
+    "title": "Trainee Reviews",
+    "subtitle": "See what trainees think about your programs and consultations",
+    "empty": "No reviews yet",
+    "based_on": "Based on {{count}} reviews",
+    "no_comment": "No comment"
   }
 }

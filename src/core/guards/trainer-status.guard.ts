@@ -7,15 +7,13 @@ export const trainerStatusGuard: CanActivateFn = () => {
   const trainerService = inject(TrainerService);
   const router = inject(Router);
 
+  if (trainerService.isApprovedCached) return true;
+
   return trainerService.getApplicationStatus().pipe(
     map((res) => {
       if (res.data.status === 'APPROVED') return true;
-      router.navigate(['/portal/trainer/status']);
-      return false;
+      return router.createUrlTree(['/portal/trainer/status']);
     }),
-    catchError(() => {
-      router.navigate(['/portal/trainer/status']);
-      return of(false);
-    }),
+    catchError(() => of(router.createUrlTree(['/portal/trainer/status']))),
   );
 };

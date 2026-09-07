@@ -1,0 +1,12 @@
+.text-success {
+  color: var(--color-success);
+}
+
+.portal-card .btn-outline {
+  margin-top: 0.9rem;
+}
+
+select.field-input {
+  cursor: pointer;
+  appearance: auto;
+}

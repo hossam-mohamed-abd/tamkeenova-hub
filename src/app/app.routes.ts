@@ -4,6 +4,7 @@ import { NotFoundComponent } from '../features/not-found/not-found.component.js'
 import { guestGuard } from '../core/guards/guest.guard';
 import { authGuard } from '../core/guards/auth.guard';
 import { roleGuard } from '../core/guards/role.guard';
+import { trainerStatusGuard } from '../core/guards/trainer-status.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -75,22 +76,63 @@ export const routes: Routes = [
       ),
   },
 
+  // ...
+
   // Trainer Portal
   {
     path: 'portal/trainer',
     canActivate: [authGuard, roleGuard(['TRAINER'])],
-    loadComponent: () =>
-      import('../features/portal/trainer/dashboard/trainer-dashboard.component').then(
-        (m) => m.TrainerDashboardComponent,
-      ),
-  },
-  {
-    path: 'portal/trainer/profile',
-    canActivate: [authGuard, roleGuard(['TRAINER'])],
-    loadComponent: () =>
-      import('../features/portal/trainer/profile/trainer-profile.component').then(
-        (m) => m.TrainerProfileComponent,
-      ),
+    children: [
+      {
+        path: '',
+        canActivate: [trainerStatusGuard],
+        loadComponent: () =>
+          import('../features/portal/trainer/dashboard/trainer-dashboard.component').then(
+            (m) => m.TrainerDashboardComponent,
+          ),
+      },
+      // متاحة لأي مدرب بغض النظر عن حالته
+      {
+        path: 'status',
+        loadComponent: () =>
+          import('../features/portal/trainer/status/trainer-status.component').then(
+            (m) => m.TrainerStatusComponent,
+          ),
+      },
+      // متاحة للمرفوض عشان يعدّل بياناته ويعيد التقديم
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('../features/portal/trainer/profile/trainer-profile.component').then(
+            (m) => m.TrainerProfileComponent,
+          ),
+      },
+      // محمية - للمعتمد فقط
+      {
+        path: 'programs',
+        canActivate: [trainerStatusGuard],
+        loadComponent: () =>
+          import('../features/portal/trainer/programs/trainer-programs.component').then(
+            (m) => m.TrainerProgramsComponent,
+          ),
+      },
+      {
+        path: 'availability',
+        canActivate: [trainerStatusGuard],
+        loadComponent: () =>
+          import('../features/portal/trainer/availability/trainer-availability.component').then(
+            (m) => m.TrainerAvailabilityComponent,
+          ),
+      },
+      {
+        path: 'reviews',
+        canActivate: [trainerStatusGuard],
+        loadComponent: () =>
+          import('../features/portal/trainer/reviews/trainer-reviews.component').then(
+            (m) => m.TrainerReviewsComponent,
+          ),
+      },
+    ],
   },
 
   { path: '**', component: NotFoundComponent },

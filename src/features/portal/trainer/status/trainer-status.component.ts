@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TrainerService } from '../../../../core/services/trainer.service';
@@ -8,16 +8,16 @@ import { ApplicationStatusData } from '../../../../core/models/trainer-profile.m
 @Component({
   selector: 'app-trainer-status',
   standalone: true,
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, RouterLink],
   templateUrl: './trainer-status.component.html',
-  styleUrl: './trainer-status.component.css',
+  styleUrls: ['../../portal-shared.css', './trainer-status.component.css'],
 })
 export class TrainerStatusComponent {
   private trainerService = inject(TrainerService);
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  authCurrentUser = this.authService.currentUser;
+  currentUser = this.authService.currentUser;
 
   isLoading = signal(true);
   errorMessage = signal<string | null>(null);
@@ -37,7 +37,7 @@ export class TrainerStatusComponent {
         this.status.set(res.data);
 
         if (res.data.status === 'APPROVED') {
-          this.router.navigate(['/portal/trainer']);
+          setTimeout(() => this.router.navigate(['/portal/trainer']), 1200);
         }
       },
       error: () => {
@@ -52,6 +52,7 @@ export class TrainerStatusComponent {
   }
 
   logout(): void {
+    this.trainerService.resetCache();
     this.authService.logout();
   }
 }

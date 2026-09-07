@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiDataResponse, ApiSuccessMessage } from '../models/auth.model';
 import {
@@ -19,6 +20,18 @@ export class TrainerService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/trainers`;
 
+  /** بيتحفظ في الذاكرة أول ما الحالة تبقى APPROVED عشان الـ guard ما يعملش request كل مرة */
+  private approvedCached = false;
+
+  get isApprovedCached(): boolean {
+    return this.approvedCached;
+  }
+
+  /** نادِها في AuthService.logout() */
+  resetCache(): void {
+    this.approvedCached = false;
+  }
+
   getMyProfile() {
     return this.http.get<TrainerProfile>(`${this.baseUrl}/me`);
   }
@@ -28,9 +41,13 @@ export class TrainerService {
   }
 
   getApplicationStatus() {
-    return this.http.get<ApiDataResponse<ApplicationStatusData>>(
-      `${this.baseUrl}/application-status`,
-    );
+    return this.http
+      .get<ApiDataResponse<ApplicationStatusData>>(`${this.baseUrl}/application-status`)
+      .pipe(
+        tap((res) => {
+          if (res.data.status === 'APPROVED') this.approvedCached = true;
+        }),
+      );
   }
 
   // ---- Programs ----

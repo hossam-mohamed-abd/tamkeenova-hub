@@ -348,5 +348,114 @@
     "welcome": "أهلاً،",
     "student_subtitle": "دي نظرة عامة على رحلتك التعليمية",
     "trainer_subtitle": "تابع برامجك وجلساتك"
+  },
+  "days": {
+    "sun": "الأحد",
+    "mon": "الاثنين",
+    "tue": "الثلاثاء",
+    "wed": "الأربعاء",
+    "thu": "الخميس",
+    "fri": "الجمعة",
+    "sat": "السبت"
+  },
+  "trainer_status": {
+    "pending_badge": "قيد المراجعة",
+    "approved_badge": "معتمد",
+    "rejected_badge": "مرفوض",
+    "pending_title": "طلبك قيد المراجعة",
+    "pending_text": "فريق تمكينوفا بيراجع بياناتك دلوقتي، وهنبعتلك إيميل أول ما يتم اعتماد حسابك. المراجعة بتاخد عادةً من 24 لـ 72 ساعة.",
+    "rejected_title": "للأسف تم رفض طلبك",
+    "rejected_text": "راجع سبب الرفض تحت، وعدّل بياناتك من صفحة البروفايل عشان نراجع طلبك تاني.",
+    "rejection_reason": "سبب الرفض",
+    "no_reason": "لم يتم توضيح سبب الرفض.",
+    "timeline_submitted": "تم إرسال الطلب",
+    "timeline_review": "مراجعة الإدارة",
+    "timeline_decision": "الرد النهائي",
+    "refresh": "تحديث الحالة",
+    "edit_profile": "تعديل بياناتي",
+    "approved_redirect": "تم اعتماد حسابك! جاري تحويلك للوحة التحكم..."
+  },
+  "trainer_dashboard": {
+    "programs_count": "برامج",
+    "reviews_count": "تقييمات",
+    "availability_count": "مواعيد متاحة",
+    "average_rating": "متوسط التقييم",
+    "programs_link": "برامجي التدريبية",
+    "availability_link": "أوقات التوفر",
+    "reviews_link": "التقييمات"
+  },
+  "trainer_profile": {
+    "specialization_section": "التخصص",
+    "request_new_specialization": "طلب إضافة تخصص جديد",
+    "spec_name_ar": "اسم التخصص (عربي)",
+    "spec_name_en": "اسم التخصص (إنجليزي)",
+    "send_request": "إرسال الطلب",
+    "spec_request_sent": "تم إرسال طلبك، وهيظهر التخصص في القائمة بعد اعتماده من الإدارة.",
+    "about_section": "النبذة والوصف",
+    "links_section": "روابط التواصل",
+    "pricing_section": "أسعار الاستشارات",
+    "save": "حفظ التعديلات",
+    "save_success": "تم حفظ بياناتك بنجاح"
+  },
+  "trainer_programs": {
+    "title": "برامجي التدريبية",
+    "subtitle": "أضف وعدّل البرامج اللي بتقدمها للمتدربين",
+    "add": "برنامج جديد",
+    "add_first": "أضف أول برنامج",
+    "empty": "لسه مضفتش أي برنامج تدريبي",
+    "create_title": "إضافة برنامج جديد",
+    "edit_title": "تعديل البرنامج",
+    "create": "إضافة البرنامج",
+    "save": "حفظ التعديلات",
+    "cancel": "إلغاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "currency": "ج.م",
+    "delete_confirm_title": "حذف البرنامج؟",
+    "delete_confirm_text": "الإجراء ده مش هينفع يترجع فيه، هيتم حذف البرنامج نهائياً.",
+    "fields": {
+      "title": "اسم البرنامج",
+      "image_url": "رابط صورة الغلاف",
+      "short_description": "وصف مختصر",
+      "description": "الوصف التفصيلي",
+      "price": "السعر",
+      "discount_price": "السعر بعد الخصم",
+      "duration_hours": "عدد الساعات",
+      "level": "المستوى"
+    },
+    "errors": {
+      "title": "اسم البرنامج مطلوب (3 أحرف على الأقل)",
+      "price": "من فضلك ادخل سعر صحيح",
+      "discount_gte_price": "السعر بعد الخصم لازم يكون أقل من السعر الأصلي"
+    }
+  },
+  "trainer_availability": {
+    "title": "أوقات التوفر",
+    "subtitle": "حدد الأيام والأوقات اللي بتكون متاح فيها للاستشارات",
+    "add": "إضافة موعد",
+    "add_first": "أضف أول موعد",
+    "empty": "لسه محددتش أوقات توفرك",
+    "create_title": "إضافة موعد جديد",
+    "edit_title": "تعديل الموعد",
+    "create": "إضافة",
+    "save": "حفظ",
+    "total_slots": "إجمالي المواعيد",
+    "active_days": "أيام متاحة",
+    "weekly_hours": "ساعة أسبوعياً",
+    "fields": {
+      "day": "اليوم",
+      "start": "من الساعة",
+      "end": "إلى الساعة"
+    },
+    "errors": {
+      "time_range": "وقت النهاية لازم يكون بعد وقت البداية"
+    }
+  },
+  "trainer_reviews": {
+    "title": "تقييمات المتدربين",
+    "subtitle": "شوف رأي المتدربين في برامجك واستشاراتك",
+    "empty": "لسه مفيش تقييمات",
+    "based_on": "بناءً على {{count}} تقييم",
+    "no_comment": "بدون تعليق"
   }
 }
