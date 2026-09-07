@@ -32,26 +32,27 @@ export class AuthService {
   isStudent = computed(() => this.role() === 'STUDENT');
   isAdmin = computed(() => this.role() === 'ADMIN');
 
-  // Register
+  // -- Register a New User --
   register(payload: RegisterRequest) {
     return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, payload);
   }
 
-  // Verify Email
+  // -- Verify an Email Address --
   verifyEmail(payload: VerifyEmailRequest) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/verify-email`, payload);
   }
 
-  // Resend OTP
+  // -- Resend an Email Verification Code --
   resendOtp(payload: ResendOtpRequest) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/resend-otp`, payload);
   }
 
-  // Login
+  // -- Authenticate a User --
   login(payload: LoginRequest) {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, payload);
   }
 
+  // -- Persist the Authenticated User Session --
   setSession(response: LoginResponse): void {
     const { access_token, user } = response.data;
     localStorage.setItem(TOKEN_KEY, access_token);
@@ -59,11 +60,12 @@ export class AuthService {
     this._currentUser.set(user);
   }
 
-  // Current User
+  // -- Retrieve the Authenticated User --
   fetchCurrentUser() {
     return this.http.get<ApiDataResponse<User>>(`${this.baseUrl}/me`);
   }
 
+  // -- Refresh the Stored User Profile --
   refreshCurrentUser(): void {
     this.fetchCurrentUser().subscribe({
       next: (res) => {
@@ -74,7 +76,7 @@ export class AuthService {
     });
   }
 
-  // Storage Helpers
+  // -- Retrieve the Stored Access Token --
   getToken(): string | null {
     try {
       return localStorage.getItem(TOKEN_KEY);
@@ -83,6 +85,7 @@ export class AuthService {
     }
   }
 
+  // -- Restore a Valid User from Local Storage --
   private readUserFromStorage(): User | null {
     const raw = localStorage.getItem(USER_KEY);
     if (!raw) return null;
@@ -96,7 +99,7 @@ export class AuthService {
     }
   }
 
-  // Logout
+  // -- Clear the Current User Session --
   logout(redirect = true): void {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
@@ -105,9 +108,11 @@ export class AuthService {
   }
 
   private pendingEmail = signal<string | null>(null);
+  // -- Store the Email Awaiting Verification --
   setPendingEmail(email: string): void {
     this.pendingEmail.set(email);
   }
+  // -- Retrieve the Email Awaiting Verification --
   getPendingEmail(): string | null {
     return this.pendingEmail();
   }

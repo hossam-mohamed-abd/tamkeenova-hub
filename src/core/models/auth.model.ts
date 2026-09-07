@@ -5,9 +5,12 @@ export interface User {
   full_name: string;
   username: string;
   email: string;
-  phone?: string;
+  phone: string;
   role: UserRole;
-  is_email_verified?: boolean;
+  profile_image: string | null;  // ← ضيف السطر ده
+  email_verified: boolean;
+  is_active: boolean;
+  created_at: string;
 }
 
 export interface RegisterRequest {
@@ -17,7 +20,7 @@ export interface RegisterRequest {
   password: string;
   role: UserRole;
   username?: string;
-  // حقول المدرب — تتبعت بس لما role = 'TRAINER'
+  // -- Trainer Registration Fields --
   specialization_id?: string;
   bio_ar?: string;
   bio_en?: string;
@@ -38,7 +41,7 @@ export interface RegisterRequest {
 export interface RegisterResponse {
   success: boolean;
   message: string;
-  user_id?: string; // بيرجع مع تسجيل المدرب بس
+  user_id?: string;
 }
 
 export interface LoginRequest {

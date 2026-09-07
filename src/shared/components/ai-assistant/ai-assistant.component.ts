@@ -51,20 +51,24 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  // -- Initialize the Closed Assistant Position --
   ngAfterViewInit(): void {
     this.applyBox(this.shellRef?.nativeElement, this.closedBox());
   }
 
+  // -- Release Active Animation Resources --
   ngOnDestroy(): void {
     if (this.rafId) cancelAnimationFrame(this.rafId);
     if (this.sparkTimer) clearInterval(this.sparkTimer);
   }
 
+  // -- Open the Assistant from Its Trigger --
   onTriggerClick(): void {
     if (this.state() !== 'closed') return;
     this.launch();
   }
 
+  // -- Close the Assistant Panel --
   onClose(): void {
     if (this.state() !== 'open') return;
     this.chat.close();
@@ -75,6 +79,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     this.onClose();
   }
 
+  // -- Submit the Current Chat Draft --
   onSend(): void {
     const text = this.draft;
     this.draft = '';
@@ -89,26 +94,26 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  // -- Resize the Message Field to Its Content --
   autoResize(): void {
     const el = this.inputRef?.nativeElement;
     if (!el) return;
     el.style.height = 'auto';
     el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
   }
-
-
-  // note
-
+  // -- Calculate the Closed Assistant Bounds --
   private closedBox(): Box {
     return { x: 24, y: window.innerHeight - 24 - 60, w: 60, h: 60, r: 30 };
   }
 
+  // -- Calculate the Open Assistant Bounds --
   private openBox(): Box {
     const w = Math.min(420, window.innerWidth - 48);
     const h = Math.min(640, window.innerHeight - 48);
     return { x: (window.innerWidth - w) / 2, y: (window.innerHeight - h) / 2, w, h, r: 24 };
   }
 
+  // -- Apply Bounds to the Assistant Shell --
   private applyBox(el: HTMLDivElement | undefined, box: Box): void {
     if (!el) return;
     el.style.left = `${box.x}px`;
@@ -129,6 +134,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
 
 
 
+  // -- Animate the Assistant into Its Open State --
   private launch(): void {
     const shell = this.shellRef?.nativeElement;
     const mark = this.markRef?.nativeElement;
@@ -201,10 +207,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
 
     this.rafId = requestAnimationFrame(tick);
   }
-
-
-
-
+  // -- Animate the Assistant into Its Closed State --
   private retract(): void {
     const shell = this.shellRef?.nativeElement;
     const mark = this.markRef?.nativeElement;
@@ -244,10 +247,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
       this.state.set('closed');
     }, this.CLOSE_MS);
   }
-
-
-  // note
-
+  // -- Create a Transient Animation Spark --
   private spawnSpark(shell: HTMLDivElement): void {
     const layer = this.sparkLayerRef?.nativeElement;
     if (!layer) return;
@@ -268,10 +268,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
     layer.appendChild(el);
     setTimeout(() => el.remove(), 760);
   }
-
-
-  // note
-
+  // -- Interpolate a Numeric Value --
   private lerp(a: number, b: number, t: number): number {
     return a + (b - a) * t;
   }

@@ -1,5 +1,4 @@
 :root {
-  /* note*/
   --color-text: #101e27;
   --color-text-muted: #5b6b74;
   --color-border: #e1e6ea;
@@ -16,7 +15,6 @@
   --color-danger: #c1554a;
   --color-success: #3e8e6b;
 
-  /* note*/
   --font-family-en: 'Inter', 'Segoe UI', sans-serif;
   --font-family-ar: 'Cairo', 'Tajawal', sans-serif;
 

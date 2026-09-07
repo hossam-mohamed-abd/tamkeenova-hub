@@ -1,7 +1,7 @@
 <header class="navbar" [class.is-scrolled]="isScrolled()">
   <div class="navbar-inner">
 
-    <!-- Logo -->
+    <!-- -- Brand Logo -- -->
     <a routerLink="/" class="navbar-brand"
       (click)="closeMobileMenu()">
       <img src="/images/logo.svg" alt="TamkeeNova"
@@ -18,7 +18,7 @@
       </span>
     </a>
 
-    <!-- Desktop Navigation -->
+    <!-- -- Desktop Navigation -- -->
     <nav class="navbar-links" aria-label="Main navigation">
       @for (link of navLinks; track link.route) {
       <a [routerLink]="link.route"
@@ -30,10 +30,10 @@
       }
     </nav>
 
-    <!-- Actions -->
+    <!-- -- Desktop Actions -- -->
     <div class="navbar-actions">
 
-      <!-- Language Button (Desktop Only) -->
+      <!-- -- Desktop Language Control -- -->
       <button type="button" class="control-btn desktop-only"
         (click)="toggleLanguage()"
         [attr.aria-label]="'nav.toggle_lang' | translate">
@@ -42,7 +42,7 @@
           : 'AR' }}</span>
       </button>
 
-      <!-- Theme Button (Desktop Only) -->
+      <!-- -- Desktop Theme Control -- -->
       <button type="button"
         class="control-btn control-btn-icon desktop-only"
         (click)="toggleTheme()"
@@ -51,7 +51,7 @@
           [class.fa-sun]="isDark()"></i>
       </button>
 
-      <!-- Auth Area (Desktop) -->
+      <!-- -- Desktop Authentication Controls -- -->
       @if (!isLoggedIn()) {
       <a routerLink="/login"
         class="control-btn desktop-only">
@@ -122,7 +122,7 @@
       </div>
       }
 
-      <!-- Mobile Menu Button -->
+      <!-- -- Mobile Menu Control -- -->
       <button type="button" class="menu-toggle"
         (click)="toggleMobileMenu()"
         [attr.aria-label]="'nav.toggle_menu' | translate"
@@ -136,7 +136,7 @@
 
   </div>
 
-  <!-- Mobile Sidebar -->
+  <!-- -- Mobile Navigation Panel -- -->
   <div class="mobile-panel chamfer-lg"
     [class.is-open]="isMobileMenuOpen()">
 
@@ -156,7 +156,7 @@
 
     <div class="mobile-panel-footer">
 
-      <!-- Auth Buttons (Mobile) -->
+      <!-- -- Mobile Authentication Controls -- -->
       @if (!isLoggedIn()) {
       <a routerLink="/login"
         class="control-btn control-btn-block"
@@ -202,7 +202,7 @@
       </a>
       }
 
-      <!-- Language Button -->
+      <!-- -- Mobile Language Control -- -->
       <button type="button"
         class="control-btn control-btn-block"
         (click)="toggleLanguage()">
@@ -211,7 +211,7 @@
           'English' : 'العربية' }}</span>
       </button>
 
-      <!-- Theme Button -->
+      <!-- -- Mobile Theme Control -- -->
       <button type="button"
         class="control-btn control-btn-block"
         (click)="toggleTheme()">
@@ -223,7 +223,7 @@
         </span>
       </button>
 
-      <!-- Logout (Mobile) -->
+      <!-- -- Mobile Logout Control -- -->
       @if (isLoggedIn()) {
       <button type="button"
         class="control-btn control-btn-block text-danger"

@@ -1,5 +1,3 @@
-/* note*/
-/* note*/
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {

@@ -30,7 +30,7 @@ export const routes: Routes = [
       ),
   },
 
-  // Auth
+  // -- Authentication Routes --
   {
     path: 'register',
     canActivate: [guestGuard],
@@ -58,7 +58,7 @@ export const routes: Routes = [
       import('../features/auth/login/login.component').then((m) => m.LoginComponent),
   },
 
-  // Student Portal
+  // -- Student Portal Routes --
   {
     path: 'portal/student',
     canActivate: [authGuard, roleGuard(['STUDENT'])],
@@ -76,9 +76,7 @@ export const routes: Routes = [
       ),
   },
 
-  // ...
-
-  // Trainer Portal
+  // -- Trainer Portal Routes --
   {
     path: 'portal/trainer',
     canActivate: [authGuard, roleGuard(['TRAINER'])],
@@ -91,7 +89,6 @@ export const routes: Routes = [
             (m) => m.TrainerDashboardComponent,
           ),
       },
-      // متاحة لأي مدرب بغض النظر عن حالته
       {
         path: 'status',
         loadComponent: () =>
@@ -99,7 +96,6 @@ export const routes: Routes = [
             (m) => m.TrainerStatusComponent,
           ),
       },
-      // متاحة للمرفوض عشان يعدّل بياناته ويعيد التقديم
       {
         path: 'profile',
         loadComponent: () =>
@@ -107,7 +103,6 @@ export const routes: Routes = [
             (m) => m.TrainerProfileComponent,
           ),
       },
-      // محمية - للمعتمد فقط
       {
         path: 'programs',
         canActivate: [trainerStatusGuard],

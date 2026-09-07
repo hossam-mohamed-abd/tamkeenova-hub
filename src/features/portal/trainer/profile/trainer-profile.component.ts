@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -15,6 +15,8 @@ import { TrainerProfile } from '../../../../core/models/trainer-profile.model';
 
 const URL_PATTERN = /^https?:\/\/.+/;
 
+type TabId = 'general' | 'specialization' | 'links' | 'pricing' | 'certificates' | 'documents';
+
 @Component({
   selector: 'app-trainer-profile',
   standalone: true,
@@ -27,15 +29,32 @@ export class TrainerProfileComponent {
   private trainerService = inject(TrainerService);
   private specializationService = inject(SpecializationService);
 
+  readonly tabs: Array<{ id: TabId; icon: string; labelKey: string }> = [
+    { id: 'general', icon: 'fa-user', labelKey: 'trainer_profile.tabs.general' },
+    { id: 'specialization', icon: 'fa-briefcase', labelKey: 'trainer_profile.tabs.specialization' },
+    { id: 'links', icon: 'fa-link', labelKey: 'trainer_profile.tabs.links' },
+    { id: 'pricing', icon: 'fa-tag', labelKey: 'trainer_profile.tabs.pricing' },
+    { id: 'certificates', icon: 'fa-certificate', labelKey: 'trainer_profile.tabs.certificates' },
+    { id: 'documents', icon: 'fa-file-lines', labelKey: 'trainer_profile.tabs.documents' },
+  ];
+
+  activeTab = signal<TabId>('general');
+
   isLoading = signal(true);
   isSaving = signal(false);
   saveSuccess = signal(false);
   errorMessage = signal<string | null>(null);
   profile = signal<TrainerProfile | null>(null);
 
+  isUploadingImage = signal(false);
+  uploadImageError = signal<string | null>(null);
+  profileImage = signal<string | null>(null);
+
   showSpecRequest = signal(false);
   specRequestSaving = signal(false);
   specRequestDone = signal(false);
+
+  hasChanges = computed(() => this.form.dirty);
 
   specRequestForm = this.fb.nonNullable.group({
     name_ar: ['', Validators.required],
@@ -75,6 +94,7 @@ export class TrainerProfileComponent {
     this.trainerService.getMyProfile().subscribe({
       next: (profile) => {
         this.profile.set(profile);
+        this.profileImage.set(profile.users.profile_image);
 
         this.form.patchValue({
           bio_ar: profile.bio_ar ?? '',
@@ -115,6 +135,7 @@ export class TrainerProfileComponent {
           );
         });
 
+        this.form.markAsPristine();
         this.isLoading.set(false);
       },
       error: () => {
@@ -124,31 +145,50 @@ export class TrainerProfileComponent {
     });
   }
 
-  addCertificate(): void {
-    this.certificateUrls.push(
-      new FormControl('', {
-        nonNullable: true,
-        validators: [Validators.required, Validators.pattern(URL_PATTERN)],
-      }),
-    );
+  setTab(id: TabId): void {
+    this.activeTab.set(id);
   }
 
-  removeCertificate(index: number): void {
-    this.certificateUrls.removeAt(index);
+  triggerFileInput(): void {
+    const input = document.getElementById('profile-image-input') as HTMLInputElement;
+    input?.click();
   }
 
-  addDocument(): void {
-    this.documents.push(
-      this.fb.nonNullable.group({
-        file_name: ['', Validators.required],
-        file_url: ['', [Validators.required, Validators.pattern(URL_PATTERN)]],
-        file_type: ['CV', Validators.required],
-      }),
-    );
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      this.uploadImageError.set('trainer_profile.errors.invalid_image_type');
+      return;
+    }
+
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      this.uploadImageError.set('trainer_profile.errors.image_too_large');
+      return;
+    }
+
+    this.uploadImage(file);
   }
 
-  removeDocument(index: number): void {
-    this.documents.removeAt(index);
+  uploadImage(file: File): void {
+    this.isUploadingImage.set(true);
+    this.uploadImageError.set(null);
+
+    this.trainerService.uploadProfileImage(file).subscribe({
+      next: (res) => {
+        this.isUploadingImage.set(false);
+        this.profileImage.set(res.profile_image);
+      },
+      error: (err) => {
+        this.isUploadingImage.set(false);
+        const msg = err?.error?.message;
+        this.uploadImageError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+      },
+    });
   }
 
   toggleSpecRequest(): void {
@@ -174,6 +214,35 @@ export class TrainerProfileComponent {
         this.specRequestSaving.set(false);
       },
     });
+  }
+
+  addCertificate(): void {
+    this.certificateUrls.push(
+      new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.pattern(URL_PATTERN)],
+      }),
+    );
+  }
+
+  removeCertificate(index: number): void {
+    this.certificateUrls.removeAt(index);
+    this.form.markAsDirty();
+  }
+
+  addDocument(): void {
+    this.documents.push(
+      this.fb.nonNullable.group({
+        file_name: ['', Validators.required],
+        file_url: ['', [Validators.required, Validators.pattern(URL_PATTERN)]],
+        file_type: ['CV', Validators.required],
+      }),
+    );
+  }
+
+  removeDocument(index: number): void {
+    this.documents.removeAt(index);
+    this.form.markAsDirty();
   }
 
   save(): void {
@@ -208,7 +277,8 @@ export class TrainerProfileComponent {
       next: () => {
         this.isSaving.set(false);
         this.saveSuccess.set(true);
-        this.load();
+        this.form.markAsPristine();
+        setTimeout(() => this.saveSuccess.set(false), 3000);
       },
       error: (err) => {
         this.isSaving.set(false);

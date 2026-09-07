@@ -42,7 +42,7 @@
   margin-top: 0;
 }
 
-/* ============ Fields (shared primitives) ============ */
+/* -- Shared Field Controls -- */
 .field {
   position: relative;
 }
@@ -126,7 +126,7 @@
   margin-top: 0.5rem;
 }
 
-/* ============ Buttons ============ */
+/* -- Shared Buttons -- */
 .btn-outline {
   height: 46px;
   padding-inline: 1.3rem;
@@ -144,7 +144,7 @@
   border-color: var(--color-primary);
 }
 
-/* ============ Dynamic lists (certificates / documents) ============ */
+/* -- Dynamic Document Lists -- */
 .dynamic-list {
   display: flex;
   flex-direction: column;
@@ -212,7 +212,7 @@
   background: color-mix(in srgb, var(--color-primary) 5%, transparent);
 }
 
-/* ============ Item list / rows ============ */
+/* -- Item Lists -- */
 .item-list {
   display: flex;
   flex-direction: column;
@@ -280,7 +280,7 @@
   color: var(--color-danger);
 }
 
-/* ============ Empty state ============ */
+/* -- Empty States -- */
 .empty-state {
   text-align: center;
   padding: 3rem 1.5rem;
@@ -293,7 +293,7 @@
   color: var(--color-border);
 }
 
-/* ============ Badges ============ */
+/* -- Status Badges -- */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -326,7 +326,7 @@
   margin: 1.5rem 0;
 }
 
-/* ============ Modal ============ */
+/* -- Modal -- */
 .modal-backdrop {
   position: fixed;
   inset: 0;

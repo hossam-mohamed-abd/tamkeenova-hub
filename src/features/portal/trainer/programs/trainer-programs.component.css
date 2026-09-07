@@ -14,7 +14,7 @@
   font-size: 0.95rem;
 }
 
-/* ===== Grid ===== */
+/* -- Program Grid -- */
 .programs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -131,7 +131,7 @@
   border-top: 1px solid var(--color-border);
 }
 
-/* ===== Modal head ===== */
+/* -- Modal Header -- */
 .modal-head {
   display: flex;
   align-items: center;
@@ -145,7 +145,7 @@
   color: var(--color-text);
 }
 
-/* ===== Confirm ===== */
+/* -- Deletion Confirmation -- */
 .confirm-card {
   max-width: 420px;
   text-align: center;

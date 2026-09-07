@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { UserRole } from '../models/auth.model';
 
+// -- Restrict a Route to the Allowed User Roles --
 export function roleGuard(allowedRoles: UserRole[]): CanActivateFn {
   return () => {
     const authService = inject(AuthService);

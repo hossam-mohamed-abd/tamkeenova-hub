@@ -57,7 +57,7 @@
   max-width: 420px;
 }
 
-/* Timeline */
+/* -- Application Timeline -- */
 .status-timeline {
   list-style: none;
   display: flex;
@@ -116,7 +116,7 @@ li.is-current .tl-label {
   color: var(--color-text);
 }
 
-/* Rejection box */
+/* -- Rejection Notice -- */
 .rejection-box {
   width: 100%;
   text-align: start;
@@ -142,7 +142,7 @@ li.is-current .tl-label {
   color: var(--color-text);
 }
 
-/* Actions */
+/* -- Status Actions -- */
 .status-actions {
   display: flex;
   gap: 0.7rem;

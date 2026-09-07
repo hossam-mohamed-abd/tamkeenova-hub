@@ -20,26 +20,29 @@ export class TrainerService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/trainers`;
 
-  /** بيتحفظ في الذاكرة أول ما الحالة تبقى APPROVED عشان الـ guard ما يعملش request كل مرة */
+  // -- Cache the Approval State for Route Guards --
   private approvedCached = false;
 
   get isApprovedCached(): boolean {
     return this.approvedCached;
   }
 
-  /** نادِها في AuthService.logout() */
+  // -- Clear the Cached Approval State --
   resetCache(): void {
     this.approvedCached = false;
   }
 
+  // -- Retrieve the Current Trainer Profile --
   getMyProfile() {
     return this.http.get<TrainerProfile>(`${this.baseUrl}/me`);
   }
 
+  // -- Update the Current Trainer Profile --
   updateMyProfile(payload: UpdateTrainerProfilePayload) {
     return this.http.patch<ApiSuccessMessage>(`${this.baseUrl}/me`, payload);
   }
 
+  // -- Retrieve and Cache the Application Status --
   getApplicationStatus() {
     return this.http
       .get<ApiDataResponse<ApplicationStatusData>>(`${this.baseUrl}/application-status`)
@@ -50,51 +53,68 @@ export class TrainerService {
       );
   }
 
-  // ---- Programs ----
+  // -- Retrieve Trainer Programs --
   getPrograms() {
     return this.http.get<TrainerProgram[]>(`${this.baseUrl}/programs`);
   }
 
+  // -- Create a Trainer Program --
   createProgram(payload: ProgramPayload) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/programs`, payload);
   }
 
+  // -- Update a Trainer Program --
   updateProgram(id: string, payload: ProgramPayload) {
     return this.http.put<ApiSuccessMessage>(`${this.baseUrl}/programs/${id}`, payload);
   }
 
+  // -- Delete a Trainer Program --
   deleteProgram(id: string) {
     return this.http.delete<ApiSuccessMessage>(`${this.baseUrl}/programs/${id}`);
   }
 
-  // ---- Availability ----
+  // -- Retrieve Availability Slots --
   getAvailability() {
     return this.http.get<AvailabilitySlot[]>(`${this.baseUrl}/availability`);
   }
 
+  // -- Create an Availability Slot --
   createAvailability(payload: AvailabilityPayload) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/availability`, payload);
   }
 
+  // -- Update an Availability Slot --
   updateAvailability(id: string, payload: Partial<AvailabilityPayload>) {
     return this.http.patch<ApiSuccessMessage>(`${this.baseUrl}/availability/${id}`, payload);
   }
 
+  // -- Delete an Availability Slot --
   deleteAvailability(id: string) {
     return this.http.delete<ApiSuccessMessage>(`${this.baseUrl}/availability/${id}`);
   }
 
-  // ---- Reviews ----
+  // -- Retrieve Trainer Reviews --
   getTrainerReviews(trainerId: string) {
     return this.http.get<TrainerReview[]>(`${this.baseUrl}/${trainerId}/reviews`);
   }
 
+  // -- Submit a Trainer Review --
   createReview(trainerId: string, payload: { rating: number; comment: string }) {
     return this.http.post<ApiSuccessMessage>(`${this.baseUrl}/${trainerId}/reviews`, payload);
   }
 
-  // ---- Dashboard ----
+  // -- Retrieve Trainer Dashboard Statistics --
   getDashboardStats() {
     return this.http.get<ApiDataResponse<TrainerDashboardStats>>(`${this.baseUrl}/dashboard`);
+  }
+
+  uploadProfileImage(file: File) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    return this.http.post<{ success: boolean; profile_image: string }>(
+      `${this.baseUrl}/upload-profile-image`,
+      formData,
+    );
   }
 }

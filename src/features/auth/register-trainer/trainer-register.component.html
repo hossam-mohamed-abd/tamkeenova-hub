@@ -14,7 +14,7 @@
       <p class="auth-subtitle text-muted">{{
         'auth.trainer_register.subtitle' | translate }}</p>
 
-      <!-- Step indicator -->
+      <!-- -- Registration Step Indicator -- -->
       <div class="step-indicator">
         @for (i of [1, 2, 3]; track i) {
         <div class="step-indicator-item"
@@ -38,7 +38,7 @@
       <form [formGroup]="form" (ngSubmit)="submit()"
         class="auth-form" novalidate>
 
-        <!-- ===================== STEP 1 ===================== -->
+        <!-- -- Personal Information Step -- -->
         @if (currentStep() === 1) {
 
         <div class="field"
@@ -215,7 +215,7 @@
         </div>
         }
 
-        <!-- ===================== STEP 2 ===================== -->
+        <!-- -- Professional Information Step -- -->
         @if (currentStep() === 2) {
 
         <div class="field">
@@ -268,7 +268,7 @@
         </div>
         }
 
-        <!-- ===================== STEP 3 ===================== -->
+        <!-- -- Supporting Documents Step -- -->
         @if (currentStep() === 3) {
 
         <div class="field"
@@ -369,7 +369,7 @@
           </div>
         </div>
 
-        <!-- Certificates -->
+        <!-- -- Certificate Entries -- -->
         <div class="field">
           <span class="field-label">{{
             'auth.trainer_register.certificates_label' |
@@ -400,7 +400,7 @@
           </button>
         </div>
 
-        <!-- Documents -->
+        <!-- -- Document Entries -- -->
         <div class="field">
           <span class="field-label">{{
             'auth.trainer_register.documents_label' |
@@ -451,7 +451,7 @@
         </div>
         }
 
-        <!-- Step navigation -->
+        <!-- -- Step Navigation -- -->
         <div class="step-nav">
           @if (currentStep() > 1) {
           <button type="button" class="btn-step-back"

@@ -16,7 +16,7 @@
     }
   </div>
 
-  <!-- ===== Summary ===== -->
+  <!-- -- Availability Summary -- -->
   @if (!isLoading() && slots().length > 0) {
   <div class="avail-summary">
     <div class="avail-summary-item surface">
@@ -43,7 +43,7 @@
   </div>
   }
 
-  <!-- ===== Form ===== -->
+  <!-- -- Availability Form -- -->
   @if (showForm()) {
   <form [formGroup]="form" (ngSubmit)="save()"
     class="portal-card surface chamfer-sm avail-form"
@@ -112,7 +112,7 @@
   </form>
   }
 
-  <!-- ===== List ===== -->
+  <!-- -- Availability List -- -->
   @if (isLoading()) {
   <div class="empty-state"><i
       class="fa-solid fa-spinner fa-spin"></i></div>

@@ -22,7 +22,7 @@ html[dir='rtl'] .rtl-flip {
   --py: 0;
 }
 
-/* Stars */
+/* -- Star Field -- */
 .star-field {
   position: absolute;
   inset: 0;
@@ -50,7 +50,7 @@ html[dir='rtl'] .rtl-flip {
   }
 }
 
-/* Orbs */
+/* -- Background Orbs -- */
 .orb-field {
   position: absolute;
   inset: 0;
@@ -88,7 +88,7 @@ html[dir='rtl'] .rtl-flip {
   }
 }
 
-/* Fragment */
+/* -- Fragment Effect -- */
 .fragment-field {
   position: absolute;
   inset: 0;
@@ -126,7 +126,7 @@ html[dir='rtl'] .rtl-flip {
   }
 }
 
-/* Scan */
+/* -- Scan Effect -- */
 .scan-overlay {
   position: absolute;
   inset: 0;
@@ -152,7 +152,7 @@ html[dir='rtl'] .rtl-flip {
   }
 }
 
-/* Content */
+/* -- Page Content -- */
 .notfound-content {
   position: relative;
   z-index: 4;
@@ -162,7 +162,7 @@ html[dir='rtl'] .rtl-flip {
   margin-block-start: 8rem;
 }
 
-/* Glitch */
+/* -- Glitch Effect -- */
 .glitch-number {
   position: relative;
   display: inline-block;
@@ -276,7 +276,7 @@ html[dir='rtl'] .rtl-flip {
   margin-block-end: 2.25rem;
 }
 
-/* CTA */
+/* -- Call to Action -- */
 .notfound-actions {
   display: flex;
   align-items: center;
@@ -364,7 +364,7 @@ html[dir='rtl'] .rtl-flip {
   }
 }
 
-/* Mark */
+/* -- Brand Mark -- */
 .broken-mark {
   position: absolute;
   top: 14%;

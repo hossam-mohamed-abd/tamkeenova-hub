@@ -6,7 +6,7 @@ export interface TrainerDocument {
   file_type: string;
 }
 
-// الحقول الإضافية اللي بتتبعت مع /auth/register لما role = TRAINER
+// -- Additional Trainer Registration Fields --
 export interface TrainerRegisterExtra {
   specialization_id: string;
   bio_ar?: string;

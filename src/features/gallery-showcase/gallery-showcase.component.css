@@ -2,7 +2,7 @@
   display: block;
 }
 
-/* Hero Heading */
+/* -- Hero Heading -- */
 .gshowcase-hero {
   padding-block-start: 4rem;
   margin-block-end: 3.5rem;
@@ -58,7 +58,7 @@
   }
 }
 
-/* Marquee */
+/* -- Image Marquee -- */
 .ghero-marquee {
   position: relative;
   display: flex;
@@ -157,7 +157,7 @@
   }
 }
 
-/* Section Heading */
+/* -- Section Heading -- */
 .gshowcase-section {
   padding: 0 6vw 5rem;
 }
@@ -183,7 +183,7 @@
   color: var(--color-text);
 }
 
-/* Masonry */
+/* -- Masonry Grid -- */
 .gmasonry-grid {
   column-count: 4;
   column-gap: 1.1rem;
@@ -224,7 +224,7 @@
   opacity: 0;
   transform: translateY(28px) scale(0.97);
 
-  /* Aspect Ratio */
+  /* -- Image Aspect Ratio -- */
   aspect-ratio: attr(style type(<number>)), 1;
 
   transform-style: preserve-3d;
@@ -240,7 +240,7 @@
   }
 }
 
-/* Entrance Stagger */
+/* -- Entrance Animation -- */
 @supports (animation-timeline: view()) {
   .gmasonry-tile[appScrollReveal] {
     animation-delay: calc(var(--i, 0) * 70ms);
@@ -300,7 +300,7 @@
   transform: scale(1.07);
 }
 
-/* Glow */
+/* -- Visual Glow -- */
 .gmasonry-glow {
   position: absolute;
   inset: 0;
@@ -357,7 +357,7 @@
   transform: scale(1) translateY(0);
 }
 
-/* Lightbox */
+/* -- Lightbox -- */
 .glightbox-backdrop {
   position: fixed;
   inset: 0;

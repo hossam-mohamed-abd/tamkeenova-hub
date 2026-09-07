@@ -28,6 +28,7 @@ export class ChatService {
     this.isOpen.set(false);
   }
 
+  // -- Update the Localized Welcome Message --
   setWelcomeMessage(text: string): void {
     this.messages.update((msgs) => {
       if (msgs.length && msgs[0].id === 0) {
@@ -37,6 +38,7 @@ export class ChatService {
     });
   }
 
+  // -- Send a User Message and Append the Assistant Response --
   async send(text: string): Promise<void> {
     const trimmed = text.trim();
     if (!trimmed) return;
@@ -50,6 +52,7 @@ export class ChatService {
     this.messages.update((msgs) => [...msgs, { id: this.nextId++, role: 'assistant', text: reply }]);
   }
 
+  // -- Provide a Temporary Assistant Response --
   private fakeAssistantReply(_userText: string): Promise<string> {
     return new Promise((resolve) => {
       setTimeout(() => {

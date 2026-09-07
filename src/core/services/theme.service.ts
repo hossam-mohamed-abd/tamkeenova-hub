@@ -34,28 +34,34 @@ export class ThemeService {
     });
   }
 
+  // -- Toggle the Application Theme --
   toggleTheme(): void {
     this.theme.set(this.theme() === 'light' ? 'dark' : 'light');
   }
 
+  // -- Set the Application Theme --
   setTheme(mode: ThemeMode): void {
     this.theme.set(mode);
   }
 
+  // -- Toggle the Application Language --
   toggleLanguage(): void {
     this.language.set(this.language() === 'ar' ? 'en' : 'ar');
   }
 
+  // -- Set the Application Language --
   setLanguage(lang: Language): void {
     this.language.set(lang);
   }
 
+  // -- Resolve the Initial Theme Preference --
   private getStoredTheme(): ThemeMode {
     const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
     if (stored) return stored;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
+  // -- Resolve the Initial Language Preference --
   private getStoredLanguage(): Language {
     const stored = localStorage.getItem(LANG_KEY) as Language | null;
     return stored ?? 'ar';

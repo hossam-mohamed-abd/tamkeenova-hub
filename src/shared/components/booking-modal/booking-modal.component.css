@@ -171,7 +171,6 @@ textarea.form-control {
   background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 }
 
-/* note*/
 .btn-submit {
   display: inline-flex;
   align-items: center;
@@ -195,7 +194,6 @@ textarea.form-control {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* note*/
 .success-state {
   display: flex;
   flex-direction: column;

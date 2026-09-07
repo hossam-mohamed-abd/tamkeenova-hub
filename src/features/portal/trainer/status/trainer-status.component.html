@@ -22,7 +22,7 @@
 
     @else if (status(); as s) {
 
-    <!-- ====== PENDING ====== -->
+    <!-- -- Pending Application State -- -->
     @if (s.status === 'PENDING') {
     <div class="status-icon is-pending">
       <i class="fa-solid fa-hourglass-half"></i>
@@ -72,7 +72,7 @@
     </div>
     }
 
-    <!-- ====== REJECTED ====== -->
+    <!-- -- Rejected Application State -- -->
     @else if (s.status === 'REJECTED') {
     <div class="status-icon is-rejected">
       <i class="fa-solid fa-circle-xmark"></i>
@@ -109,7 +109,7 @@
     </div>
     }
 
-    <!-- ====== APPROVED (لحظة قبل التحويل) ====== -->
+    <!-- -- Approved Application State -- -->
     @else {
     <div class="status-icon is-approved">
       <i class="fa-solid fa-circle-check"></i>

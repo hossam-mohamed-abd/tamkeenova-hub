@@ -1,68 +1,253 @@
 <section class="dashboard-page">
-  <div class="dashboard-header">
-    <h1>{{ 'dashboard.welcome' | translate }} {{
-      currentUser()?.full_name }}</h1>
-    <p class="text-muted">{{ 'dashboard.trainer_subtitle' |
-      translate }}</p>
+  @if (isLoading()) {
+  <div class="dashboard-loader">
+    <div class="loader-spinner"></div>
+    <p>{{ 'loader.loading' | translate }}</p>
+  </div>
+  } @else {
+
+  <!-- ========== HERO ========== -->
+  <div class="dashboard-hero chamfer-sm">
+    <div class="dashboard-hero-bg"></div>
+
+    <div class="dashboard-hero-content">
+      <div class="dashboard-hero-avatar">
+        @if (currentUser()?.profile_image) {
+        <img [src]="currentUser()!.profile_image!"
+          [alt]="currentUser()?.full_name" />
+        } @else {
+        <div class="dashboard-hero-avatar-placeholder">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        }
+        <div class="dashboard-hero-avatar-badge">
+          <i class="fa-solid fa-chalkboard-user"></i>
+        </div>
+      </div>
+
+      <div class="dashboard-hero-info">
+        <span class="dashboard-hero-greeting">{{
+          'dashboard.welcome' | translate }}</span>
+        <h1 class="dashboard-hero-name">{{
+          currentUser()?.full_name }}</h1>
+        <p class="dashboard-hero-subtitle">{{
+          'dashboard.trainer_subtitle' | translate }}</p>
+      </div>
+
+      @if (stats(); as s) {
+      <div class="dashboard-hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-value">{{ s.programs_count
+            }}</span>
+          <span class="hero-stat-label">{{
+            'trainer_dashboard.programs_count' | translate
+            }}</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">{{ s.reviews_count
+            }}</span>
+          <span class="hero-stat-label">{{
+            'trainer_dashboard.reviews_count' | translate
+            }}</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-value">{{ s.average_rating
+            | number: '1.1-1' }}<i
+              class="fa-solid fa-star"></i></span>
+          <span class="hero-stat-label">{{
+            'trainer_dashboard.average_rating' | translate
+            }}</span>
+        </div>
+      </div>
+      }
+    </div>
   </div>
 
-  @if (!isLoading() && stats(); as s) {
-  <div class="stats-grid">
-    <div class="stat-card surface">
-      <span class="stat-value">{{ s.programs_count }}</span>
-      <span class="stat-label">{{
-        'trainer_dashboard.programs_count' | translate
-        }}</span>
+  <!-- ========== PROFILE COMPLETION ========== -->
+  @if (profileCompletion() < 100) { <div
+    class="profile-completion-card surface animate-in">
+    <div class="completion-header">
+      <div>
+        <h3>{{ 'trainer_dashboard.complete_profile' |
+          translate }}</h3>
+        <p class="text-muted">{{
+          'trainer_dashboard.complete_profile_desc' |
+          translate }}</p>
+      </div>
+      <span class="completion-badge">{{ profileCompletion()
+        }}%</span>
     </div>
-    <div class="stat-card surface">
-      <span class="stat-value">{{ s.reviews_count }}</span>
-      <span class="stat-label">{{
-        'trainer_dashboard.reviews_count' | translate
-        }}</span>
+
+    <div class="completion-bar">
+      <div class="completion-fill"
+        [style.width.%]="profileCompletion()"></div>
     </div>
-    <div class="stat-card surface">
-      <span class="stat-value">{{ s.availability_count
-        }}</span>
-      <span class="stat-label">{{
-        'trainer_dashboard.availability_count' | translate
-        }}</span>
+
+    <div class="completion-tips">
+      @if (stats(); as s) {
+      @if (s.programs_count === 0) {
+      <a routerLink="/portal/trainer/programs"
+        class="completion-tip">
+        <i class="fa-solid fa-circle-plus"></i>
+        {{ 'trainer_dashboard.tips.add_programs' | translate
+        }}
+      </a>
+      }
+      @if (s.availability_count === 0) {
+      <a routerLink="/portal/trainer/availability"
+        class="completion-tip">
+        <i class="fa-solid fa-circle-plus"></i>
+        {{ 'trainer_dashboard.tips.set_availability' |
+        translate }}
+      </a>
+      }
+      }
     </div>
-    <div class="stat-card surface">
-      <span class="stat-value">{{ s.average_rating }}<i
-          class="fa-solid fa-star stat-star"></i></span>
-      <span class="stat-label">{{
-        'trainer_dashboard.average_rating' | translate
-        }}</span>
     </div>
-  </div>
-  }
+    }
 
-  <div class="dashboard-grid">
-    <a routerLink="/portal/trainer/profile"
-      class="dashboard-card surface chamfer-sm">
-      <i class="fa-solid fa-user"></i>
-      <span>{{ 'nav.my_profile' | translate }}</span>
-    </a>
+    <!-- ========== QUICK ACTIONS ========== -->
+    <div class="quick-actions-section">
+      <h2 class="section-title">{{
+        'trainer_dashboard.quick_actions' | translate }}
+      </h2>
 
-    <a routerLink="/portal/trainer/programs"
-      class="dashboard-card surface chamfer-sm">
-      <i class="fa-solid fa-book"></i>
-      <span>{{ 'trainer_dashboard.programs_link' | translate
-        }}</span>
-    </a>
+      <div class="quick-actions-grid">
+        @for (action of quickActions; track action.route) {
+        <a [routerLink]="action.route"
+          class="quick-action-card surface chamfer-sm"
+          [attr.data-color]="action.color">
+          <div class="quick-action-icon">
+            <i class="fa-solid" [class]="action.icon"></i>
+          </div>
+          <span class="quick-action-label">{{
+            action.labelKey | translate }}</span>
+          <i
+            class="quick-action-arrow fa-solid fa-arrow-left rtl-flip"></i>
+        </a>
+        }
+      </div>
+    </div>
 
-    <a routerLink="/portal/trainer/availability"
-      class="dashboard-card surface chamfer-sm">
-      <i class="fa-solid fa-calendar-days"></i>
-      <span>{{ 'trainer_dashboard.availability_link' |
-        translate }}</span>
-    </a>
+    <!-- ========== MAIN SECTIONS ========== -->
+    @if (stats(); as s) {
+    <div class="dashboard-sections">
+      <h2 class="section-title">{{
+        'trainer_dashboard.overview' | translate }}</h2>
 
-    <a routerLink="/portal/trainer/reviews"
-      class="dashboard-card surface chamfer-sm">
-      <i class="fa-solid fa-star"></i>
-      <span>{{ 'trainer_dashboard.reviews_link' | translate
-        }}</span>
-    </a>
-  </div>
+      <div class="sections-grid">
+        <!-- Programs -->
+        <a routerLink="/portal/trainer/programs"
+          class="section-card surface chamfer-sm animate-in">
+          <div class="section-card-header">
+            <div class="section-card-icon"
+              style="--icon-color: var(--color-primary)">
+              <i class="fa-solid fa-book"></i>
+            </div>
+            <div class="section-card-count">{{
+              s.programs_count }}</div>
+          </div>
+          <div class="section-card-body">
+            <h3 class="section-card-title">{{
+              'trainer_dashboard.programs_link' | translate
+              }}</h3>
+            <p class="section-card-desc text-muted">{{
+              'trainer_dashboard.programs_desc' | translate
+              }}</p>
+          </div>
+          <div class="section-card-footer">
+            <span>{{ 'trainer_dashboard.view_all' |
+              translate }}</span>
+            <i class="fa-solid fa-arrow-left rtl-flip"></i>
+          </div>
+        </a>
+
+        <!-- Availability -->
+        <a routerLink="/portal/trainer/availability"
+          class="section-card surface chamfer-sm animate-in"
+          style="animation-delay: 0.1s">
+          <div class="section-card-header">
+            <div class="section-card-icon"
+              style="--icon-color: var(--color-accent)">
+              <i class="fa-solid fa-calendar-days"></i>
+            </div>
+            <div class="section-card-count">{{
+              s.availability_count }}</div>
+          </div>
+          <div class="section-card-body">
+            <h3 class="section-card-title">{{
+              'trainer_dashboard.availability_link' |
+              translate }}</h3>
+            <p class="section-card-desc text-muted">{{
+              'trainer_dashboard.availability_desc' |
+              translate }}</p>
+          </div>
+          <div class="section-card-footer">
+            <span>{{ 'trainer_dashboard.manage' | translate
+              }}</span>
+            <i class="fa-solid fa-arrow-left rtl-flip"></i>
+          </div>
+        </a>
+
+        <!-- Reviews -->
+        <a routerLink="/portal/trainer/reviews"
+          class="section-card surface chamfer-sm animate-in"
+          style="animation-delay: 0.2s">
+          <div class="section-card-header">
+            <div class="section-card-icon"
+              style="--icon-color: var(--color-success)">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div class="section-card-count">
+              {{ s.average_rating | number: '1.1-1' }}
+              <span
+                class="section-card-count-small">/5</span>
+            </div>
+          </div>
+          <div class="section-card-body">
+            <h3 class="section-card-title">{{
+              'trainer_dashboard.reviews_link' | translate
+              }}</h3>
+            <p class="section-card-desc text-muted">
+              {{ 'trainer_dashboard.reviews_desc' |
+              translate: { count: s.reviews_count } }}
+            </p>
+          </div>
+          <div class="section-card-footer">
+            <span>{{ 'trainer_dashboard.view_all' |
+              translate }}</span>
+            <i class="fa-solid fa-arrow-left rtl-flip"></i>
+          </div>
+        </a>
+
+        <!-- Profile -->
+        <a routerLink="/portal/trainer/profile"
+          class="section-card surface chamfer-sm animate-in"
+          style="animation-delay: 0.3s">
+          <div class="section-card-header">
+            <div class="section-card-icon"
+              style="--icon-color: var(--color-text)">
+              <i class="fa-solid fa-user-pen"></i>
+            </div>
+          </div>
+          <div class="section-card-body">
+            <h3 class="section-card-title">{{
+              'nav.my_profile' | translate }}</h3>
+            <p class="section-card-desc text-muted">{{
+              'trainer_dashboard.profile_desc' | translate
+              }}</p>
+          </div>
+          <div class="section-card-footer">
+            <span>{{ 'trainer_dashboard.edit' | translate
+              }}</span>
+            <i class="fa-solid fa-arrow-left rtl-flip"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+    }
+
+    }
 </section>

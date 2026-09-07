@@ -1,57 +1,137 @@
-import { Component, computed, signal } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component.js';
-import { Program, ProgramFormat, ProgramLevel } from '../../core/models/program.model';
+import { RouterLink } from '@angular/router';
+import { Program, ProgramLevel } from '../../core/models/program.model';
+import { ProgramsService } from '../../core/services/programs.service';
 
 @Component({
   selector: 'app-programs',
   standalone: true,
-  imports: [TranslatePipe, FormsModule, PageHeaderComponent],
+  imports: [CommonModule, TranslatePipe, FormsModule, RouterLink],
   templateUrl: './programs.component.html',
-  styleUrl: './programs.component.css'
+  styleUrl: './programs.component.css',
 })
 export class ProgramsComponent {
+  private programsService = inject(ProgramsService);
+  private translate = inject(TranslateService);
 
-
-  private allPrograms = signal<Program[]>([]);
+  isLoading = signal(true);
+  allPrograms = signal<Program[]>([]);
 
   searchTerm = signal('');
   selectedCategory = signal<string>('all');
-  selectedFormat = signal<ProgramFormat | 'all'>('all');
   selectedLevel = signal<ProgramLevel | 'all'>('all');
 
+  readonly levels: Array<{ value: ProgramLevel | 'all'; labelKey: string }> = [
+    { value: 'all', labelKey: 'programs.filter.all_levels' },
+    { value: 'BEGINNER', labelKey: 'programs.level.beginner' },
+    { value: 'INTERMEDIATE', labelKey: 'programs.level.intermediate' },
+    { value: 'ADVANCED', labelKey: 'programs.level.advanced' },
+  ];
+
   categories = computed(() => {
-    const unique = new Set(this.allPrograms().map((p) => p.category));
-    return Array.from(unique);
+    const programs = this.allPrograms();
+
+    if (!Array.isArray(programs) || programs.length === 0) {
+      return ['all'];
+    }
+
+    const unique = new Set(
+      programs.map((p) => p?.category).filter((c): c is string => !!c && c !== ''),
+    );
+
+    return ['all', ...Array.from(unique)];
   });
 
   filteredPrograms = computed(() => {
+    const programs = this.allPrograms();
+    if (!Array.isArray(programs)) return [];
+
     const term = this.searchTerm().trim().toLowerCase();
     const category = this.selectedCategory();
-    const format = this.selectedFormat();
     const level = this.selectedLevel();
 
-    return this.allPrograms().filter((program) => {
+    return programs.filter((program) => {
+      if (!program) return false;
+
       const matchesTerm =
         !term ||
-        program.title.ar.toLowerCase().includes(term) ||
-        program.title.en.toLowerCase().includes(term);
+        (program.title?.toLowerCase().includes(term) ?? false) ||
+        (program.trainer?.name?.toLowerCase().includes(term) ?? false) ||
+        (program.short_description?.toLowerCase().includes(term) ?? false);
+
       const matchesCategory = category === 'all' || program.category === category;
-      const matchesFormat = format === 'all' || program.format === format;
       const matchesLevel = level === 'all' || program.level === level;
 
-      return matchesTerm && matchesCategory && matchesFormat && matchesLevel;
+      return matchesTerm && matchesCategory && matchesLevel;
     });
   });
 
-  hasAnyPrograms = computed(() => this.allPrograms().length > 0);
+  hasAnyPrograms = computed(() => {
+    const programs = this.allPrograms();
+    return Array.isArray(programs) && programs.length > 0;
+  });
 
-  levelLabelKey(level: ProgramLevel): string {
-    return `programs.level.${level}`;
+  activeFiltersCount = computed(() => {
+    let count = 0;
+    if (this.selectedCategory() !== 'all') count++;
+    if (this.selectedLevel() !== 'all') count++;
+    return count;
+  });
+
+  currentLang = computed(() => this.translate.currentLang);
+
+  constructor() {
+    this.load();
   }
 
-  formatLabelKey(format: ProgramFormat): string {
-    return `programs.format.${format}`;
+  load(): void {
+    this.isLoading.set(true);
+
+    this.programsService.getAllPublic().subscribe({
+      next: (response) => {
+        console.log('📦 Programs loaded:', response);
+
+        // ✅ تحقق من نوع الـ response
+        let programsArray: Program[] = [];
+
+        if (Array.isArray(response)) {
+          programsArray = response;
+        } else if (response && typeof response === 'object') {
+          // لو الـ response object فيه data
+          programsArray = (response as any).data ?? [];
+        }
+
+        this.allPrograms.set(programsArray);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('❌ Failed to load programs:', err);
+        this.allPrograms.set([]);
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  clearFilters(): void {
+    this.searchTerm.set('');
+    this.selectedCategory.set('all');
+    this.selectedLevel.set('all');
+  }
+
+  setCategory(cat: string): void {
+    console.log('🔽 Category selected:', cat);
+    this.selectedCategory.set(cat);
+  }
+
+  setLevel(level: ProgramLevel | 'all'): void {
+    console.log('🔽 Level selected:', level);
+    this.selectedLevel.set(level);
+  }
+
+  levelLabelKey(level: ProgramLevel): string {
+    return `programs.level.${level.toLowerCase()}`;
   }
 }

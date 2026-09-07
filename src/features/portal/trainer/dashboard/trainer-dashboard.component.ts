@@ -1,5 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../../core/services/auth.service';
 import { TrainerService } from '../../../../core/services/trainer.service';
@@ -8,17 +9,56 @@ import { TrainerDashboardStats } from '../../../../core/models/trainer-profile.m
 @Component({
   selector: 'app-trainer-dashboard',
   standalone: true,
-  imports: [RouterLink, TranslatePipe],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './trainer-dashboard.component.html',
-  styleUrl: './trainer-dashboard.component.css',
+  styleUrls: ['../../portal-shared.css', './trainer-dashboard.component.css'],
 })
 export class TrainerDashboardComponent {
   authService = inject(AuthService);
   private trainerService = inject(TrainerService);
+  private router = inject(Router);
 
   currentUser = this.authService.currentUser;
   isLoading = signal(true);
   stats = signal<TrainerDashboardStats | null>(null);
+
+  // Computed للتحقق من اكتمال البروفايل
+  profileCompletion = computed(() => {
+    const s = this.stats();
+    if (!s) return 0;
+
+    let completed = 0;
+    const total = 5;
+
+    if (s.programs_count > 0) completed++;
+    if (s.availability_count > 0) completed++;
+    if (s.reviews_count > 0) completed++;
+    completed++; // البروفايل موجود
+    if (s.average_rating > 0) completed++;
+
+    return Math.round((completed / total) * 100);
+  });
+
+  quickActions = [
+    {
+      icon: 'fa-user-pen',
+      labelKey: 'trainer_dashboard.actions.edit_profile',
+      route: '/portal/trainer/profile',
+      color: 'primary',
+    },
+    {
+      icon: 'fa-book-medical',
+      labelKey: 'trainer_dashboard.actions.add_program',
+      route: '/portal/trainer/programs',
+      color: 'accent',
+    },
+    {
+      icon: 'fa-calendar-plus',
+      labelKey: 'trainer_dashboard.actions.set_availability',
+      route: '/portal/trainer/availability',
+      color: 'success',
+    },
+  ];
 
   constructor() {
     this.trainerService.getDashboardStats().subscribe({
@@ -28,5 +68,9 @@ export class TrainerDashboardComponent {
       },
       error: () => this.isLoading.set(false),
     });
+  }
+
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
   }
 }

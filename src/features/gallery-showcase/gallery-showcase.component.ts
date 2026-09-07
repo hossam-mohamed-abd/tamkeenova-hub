@@ -31,6 +31,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   marqueeRowTop = computed(() => this.buildMarqueeRow(0));
   marqueeRowBottom = computed(() => this.buildMarqueeRow(1));
 
+  // -- Build a Repeating Marquee Row --
   private buildMarqueeRow(offset: 0 | 1): string[] {
     const all = this.heroImages();
     const row = all.filter((_, i) => i % 2 === offset);
@@ -38,7 +39,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return [...row, ...row];
   }
 
-  // Lightbox state
+  // -- Lightbox State --
   lightboxSection = signal<LightboxSection>(null);
   lightboxIndex = signal(0);
   originX = signal(50);
@@ -54,6 +55,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return list[this.lightboxIndex()] ?? null;
   });
 
+  // -- Load Gallery Images --
   ngOnInit(): void {
     this.heroImages.set(this.galleryService.getHeroImages());
     this.programs.set(this.galleryService.getPrograms());
@@ -64,6 +66,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     document.body.style.overflow = '';
   }
 
+  // -- Retrieve the Active Lightbox Image List --
   private activeList(): GalleryImage[] {
     const section = this.lightboxSection();
     if (section === 'programs') return this.programs();
@@ -71,7 +74,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return [];
   }
 
-  // Image loading 
+  // -- Record Image Dimensions and Load State --
   onImageLoad(event: Event, src: string): void {
     const img = event.target as HTMLImageElement;
     if (img.naturalWidth && img.naturalHeight) {
@@ -92,6 +95,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     return this.imageAspect().get(src) ?? null;
   }
 
+  // -- Apply a Pointer-Based Tile Tilt Effect --
   onTileTilt(event: MouseEvent): void {
     if (this.prefersReduced) return;
     const el = event.currentTarget as HTMLElement;
@@ -106,13 +110,14 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     el.style.setProperty('--glow-y', `${py * 100}%`);
   }
 
+  // -- Reset the Tile Tilt Effect --
   onTileTiltReset(event: MouseEvent): void {
     const el = event.currentTarget as HTMLElement;
     el.style.setProperty('--tilt-x', '0deg');
     el.style.setProperty('--tilt-y', '0deg');
   }
 
-  // Lightbox actions
+  // -- Open the Image Lightbox --
   openLightbox(event: MouseEvent, section: 'programs' | 'events', index: number): void {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -124,6 +129,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     document.body.style.overflow = 'hidden';
   }
 
+  // -- Close the Image Lightbox --
   closeLightbox(): void {
     this.lightboxSection.set(null);
     document.body.style.overflow = '';
@@ -137,6 +143,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
     this.navigate(-1);
   }
 
+  // -- Navigate Between Lightbox Images --
   private navigate(dir: 1 | -1): void {
     const total = this.activeList().length;
     if (!total) return;
@@ -149,6 +156,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown', ['$event'])
+  // -- Handle Lightbox Keyboard Navigation --
   onKeydown(event: KeyboardEvent): void {
     if (!this.isLightboxOpen) return;
     if (event.key === 'Escape') this.closeLightbox();

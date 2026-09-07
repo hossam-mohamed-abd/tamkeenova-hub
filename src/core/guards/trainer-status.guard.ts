@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 import { TrainerService } from '../services/trainer.service';
 
+// -- Restrict a Route to Approved Trainers --
 export const trainerStatusGuard: CanActivateFn = () => {
   const trainerService = inject(TrainerService);
   const router = inject(Router);

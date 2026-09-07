@@ -2,7 +2,7 @@
   max-width: 560px;
 }
 
-/* ============ Step indicator ============ */
+/* -- Step Indicator -- */
 .step-indicator {
   display: flex;
   align-items: flex-start;
@@ -77,7 +77,7 @@
   color: var(--color-text);
 }
 
-/* ============ Specialization chips ============ */
+/* -- Specialization Options -- */
 .spec-loading {
   font-size: 0.85rem;
   display: flex;
@@ -123,7 +123,7 @@
   color: #fff;
 }
 
-/* ============ Textareas ============ */
+/* -- Text Areas -- */
 .field-textarea {
   height: auto;
   padding-block: 0.7rem;
@@ -133,7 +133,7 @@
   line-height: 1.5;
 }
 
-/* ============ Row of fields (pricing) ============ */
+/* -- Pricing Fields -- */
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -146,7 +146,7 @@
   }
 }
 
-/* ============ Dynamic lists (certificates / documents) ============ */
+/* -- Dynamic Document Lists -- */
 .dynamic-list {
   display: flex;
   flex-direction: column;
@@ -214,7 +214,7 @@
   background: color-mix(in srgb, var(--color-primary) 5%, transparent);
 }
 
-/* ============ Step navigation ============ */
+/* -- Step Navigation -- */
 .step-nav {
   display: flex;
   gap: 0.7rem;

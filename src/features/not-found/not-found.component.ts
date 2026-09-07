@@ -40,7 +40,7 @@ interface Fragment {
 export class NotFoundComponent {
   @ViewChild('stage') private stageRef?: ElementRef<HTMLDivElement>;
 
-  // Stars
+  // -- Animated Star Field --
   readonly stars: Star[] = Array.from({ length: 50 }, () => ({
     top: Math.random() * 100,
     left: Math.random() * 100,
@@ -49,14 +49,14 @@ export class NotFoundComponent {
     duration: 2.5 + Math.random() * 2.5,
   }));
 
-  // Orbs
+  // -- Background Orb Configuration --
   readonly orbs: Orb[] = [
     { top: 18, left: 12, size: 320, depth: 14, duration: 16, variant: 'primary' },
     { top: 68, left: 80, size: 380, depth: 18, duration: 20, variant: 'accent' },
     { top: 78, left: 20, size: 240, depth: 10, duration: 13, variant: 'primary' },
   ];
 
-  // Fragment
+  // -- Floating Fragment Configuration --
   readonly fragments: Fragment[] = [
     { top: 14, left: 10, width: 90, height: 26, depth: 32, duration: 7, delay: 0, rotate: -8 },
     { top: 68, left: 8, width: 26, height: 96, depth: 40, duration: 9, delay: 0.6, rotate: 6 },
@@ -65,7 +65,7 @@ export class NotFoundComponent {
     { top: 78, left: 46, width: 24, height: 70, depth: 28, duration: 10, delay: 0.9, rotate: -4 },
   ];
 
-  // Parallax
+  // -- Apply a Pointer-Based Parallax Effect --
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     const stage = this.stageRef?.nativeElement;
@@ -79,7 +79,7 @@ export class NotFoundComponent {
     stage.style.setProperty('--py', `${py}`);
   }
 
-  // Reset
+  // -- Reset the Parallax Effect --
   onMouseLeave(): void {
     const stage = this.stageRef?.nativeElement;
     if (!stage) return;

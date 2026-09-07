@@ -1,5 +1,5 @@
 <div class="notfound-stage" #stage (mouseleave)="onMouseLeave()">
-  <!-- Stars -->
+  <!-- -- Star Field -- -->
   <div class="star-field" aria-hidden="true">
     @for (star of stars; track $index) {
       <span
@@ -14,7 +14,7 @@
     }
   </div>
 
-  <!-- Orbs -->
+  <!-- -- Background Orbs -- -->
   <div class="orb-field" aria-hidden="true">
     @for (orb of orbs; track $index) {
       <div
@@ -33,7 +33,7 @@
     }
   </div>
 
-  <!-- Fragment -->
+  <!-- -- Fragment Effect -- -->
   <div class="fragment-field" aria-hidden="true">
     @for (frag of fragments; track $index) {
       <div
@@ -54,10 +54,10 @@
     }
   </div>
 
-  <!-- Scan -->
+  <!-- -- Scan Effect -- -->
   <div class="scan-overlay" aria-hidden="true"></div>
 
-  <!-- Mark -->
+  <!-- -- Brand Mark -- -->
   <div class="broken-mark" aria-hidden="true">
     <svg class="broken-mark-svg" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -83,7 +83,7 @@
     </svg>
   </div>
 
-  <!-- Content -->
+  <!-- -- Page Content -- -->
   <div class="notfound-content">
     <div class="glitch-number" [attr.data-text]="'404'">404</div>
 

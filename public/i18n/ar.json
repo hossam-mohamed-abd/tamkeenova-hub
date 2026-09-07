@@ -107,14 +107,22 @@
     "header": {
       "eyebrow": "دليل البرامج والدورات التدريبية المعتمدة",
       "title": "البرامج والمنح التدريبية",
-      "subtitle": "فرص تدريبية تأهيلية تبدأ بها مشوارك الاحترافي، ببرامج عملية مصممة على أيدي خبراء واستشاريين، بشهادات معتمدة، وتحديث مستمر يناسب متطلبات سوق العمل."
+      "subtitle": "فرص تدريبية تأهيلية تبدأ بها مشوارك الاحترافي، ببرامج عملية مصممة على أيدي خبراء واستشاريين"
     },
-    "search_placeholder": "ابحث عن برنامج...",
+    "stats": {
+      "total_programs": "برنامج متاح",
+      "categories": "مجال",
+      "opportunities": "فرصة"
+    },
+    "search_placeholder": "ابحث عن برنامج أو مدرب...",
     "filter": {
+      "category": "المجال",
+      "level": "المستوى",
       "all_categories": "كل المجالات",
-      "all_formats": "كل الأنظمة",
-      "all_levels": "كل المستويات"
+      "all_levels": "كل المستويات",
+      "clear": "مسح الفلاتر"
     },
+    "results_count": "{{count}} برنامج متاح",
     "format": {
       "onsite": "حضوري",
       "online": "أونلاين",
@@ -126,16 +134,15 @@
       "advanced": "متقدم"
     },
     "hours_unit": "ساعة",
-    "seats_left": "متبقي {{count}} مقعد",
     "view_details": "التفاصيل والتسجيل",
     "status": {
       "closed": "التسجيل مغلق"
     },
-    "no_results": "مفيش برامج مطابقة لبحثك، جرب تغيّر الفلاتر.",
+    "no_results": "لا توجد برامج مطابقة للبحث",
     "empty": {
-      "title": "لا توجد برامج متاح الحجز بها حالياً",
-      "text": "تابعنا قريباً لإطلاق المنح والبرامج الجديدة، أو تواصل معانا لو محتاج استشارة أو برنامج مخصص لمؤسستك.",
-      "cta": "تواصل معنا الآن"
+      "title": "لا توجد برامج متاحة حالياً",
+      "text": "تابعنا قريباً لإطلاق البرامج الجديدة",
+      "cta": "تواصل معنا"
     }
   },
   "consultingPage": {
@@ -380,22 +387,52 @@
     "reviews_count": "تقييمات",
     "availability_count": "مواعيد متاحة",
     "average_rating": "متوسط التقييم",
-    "programs_link": "برامجي التدريبية",
+    "programs_link": "البرامج التدريبية",
     "availability_link": "أوقات التوفر",
-    "reviews_link": "التقييمات"
+    "reviews_link": "التقييمات",
+    "complete_profile": "أكمل بروفايلك",
+    "complete_profile_desc": "كلما أكملت بروفايلك، زادت فرصك في الوصول للمتدربين",
+    "tips": {
+      "add_programs": "أضف برنامجك الأول",
+      "set_availability": "حدد أوقات توفرك"
+    },
+    "quick_actions": "إجراءات سريعة",
+    "actions": {
+      "edit_profile": "تعديل البروفايل",
+      "add_program": "إضافة برنامج جديد",
+      "set_availability": "تحديد المواعيد"
+    },
+    "overview": "نظرة عامة",
+    "programs_desc": "إدارة برامجك التدريبية",
+    "availability_desc": "إدارة أوقات التوفر",
+    "reviews_desc": "{{count}} تقييم من المتدربين",
+    "profile_desc": "تعديل بياناتك الشخصية",
+    "view_all": "عرض الكل",
+    "manage": "إدارة",
+    "edit": "تعديل"
   },
   "trainer_profile": {
-    "specialization_section": "التخصص",
-    "request_new_specialization": "طلب إضافة تخصص جديد",
+    "tabs": {
+      "general": "عام",
+      "specialization": "التخصص",
+      "links": "الروابط",
+      "pricing": "الأسعار",
+      "certificates": "الشهادات",
+      "documents": "المستندات"
+    },
+    "change_image": "تغيير الصورة",
+    "upload_image": "رفع صورة",
+    "errors": {
+      "invalid_image_type": "من فضلك اختر ملف صورة صحيح",
+      "image_too_large": "حجم الصورة كبير جداً (أقصى حد 5 ميجا)"
+    },
+    "request_new_specialization": "طلب تخصص جديد",
     "spec_name_ar": "اسم التخصص (عربي)",
     "spec_name_en": "اسم التخصص (إنجليزي)",
     "send_request": "إرسال الطلب",
-    "spec_request_sent": "تم إرسال طلبك، وهيظهر التخصص في القائمة بعد اعتماده من الإدارة.",
-    "about_section": "النبذة والوصف",
-    "links_section": "روابط التواصل",
-    "pricing_section": "أسعار الاستشارات",
+    "spec_request_sent": "تم إرسال طلبك بنجاح",
     "save": "حفظ التعديلات",
-    "save_success": "تم حفظ بياناتك بنجاح"
+    "save_success": "تم حفظ التعديلات بنجاح"
   },
   "trainer_programs": {
     "title": "برامجي التدريبية",

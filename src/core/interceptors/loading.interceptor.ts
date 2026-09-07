@@ -5,6 +5,7 @@ import { LoaderService } from '../services/loader.service';
 
 let activeRequests = 0;
 
+// -- Track Requests to Control the Global Loader --
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loader = inject(LoaderService);
 
