@@ -6,7 +6,7 @@
   </div>
   } @else {
 
-  <!-- ========== HERO ========== -->
+  <!-- -- Hero Section -- -->
   <div class="dashboard-hero chamfer-sm">
     <div class="dashboard-hero-bg"></div>
 
@@ -65,7 +65,7 @@
     </div>
   </div>
 
-  <!-- ========== PROFILE COMPLETION ========== -->
+  <!-- -- Profile Completion -- -->
   @if (profileCompletion() < 100) { <div
     class="profile-completion-card surface animate-in">
     <div class="completion-header">
@@ -108,7 +108,7 @@
     </div>
     }
 
-    <!-- ========== QUICK ACTIONS ========== -->
+    <!-- -- Quick Actions -- -->
     <div class="quick-actions-section">
       <h2 class="section-title">{{
         'trainer_dashboard.quick_actions' | translate }}
@@ -131,14 +131,14 @@
       </div>
     </div>
 
-    <!-- ========== MAIN SECTIONS ========== -->
+    <!-- -- Dashboard Sections -- -->
     @if (stats(); as s) {
     <div class="dashboard-sections">
       <h2 class="section-title">{{
         'trainer_dashboard.overview' | translate }}</h2>
 
       <div class="sections-grid">
-        <!-- Programs -->
+        <!-- -- Programs Summary -- -->
         <a routerLink="/portal/trainer/programs"
           class="section-card surface chamfer-sm animate-in">
           <div class="section-card-header">
@@ -164,7 +164,7 @@
           </div>
         </a>
 
-        <!-- Availability -->
+        <!-- -- Availability Summary -- -->
         <a routerLink="/portal/trainer/availability"
           class="section-card surface chamfer-sm animate-in"
           style="animation-delay: 0.1s">
@@ -191,7 +191,7 @@
           </div>
         </a>
 
-        <!-- Reviews -->
+        <!-- -- Reviews Summary -- -->
         <a routerLink="/portal/trainer/reviews"
           class="section-card surface chamfer-sm animate-in"
           style="animation-delay: 0.2s">
@@ -222,7 +222,7 @@
           </div>
         </a>
 
-        <!-- Profile -->
+        <!-- -- Profile Summary -- -->
         <a routerLink="/portal/trainer/profile"
           class="section-card surface chamfer-sm animate-in"
           style="animation-delay: 0.3s">

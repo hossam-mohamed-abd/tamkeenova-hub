@@ -22,7 +22,7 @@ export class TrainerDashboardComponent {
   isLoading = signal(true);
   stats = signal<TrainerDashboardStats | null>(null);
 
-  // Computed للتحقق من اكتمال البروفايل
+  // -- Calculate Dashboard Completion Progress --
   profileCompletion = computed(() => {
     const s = this.stats();
     if (!s) return 0;
@@ -33,7 +33,7 @@ export class TrainerDashboardComponent {
     if (s.programs_count > 0) completed++;
     if (s.availability_count > 0) completed++;
     if (s.reviews_count > 0) completed++;
-    completed++; // البروفايل موجود
+    completed++;
     if (s.average_rating > 0) completed++;
 
     return Math.round((completed / total) * 100);
@@ -70,6 +70,7 @@ export class TrainerDashboardComponent {
     });
   }
 
+  // -- Navigate to a Trainer Portal Route --
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }

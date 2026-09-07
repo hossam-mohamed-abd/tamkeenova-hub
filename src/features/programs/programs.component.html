@@ -1,6 +1,6 @@
 <section class="programs-page">
 
-  <!-- ========== HERO HEADER ========== -->
+  <!-- -- Hero Header -- -->
   <div class="programs-hero">
     <div class="programs-hero-bg">
       <div class="hero-shape hero-shape-1"></div>
@@ -22,7 +22,7 @@
         {{ 'programs.header.subtitle' | translate }}
       </p>
 
-      <!-- Search Box in Hero -->
+      <!-- -- Hero Search Control -- -->
       <div class="hero-search-box animate-in">
         <i
           class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -38,7 +38,7 @@
         }
       </div>
 
-      <!-- Quick Stats -->
+      <!-- -- Program Statistics -- -->
       @if (!isLoading() && hasAnyPrograms()) {
       <div class="hero-stats animate-in">
         <div class="hero-stat">
@@ -70,12 +70,12 @@
     </div>
   </div>
 
-  <!-- ========== FILTERS ========== -->
+  <!-- -- Program Filters -- -->
   <div class="filters animate-in">
 
 
 
-    <!-- Category Pills -->
+    <!-- -- Category Filters -- -->
     @if (categories().length > 1) {
     <div class="filter-group">
       <span class="filter-label">
@@ -100,7 +100,7 @@
     </div>
     }
 
-    <!-- Level Pills -->
+    <!-- -- Level Filters -- -->
     <div class="filter-group">
       <span class="filter-label">
         <i class="fa-solid fa-layer-group"></i>
@@ -121,7 +121,7 @@
       </div>
     </div>
 
-    <!-- Results Count + Clear -->
+    <!-- -- Filter Summary and Reset -- -->
     <div class="filter-actions">
       @if (filteredPrograms().length > 0) {
       <span class="results-count">
@@ -141,7 +141,7 @@
     </div>
   </div>
 
-  <!-- ========== LOADING ========== -->
+  <!-- -- Loading State -- -->
   @if (isLoading()) {
   <div class="programs-grid">
     @for (i of [1,2,3,4,5,6]; track i) {
@@ -161,7 +161,7 @@
   </div>
   }
 
-  <!-- ========== PROGRAMS GRID ========== -->
+  <!-- -- Program Grid -- -->
   @else if (hasAnyPrograms()) {
   @if (filteredPrograms().length > 0) {
   <div class="programs-grid">
@@ -170,7 +170,7 @@
     <article class="program-card surface chamfer-sm"
       [style.--delay]="i * 0.05 + 's'">
 
-      <!-- Cover -->
+      <!-- -- Program Cover -- -->
       <div class="program-cover"
         [style.background-image]="program.image_url ? 'url(' + program.image_url + ')' : 'none'">
         @if (!program.image_url) {
@@ -179,7 +179,7 @@
         </div>
         }
 
-        <!-- Badges -->
+        <!-- -- Program Badges -- -->
         <div class="program-badges">
           <span class="program-badge badge-level"
             [attr.data-level]="program.level.toLowerCase()">
@@ -196,10 +196,10 @@
         <div class="program-cover-overlay"></div>
       </div>
 
-      <!-- Body -->
+      <!-- -- Program Details -- -->
       <div class="program-body">
 
-        <!-- Trainer Info -->
+        <!-- -- Trainer Details -- -->
         <div class="program-trainer">
           <div class="trainer-avatar">
             @if (program.trainer.avatar) {
@@ -219,17 +219,17 @@
           </div>
         </div>
 
-        <!-- Title -->
+        <!-- -- Program Title -- -->
         <h3 class="program-title">{{ program.title ||
           'Untitled Program' }}</h3>
 
-        <!-- Description -->
+        <!-- -- Program Description -- -->
         @if (program.short_description) {
         <p class="program-desc">{{ program.short_description
           }}</p>
         }
 
-        <!-- Meta -->
+        <!-- -- Program Metadata -- -->
         <div class="program-meta">
           @if (program.duration_hours) {
           <span>
@@ -254,7 +254,7 @@
           }
         </div>
 
-        <!-- Price -->
+        <!-- -- Program Price -- -->
         <div class="program-price">
           @if (program.discount_price) {
           <span class="price-old">{{ program.price }}</span>
@@ -269,7 +269,7 @@
             }}</span>
         </div>
 
-        <!-- CTA -->
+        <!-- -- Call to Action -- -->
         <a [routerLink]="['/programs', program.id]"
           class="program-cta btn-primary">
           {{ 'programs.view_details' | translate }}
@@ -281,7 +281,7 @@
     }
   </div>
   } @else {
-  <!-- No Results -->
+  <!-- -- No Results State -- -->
   <div class="no-results surface chamfer-sm animate-in">
     <div class="no-results-icon">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -296,7 +296,7 @@
   }
   }
 
-  <!-- ========== EMPTY STATE ========== -->
+  <!-- -- Empty State -- -->
   @else {
   <div class="coming-soon">
     <div

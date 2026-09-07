@@ -1,10 +1,10 @@
-/* ========== Page Layout ========== */
+/* -- Page Layout -- */
 .programs-page {
   min-height: 100vh;
   background: var(--color-background);
 }
 
-/* ========== HERO ========== */
+/* -- Hero Section -- */
 .programs-hero {
   position: relative;
   padding: 11rem 6vw 4rem;
@@ -90,7 +90,7 @@
   margin: 0 auto;
 }
 
-/* Hero Search */
+/* -- Hero Search -- */
 .hero-search-box {
   position: relative;
   display: flex;
@@ -153,7 +153,7 @@
   color: #fff;
 }
 
-/* Hero Stats */
+/* -- Hero Statistics -- */
 .hero-stats {
   display: flex;
   align-items: center;
@@ -200,7 +200,7 @@
   }
 }
 
-/* ========== FILTERS ========== */
+/* -- Program Filters -- */
 .filters {
   display: flex;
   flex-direction: column;
@@ -307,7 +307,7 @@
   color: var(--color-danger);
 }
 
-/* ========== PROGRAMS GRID ========== */
+/* -- Program Grid -- */
 .programs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -324,7 +324,7 @@
   }
 }
 
-/* ========== PROGRAM CARD ========== */
+/* -- Program Card -- */
 .program-card {
   display: flex;
   flex-direction: column;
@@ -353,7 +353,7 @@
   transform: translateY(-4px);
 }
 
-/* Cover */
+/* -- Program Cover -- */
 .program-cover {
   position: relative;
   height: 180px;
@@ -416,7 +416,7 @@
   color: #fff;
 }
 
-/* Body */
+/* -- Program Details -- */
 .program-body {
   padding: 1.4rem 1.5rem 1.6rem;
   display: flex;
@@ -425,7 +425,7 @@
   flex: 1;
 }
 
-/* Trainer */
+/* -- Trainer Details -- */
 .program-trainer {
   display: flex;
   align-items: center;
@@ -483,7 +483,7 @@
   text-overflow: ellipsis;
 }
 
-/* Title */
+/* -- Program Title -- */
 .program-title {
   font-size: 1.05rem;
   font-weight: 700;
@@ -491,7 +491,7 @@
   line-height: 1.4;
 }
 
-/* Description */
+/* -- Program Description -- */
 .program-desc {
   font-size: 0.85rem;
   line-height: 1.6;
@@ -503,7 +503,7 @@
   flex: 1;
 }
 
-/* Meta */
+/* -- Program Metadata -- */
 .program-meta {
   display: flex;
   flex-wrap: wrap;
@@ -528,7 +528,7 @@
   font-weight: 700;
 }
 
-/* Price */
+/* -- Program Price -- */
 .program-price {
   display: flex;
   align-items: baseline;
@@ -555,7 +555,7 @@
   color: var(--color-text-muted);
 }
 
-/* CTA */
+/* -- Call to Action -- */
 .program-cta {
   display: flex;
   align-items: center;
@@ -581,7 +581,7 @@ html[dir='ltr'] .program-cta:hover i {
   transform: translateX(3px);
 }
 
-/* ========== SKELETON ========== */
+/* -- Loading Skeleton -- */
 .program-card-skeleton {
   display: flex;
   flex-direction: column;
@@ -639,7 +639,7 @@ html[dir='ltr'] .program-cta:hover i {
   }
 }
 
-/* ========== NO RESULTS ========== */
+/* -- No Results State -- */
 .no-results {
   max-width: 460px;
   margin: 3rem auto;
@@ -667,7 +667,7 @@ html[dir='ltr'] .program-cta:hover i {
   margin-bottom: 1.25rem;
 }
 
-/* ========== COMING SOON ========== */
+/* -- Coming Soon State -- */
 .coming-soon {
   padding: 4rem 6vw;
   display: flex;
@@ -707,7 +707,7 @@ html[dir='ltr'] .program-cta:hover i {
   margin-bottom: 1.75rem;
 }
 
-/* ========== ANIMATIONS ========== */
+/* -- Animations -- */
 .animate-in {
   animation: slideDown 0.5s ease;
 }
@@ -724,7 +724,7 @@ html[dir='ltr'] .program-cta:hover i {
   }
 }
 
-/* ========== RESPONSIVE ========== */
+/* -- Responsive Styles -- */
 @media (max-width: 640px) {
   .programs-hero {
     padding: 9rem 4vw 3.5rem;
@@ -745,7 +745,7 @@ html[dir='ltr'] .program-cta:hover i {
   }
 }
 
-/* ========== REDUCED MOTION ========== */
+/* -- Reduced Motion Styles -- */
 @media (prefers-reduced-motion: reduce) {
 
   .program-card,

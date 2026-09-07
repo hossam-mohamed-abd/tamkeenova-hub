@@ -7,7 +7,7 @@ export interface User {
   email: string;
   phone: string;
   role: UserRole;
-  profile_image: string | null;  // ← ضيف السطر ده
+  profile_image: string | null;
   email_verified: boolean;
   is_active: boolean;
   created_at: string;

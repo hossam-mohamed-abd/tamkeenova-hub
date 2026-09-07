@@ -6,7 +6,7 @@
   </div>
   } @else if (profile(); as p) {
 
-  <!-- ========== HEADER ========== -->
+  <!-- -- Profile Header -- -->
   <div class="profile-hero chamfer-sm">
     <div class="profile-hero-bg"></div>
 
@@ -70,7 +70,7 @@
     }
   </div>
 
-  <!-- ========== TABS NAV ========== -->
+  <!-- -- Profile Tab Navigation -- -->
   <nav class="profile-tabs surface">
     @for (tab of tabs; track tab.id) {
     <button type="button" class="profile-tab"
@@ -82,11 +82,11 @@
     }
   </nav>
 
-  <!-- ========== FORM ========== -->
+  <!-- -- Profile Form -- -->
   <form [formGroup]="form" (ngSubmit)="save()"
     class="profile-form" novalidate>
 
-    <!-- ===== TAB: GENERAL ===== -->
+    <!-- -- General Information Tab -- -->
     @if (activeTab() === 'general') {
     <div class="profile-section animate-in">
       <div class="form-grid">
@@ -129,7 +129,7 @@
     </div>
     }
 
-    <!-- ===== TAB: SPECIALIZATION ===== -->
+    <!-- -- Specialization Tab -- -->
     @if (activeTab() === 'specialization') {
     <div class="profile-section animate-in">
       <div class="spec-current surface-alt">
@@ -195,7 +195,7 @@
     </div>
     }
 
-    <!-- ===== TAB: LINKS ===== -->
+    <!-- -- Social Links Tab -- -->
     @if (activeTab() === 'links') {
     <div class="profile-section animate-in">
       <div class="form-grid">
@@ -246,7 +246,7 @@
     </div>
     }
 
-    <!-- ===== TAB: PRICING ===== -->
+    <!-- -- Pricing Tab -- -->
     @if (activeTab() === 'pricing') {
     <div class="profile-section animate-in">
       <div class="pricing-grid">
@@ -287,7 +287,7 @@
     </div>
     }
 
-    <!-- ===== TAB: CERTIFICATES ===== -->
+    <!-- -- Certificates Tab -- -->
     @if (activeTab() === 'certificates') {
     <div class="profile-section animate-in">
       <div class="dynamic-list">
@@ -316,7 +316,7 @@
     </div>
     }
 
-    <!-- ===== TAB: DOCUMENTS ===== -->
+    <!-- -- Documents Tab -- -->
     @if (activeTab() === 'documents') {
     <div class="profile-section animate-in">
       <div class="dynamic-list">
@@ -359,7 +359,7 @@
 
   </form>
 
-  <!-- ========== FAB (Floating Save Button) ========== -->
+  <!-- -- Floating Save Control -- -->
   @if (hasChanges()) {
   <button type="button" class="fab animate-in"
     (click)="save()" [disabled]="isSaving()"
@@ -374,7 +374,7 @@
   </button>
   }
 
-  <!-- ========== Toast Messages ========== -->
+  <!-- -- Toast Messages -- -->
   @if (errorMessage()) {
   <div class="toast toast-error animate-in">
     <i class="fa-solid fa-triangle-exclamation"></i>

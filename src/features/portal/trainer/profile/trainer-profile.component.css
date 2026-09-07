@@ -1,4 +1,4 @@
-/* ========== Page Layout ========== */
+/* -- Page Layout -- */
 .profile-page {
   min-height: 100vh;
   padding: 8rem 6vw 8rem;
@@ -15,7 +15,7 @@
   color: var(--color-text-muted);
 }
 
-/* ========== Hero ========== */
+/* -- Hero Section -- */
 .profile-hero {
   position: relative;
   padding: 3rem 2.5rem 2.5rem;
@@ -187,7 +187,7 @@
   animation: slideDown 0.3s ease;
 }
 
-/* ========== Tabs ========== */
+/* -- Profile Tabs -- */
 .profile-tabs {
   display: flex;
   gap: 0.5rem;
@@ -258,7 +258,7 @@
   }
 }
 
-/* ========== Form Section ========== */
+/* -- Profile Form -- */
 .profile-form {
   position: relative;
 }
@@ -329,7 +329,7 @@ select.field-input {
   appearance: auto;
 }
 
-/* ========== Specialization Tab ========== */
+/* -- Specialization Tab -- */
 .spec-current {
   display: flex;
   align-items: center;
@@ -406,7 +406,7 @@ html[dir="ltr"] .spec-current:hover {
   font-weight: 600;
 }
 
-/* ========== Pricing ========== */
+/* -- Pricing Fields -- */
 .pricing-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -424,7 +424,7 @@ html[dir="ltr"] .spec-current:hover {
   box-shadow: var(--shadow-md);
 }
 
-/* ========== Dynamic Lists ========== */
+/* -- Dynamic Lists -- */
 .dynamic-list {
   display: flex;
   flex-direction: column;
@@ -528,7 +528,7 @@ html[dir="ltr"] .dynamic-item:hover {
   transform: scale(1.02);
 }
 
-/* ========== FAB ========== */
+/* -- Floating Save Control -- */
 .fab {
   position: fixed;
   bottom: 2.5rem;
@@ -562,7 +562,7 @@ html[dir="ltr"] .dynamic-item:hover {
   cursor: not-allowed;
 }
 
-/* ========== Toast ========== */
+/* -- Toast Messages -- */
 .toast {
   position: fixed;
   bottom: 2.5rem;
@@ -594,7 +594,7 @@ html[dir="rtl"] .toast {
   color: #fff;
 }
 
-/* ========== Animations ========== */
+/* -- Animations -- */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -611,7 +611,7 @@ html[dir="rtl"] .toast {
   animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ========== Loaders ========== */
+/* -- Loading States -- */
 .loader-spinner {
   width: 48px;
   height: 48px;
@@ -636,7 +636,7 @@ html[dir="rtl"] .toast {
   }
 }
 
-/* ========== Utilities ========== */
+/* -- Utility Styles -- */
 .surface-alt {
   background: var(--color-surface-alt);
 }

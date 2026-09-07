@@ -1,4 +1,4 @@
-/* ========== Page Layout ========== */
+/* -- Page Layout -- */
 .dashboard-page {
   min-height: 100vh;
   padding: 8rem 6vw 4rem;
@@ -15,7 +15,7 @@
   color: var(--color-text-muted);
 }
 
-/* ========== Hero ========== */
+/* -- Hero Section -- */
 .dashboard-hero {
   position: relative;
   padding: 3rem 2.5rem;
@@ -185,7 +185,7 @@
   }
 }
 
-/* ========== Profile Completion ========== */
+/* -- Profile Completion -- */
 .profile-completion-card {
   padding: 2rem 2.25rem;
   border-radius: var(--radius-md);
@@ -267,7 +267,7 @@
   color: #fff;
 }
 
-/* ========== Quick Actions ========== */
+/* -- Quick Actions -- */
 .quick-actions-section {
   margin-bottom: 3rem;
 }
@@ -388,7 +388,7 @@ html[dir="ltr"] .quick-action-card:hover .quick-action-arrow {
   transform: translateX(4px);
 }
 
-/* ========== Sections Grid ========== */
+/* -- Dashboard Grid -- */
 .dashboard-sections {
   margin-top: 3rem;
 }
@@ -516,7 +516,7 @@ html[dir="ltr"] .section-card:hover .section-card-footer i {
   transform: translateX(4px);
 }
 
-/* ========== Animations ========== */
+/* -- Animations -- */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -532,7 +532,7 @@ html[dir="ltr"] .section-card:hover .section-card-footer i {
   animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ========== Loader ========== */
+/* -- Loading State -- */
 .loader-spinner {
   width: 48px;
   height: 48px;
@@ -546,7 +546,7 @@ html[dir="ltr"] .section-card:hover .section-card-footer i {
   to { transform: rotate(360deg); }
 }
 
-/* ========== Responsive ========== */
+/* -- Responsive Styles -- */
 @media (max-width: 640px) {
   .dashboard-page {
     padding: 7rem 4vw 3rem;
@@ -573,7 +573,7 @@ html[dir="ltr"] .section-card:hover .section-card-footer i {
   }
 }
 
-/* ========== Dark Mode Enhancements ========== */
+/* -- Dark Theme Enhancements -- */
 [data-theme='dark'] .section-card:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
@@ -582,7 +582,7 @@ html[dir="ltr"] .section-card:hover .section-card-footer i {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
-/* ========== Reduced Motion ========== */
+/* -- Reduced Motion Styles -- */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
