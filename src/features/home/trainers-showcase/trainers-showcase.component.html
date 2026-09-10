@@ -40,7 +40,7 @@
     <div class="trainer-item animate-in"
       [style.animation-delay]="(i * 0.06) + 's'">
       <app-trainer-card [trainer]="trainer"
-        [index]="i"></app-trainer-card>
+        [index]="i" (book)="onBook($event)"></app-trainer-card>
     </div>
     }
   </div>

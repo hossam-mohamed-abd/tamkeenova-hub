@@ -78,7 +78,6 @@
       "link": "زيارة المعرض كاملاً"
     }
   },
-
   "contact": {
     "eyebrow": "لا تتردد",
     "title": "تواصل معنا",
@@ -104,7 +103,6 @@
     "close": "إغلاق المحادثة",
     "send": "إرسال"
   },
-
   "programs": {
     "header": {
       "eyebrow": "دليل البرامج والدورات التدريبية المعتمدة",
@@ -186,12 +184,18 @@
     },
     "perks": {
       "title": "ليه تتواصل معانا؟",
-      "response": { "title": "رد سريع", "desc": "فريقنا بيتواصل معاك خلال 24 ساعة عمل." },
+      "response": {
+        "title": "رد سريع",
+        "desc": "فريقنا بيتواصل معاك خلال 24 ساعة عمل."
+      },
       "confidential": {
         "title": "سرية تامة",
         "desc": "بياناتك وتفاصيل طلبك محفوظة وسرية بالكامل."
       },
-      "experts": { "title": "خبراء متخصصون", "desc": "بيتم توجيه طلبك لأنسب استشاري حسب مجالك." }
+      "experts": {
+        "title": "خبراء متخصصون",
+        "desc": "بيتم توجيه طلبك لأنسب استشاري حسب مجالك."
+      }
     },
     "success": {
       "title": "تم إرسال طلبك بنجاح",
@@ -231,9 +235,17 @@
     "close": "إغلاق",
     "success_title": "تم إرسال طلب الحجز",
     "success_text": "هيتواصل معاك المدرب أو فريقنا في أقرب وقت لتأكيد الموعد.",
-    "success_cta": "تمام"
+    "success_cta": "تمام",
+    "title_label": "عنوان الاستشارة",
+    "title_placeholder": "مثال: استشارة حول تعلم البرمجة",
+    "date_label": "التاريخ المفضل",
+    "time_label": "الوقت المفضل",
+    "method_email": "بريد إلكتروني",
+    "login_required": "سجّل دخول بحساب طالب عشان تقدر تحجز استشارة مع المدرب.",
+    "login_cta": "تسجيل الدخول",
+    "trainer_notice": "حجز الاستشارات متاح لحسابات الطلاب فقط.",
+    "view_my_consultations": "عرض استشاراتي"
   },
-
   "gallery_page": {
     "hero_eyebrow": "لحظاتنا",
     "hero_title": "نظرة على رحلتنا",
@@ -243,7 +255,6 @@
     "events_label": "الفعاليات",
     "events_title": "أبرز اللقاءات"
   },
-
   "loader": {
     "loading": "جاري التحميل"
   },
@@ -253,7 +264,6 @@
     "cta_home": "الرجوع للرئيسية",
     "cta_programs": "تصفح البرامج"
   },
-
   "auth": {
     "fields": {
       "full_name": "الاسم بالكامل",
@@ -526,5 +536,306 @@
     "website": "الموقع الشخصي",
     "facebook": "فيسبوك",
     "portfolio": "الأعمال (Portfolio)"
+  },
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "view": "عرض",
+    "back": "رجوع",
+    "retry": "إعادة المحاولة",
+    "all": "الكل",
+    "search": "بحث",
+    "optional": "اختياري",
+    "required_error": "الحقل ده مطلوب",
+    "currency": "ج.م",
+    "hours_unit": "ساعة",
+    "copied": "تم النسخ"
+  },
+  "status": {
+    "enrollment": {
+      "ACTIVE": "نشط",
+      "COMPLETED": "مكتمل",
+      "CANCELLED": "ملغي",
+      "SUSPENDED": "موقوف"
+    },
+    "consultation": {
+      "PENDING": "قيد الانتظار",
+      "APPROVED": "مقبول",
+      "REJECTED": "مرفوض",
+      "SCHEDULED": "تم تحديد موعد",
+      "COMPLETED": "مكتمل",
+      "CANCELLED": "ملغي"
+    },
+    "corporate": {
+      "PENDING": "جديد",
+      "UNDER_REVIEW": "قيد المراجعة",
+      "ASSIGNED": "تم الإسناد",
+      "APPROVED": "مقبول",
+      "REJECTED": "مرفوض",
+      "COMPLETED": "مكتمل"
+    }
+  },
+  "student_dashboard": {
+    "active_enrollments": "اشتراكات نشطة",
+    "completed_programs": "برامج مكتملة",
+    "certificates": "شهادات",
+    "training_hours": "ساعة تدريبية",
+    "my_learning": "رحلتي التعليمية",
+    "quick_actions": "إجراءات سريعة",
+    "overview": "نظرة عامة",
+    "view_all": "عرض الكل",
+    "manage": "إدارة",
+    "actions": {
+      "browse_programs": "تصفح البرامج",
+      "find_trainer": "ابحث عن مدرب",
+      "my_consultations": "استشاراتي",
+      "corporate_request": "طلب خدمة للشركات"
+    },
+    "cards": {
+      "enrollments": "اشتراكاتي",
+      "enrollments_desc": "تابع برامجك الحالية وتقدمك فيها",
+      "consultations": "استشاراتي",
+      "consultations_desc": "طلبات الاستشارة مع المدربين",
+      "certificates": "شهاداتي",
+      "certificates_desc": "شهادات الإتمام الموثقة الخاصة بيك",
+      "profile": "بياناتي",
+      "profile_desc": "عدّل بياناتك الشخصية وصورتك"
+    },
+    "recent_enrollments": "أحدث الاشتراكات",
+    "recent_consultations": "أحدث الاستشارات",
+    "no_enrollments": "لسه مشتركتش في أي برنامج",
+    "no_consultations": "لسه مطلبتش أي استشارة",
+    "browse_programs_cta": "تصفح البرامج المتاحة",
+    "find_trainers_cta": "ابحث عن مدرب",
+    "progress": "التقدم"
+  },
+  "student_profile": {
+    "tabs": {
+      "general": "البيانات العامة",
+      "contact": "بيانات التواصل",
+      "security": "الأمان"
+    },
+    "change_image": "تغيير الصورة",
+    "upload_image": "رفع صورة",
+    "member_since": "عضو منذ",
+    "fields": {
+      "full_name": "الاسم بالكامل",
+      "username": "اسم المستخدم",
+      "username_hint": "هيظهر في رابط بروفايلك العلني: /u/username",
+      "bio": "نبذة عنك",
+      "location": "الموقع",
+      "phone": "رقم الهاتف",
+      "whatsapp": "واتساب",
+      "email": "البريد الإلكتروني",
+      "website": "الموقع الشخصي",
+      "linkedin": "لينكدإن",
+      "current_password": "كلمة المرور الحالية",
+      "new_password": "كلمة المرور الجديدة",
+      "confirm_password": "تأكيد كلمة المرور الجديدة"
+    },
+    "errors": {
+      "invalid_image_type": "من فضلك اختر صورة بصيغة JPG أو PNG أو WEBP",
+      "image_too_large": "حجم الصورة كبير جداً (أقصى حد 5 ميجا)",
+      "username_taken": "اسم المستخدم ده مستخدم بالفعل",
+      "email_taken": "البريد الإلكتروني ده مستخدم بالفعل",
+      "phone_taken": "رقم الهاتف ده مستخدم بالفعل",
+      "password_mismatch": "كلمة المرور الجديدة وتأكيدها غير متطابقين",
+      "password_same": "كلمة المرور الجديدة لازم تكون مختلفة عن الحالية",
+      "password_weak": "كلمة المرور يجب أن تكون 8 أحرف على الأقل"
+    },
+    "save": "حفظ التعديلات",
+    "save_success": "تم حفظ التعديلات بنجاح",
+    "password_change": "تغيير كلمة المرور",
+    "password_success": "تم تغيير كلمة المرور بنجاح",
+    "public_profile": "البروفايل العلني",
+    "view_public": "عرض بروفايلي العلني",
+    "skills": "المهارات",
+    "no_skills": "لسه مفيش مهارات مسجلة",
+    "stats": {
+      "completed": "برامج مكتملة",
+      "certificates": "شهادات",
+      "hours": "ساعة تدريبية"
+    }
+  },
+  "student_enrollments": {
+    "title": "اشتراكاتي",
+    "subtitle": "كل البرامج اللي اشتركت فيها وحالة كل واحد",
+    "empty": "لسه مشتركتش في أي برنامج تدريبي",
+    "browse_cta": "تصفح البرامج",
+    "enrolled_at": "تاريخ الاشتراك",
+    "completed_at": "تاريخ الإتمام",
+    "progress": "التقدم",
+    "trainer_notes": "ملاحظات المدرب",
+    "cancel": "إلغاء الاشتراك",
+    "cancel_confirm_title": "إلغاء الاشتراك؟",
+    "cancel_confirm_text": "متأكد إنك عايز تلغي اشتراكك في البرنامج ده؟",
+    "cancel_success": "تم إلغاء الاشتراك بنجاح",
+    "details": "تفاصيل الاشتراك",
+    "view_program": "عرض البرنامج"
+  },
+  "student_consultations": {
+    "title": "استشاراتي",
+    "subtitle": "تابع طلبات الاستشارة الخاصة بيك مع المدربين",
+    "empty": "لسه مطلبتش أي استشارة",
+    "find_trainer_cta": "ابحث عن مدرب",
+    "new_request": "طلب استشارة جديد",
+    "cancel": "إلغاء الطلب",
+    "cancel_confirm_title": "إلغاء طلب الاستشارة؟",
+    "cancel_confirm_text": "متأكد إنك عايز تلغي طلب الاستشارة ده؟",
+    "cancel_success": "تم إلغاء طلب الاستشارة بنجاح",
+    "details": "تفاصيل الاستشارة",
+    "review": "قيّم الاستشارة",
+    "review_submit": "إرسال التقييم",
+    "review_success": "تم إرسال تقييمك بنجاح",
+    "review_placeholder": "اكتب رأيك في الاستشارة...",
+    "fields": {
+      "title": "عنوان الاستشارة",
+      "description": "اشرح اللي محتاج مساعدة فيه بالتفصيل",
+      "preferred_date": "التاريخ المفضل",
+      "preferred_time": "الوقت المفضل",
+      "contact_phone": "رقم التواصل",
+      "contact_method": "طريقة التواصل المفضلة",
+      "notes": "ملاحظات إضافية"
+    },
+    "contact_method": {
+      "whatsapp": "واتساب",
+      "phone": "مكالمة هاتفية",
+      "email": "بريد إلكتروني"
+    },
+    "scheduled_at": "الموعد المحدد",
+    "price": "السعر",
+    "trainer_notes": "ملاحظات المدرب",
+    "rejection_reason": "سبب الرفض",
+    "submit": "إرسال الطلب",
+    "submit_success": "تم إرسال طلب الاستشارة بنجاح"
+  },
+  "student_certificates": {
+    "title": "شهاداتي",
+    "subtitle": "كل شهادات الإتمام الموثقة اللي حصلت عليها",
+    "empty": "لسه محصلتش على أي شهادات",
+    "empty_hint": "أكمل برنامج تدريبي عشان تحصل على شهادتك الموثقة",
+    "verification_code": "كود التوثيق",
+    "issued_at": "تاريخ الإصدار",
+    "training_hours": "ساعات تدريبية",
+    "view_pdf": "عرض الشهادة",
+    "download": "تحميل",
+    "verify": "تحقق",
+    "copy_code": "نسخ الكود",
+    "program": "البرنامج",
+    "trainer": "المدرب"
+  },
+  "student_corporate": {
+    "title": "طلبات الشركات",
+    "subtitle": "طلبات الخدمات المؤسسية (B2B) اللي قدمتها",
+    "empty": "لسه مقدمتش أي طلبات شركات",
+    "new_request": "طلب جديد",
+    "details": "تفاصيل الطلب",
+    "attachments": "المرفقات",
+    "upload_attachment": "رفع مرفق",
+    "upload_hint": "PDF, DOC, DOCX, JPG, PNG, WEBP — بحد أقصى 10 ميجا",
+    "upload_success": "تم رفع المرفق بنجاح",
+    "admin_notes": "ملاحظات الإدارة",
+    "rejection_reason": "سبب الرفض",
+    "submit_success": "تم إرسال طلبك بنجاح",
+    "fields": {
+      "contact_name": "اسم مسؤول التواصل",
+      "contact_email": "البريد الإلكتروني للتواصل",
+      "contact_phone": "هاتف التواصل",
+      "contact_whatsapp": "واتساب التواصل",
+      "company_name": "اسم الشركة / الجهة",
+      "sector": "القطاع",
+      "country": "الدولة",
+      "employees_count": "عدد الموظفين",
+      "service_type": "نوع الخدمة",
+      "service_description": "وصف الخدمة المطلوبة بالتفصيل",
+      "expected_budget": "الميزانية المتوقعة",
+      "project_duration": "المدة المتوقعة للمشروع"
+    },
+    "service_types": {
+      "TRAINING": "تدريب",
+      "CONSULTING": "استشارات",
+      "CORPORATE_TRAINING": "تدريب مؤسسي",
+      "OTHER": "أخرى"
+    }
+  },
+  "student_reviews": {
+    "title": "تقييماتي",
+    "subtitle": "كل التقييمات اللي كتبتها للمدربين",
+    "empty": "لسه مكتبتش أي تقييمات",
+    "edit": "تعديل التقييم",
+    "delete": "حذف التقييم",
+    "delete_confirm_title": "حذف التقييم؟",
+    "delete_confirm_text": "متأكد إنك عايز تحذف التقييم ده؟",
+    "delete_success": "تم حذف التقييم بنجاح",
+    "update_success": "تم تحديث التقييم بنجاح",
+    "no_comment": "بدون تعليق",
+    "comment_placeholder": "اكتب تعليقك..."
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "subtitle": "آخر التحديثات والتنبيهات الخاصة بحسابك",
+    "empty": "مفيش إشعارات حالياً",
+    "mark_all_read": "تحديد الكل كمقروء",
+    "mark_read": "تحديد كمقروء",
+    "unread": "غير مقروء",
+    "view_all": "عرض كل الإشعارات"
+  },
+  "student_trainers": {
+    "title": "ابحث عن مدرب",
+    "subtitle": "اكتشف نخبة المدربين المعتمدين واحجز استشارتك",
+    "search_placeholder": "ابحث باسم المدرب أو مجال...",
+    "min_rating": "أقل تقييم",
+    "any_rating": "أي تقييم",
+    "empty": "لا يوجد مدربين مطابقين للبحث",
+    "years_exp": "سنوات خبرة",
+    "students": "متدرب",
+    "view_profile": "عرض البروفايل",
+    "book": "احجز استشارة"
+  },
+  "program_details": {
+    "back": "رجوع للبرامج",
+    "not_found_title": "البرنامج غير موجود",
+    "not_found_text": "يمكن الرابط اتغيّر أو البرنامج مش متاح حالياً.",
+    "about": "عن البرنامج",
+    "trainer": "المدرب",
+    "duration": "المدة",
+    "level": "المستوى",
+    "enrolled": "مشترك",
+    "enroll_now": "اشترك الآن",
+    "enrolling": "جاري الاشتراك...",
+    "enroll_success": "تم اشتركك في البرنامج بنجاح",
+    "already_enrolled": "أنت مشترك في البرنامج ده بالفعل",
+    "unavailable": "البرنامج غير متاح حالياً",
+    "login_to_enroll": "سجّل دخول عشان تشترك في البرنامج",
+    "view_trainer": "عرض بروفايل المدرب"
+  },
+  "verify": {
+    "title": "التحقق من الشهادات",
+    "subtitle": "تحقق من صحة أي شهادة صادرة من منصة تمكينوفا",
+    "certificate_tab": "شهادة",
+    "user_tab": "بروفايل متدرب",
+    "code_label": "كود التوثيق",
+    "code_placeholder": "مثال: TAM-A1B2C3D4",
+    "username_label": "اسم المستخدم",
+    "username_placeholder": "اكتب اسم المستخدم",
+    "verify_btn": "تحقق الآن",
+    "verifying": "جاري التحقق...",
+    "valid": "شهادة صحيحة وموثقة",
+    "invalid": "الكود غير صحيح أو الشهادة غير موجودة",
+    "user_not_found": "المستخدم غير موجود",
+    "holder": "صاحب الشهادة",
+    "program": "البرنامج",
+    "trainer": "المدرب",
+    "issued_at": "تاريخ الإصدار",
+    "training_hours": "الساعات التدريبية",
+    "member_since": "عضو منذ",
+    "completed_programs": "برامج مكتملة",
+    "certificates": "شهادات",
+    "skills": "مهارات",
+    "view_pdf": "عرض الشهادة"
   }
 }

@@ -1,8 +1,9 @@
-import { Component, HostListener, inject, signal, computed, ElementRef } from '@angular/core';
+import { Component, HostListener, inject, signal, computed, ElementRef, effect } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ThemeService } from '../../../core/services/theme.service.js';
 import { AuthService } from '../../../core/services/auth.service';
+import { NotificationsService } from '../../../core/services/notifications.service';
 
 interface NavLink {
   labelKey: string;
@@ -31,6 +32,17 @@ export class NavbarComponent {
 
   isLoggedIn = this.authService.isLoggedIn;
   currentUser = this.authService.currentUser;
+  private notificationsService = inject(NotificationsService);
+  unreadCount = this.notificationsService.unreadCount;
+
+  constructor() {
+    // -- Refresh the unread counter whenever the session becomes active --
+    effect(() => {
+      if (this.isLoggedIn()) {
+        this.notificationsService.refreshUnreadCount();
+      }
+    });
+  }
 
   userInitials = computed(() => {
     const name = this.currentUser()?.full_name ?? '';
@@ -128,5 +140,17 @@ export class NavbarComponent {
     if (role === 'TRAINER') return '/portal/trainer/profile';
     return '/portal/student/profile';
   });
+
+  notificationsRoute = computed(() => {
+    const role = this.authService.role();
+    if (role === 'TRAINER') return '/portal/trainer/notifications';
+    return '/portal/student/notifications';
+  });
+
+  goToNotifications(): void {
+    this.closeUserMenu();
+    this.closeMobileMenu();
+    this.router.navigate([this.notificationsRoute()]);
+  }
 
 }
