@@ -65,6 +65,16 @@
       }
 
       @if (isLoggedIn()) {
+      <!-- -- Notifications Bell -- -->
+      <button type="button" class="control-btn control-btn-icon notif-btn desktop-only"
+        (click)="goToNotifications()"
+        [attr.aria-label]="'notifications.title' | translate">
+        <i class="fa-solid fa-bell"></i>
+        @if (unreadCount() > 0) {
+        <span class="notif-badge">{{ unreadCount() > 9 ? '9+' : unreadCount() }}</span>
+        }
+      </button>
+
       <div class="user-menu desktop-only">
 
         <button type="button" class="user-avatar-btn"
@@ -107,6 +117,16 @@
             (click)="closeUserMenu()">
             <i class="fa-solid fa-gauge"></i>
             {{ 'nav.dashboard' | translate }}
+          </a>
+
+          <a [routerLink]="notificationsRoute()"
+            class="user-dropdown-link"
+            (click)="closeUserMenu()">
+            <i class="fa-solid fa-bell"></i>
+            {{ 'notifications.title' | translate }}
+            @if (unreadCount() > 0) {
+            <span class="notif-badge-inline">{{ unreadCount() > 9 ? '9+' : unreadCount() }}</span>
+            }
           </a>
 
           <div class="user-dropdown-divider"></div>
@@ -199,6 +219,17 @@
         <i class="fa-solid fa-gauge"></i>
         <span class="control-btn-label">{{ 'nav.dashboard' |
           translate }}</span>
+      </a>
+
+      <a [routerLink]="notificationsRoute()"
+        class="control-btn control-btn-block"
+        (click)="closeMobileMenu()">
+        <i class="fa-solid fa-bell"></i>
+        <span class="control-btn-label">{{ 'notifications.title'
+          | translate }}</span>
+        @if (unreadCount() > 0) {
+        <span class="notif-badge-inline">{{ unreadCount() > 9 ? '9+' : unreadCount() }}</span>
+        }
       </a>
       }
 

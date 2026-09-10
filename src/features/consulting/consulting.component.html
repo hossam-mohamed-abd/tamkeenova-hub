@@ -126,6 +126,20 @@
           }
         </div>
 
+        @if (needsLogin() && !isLoggedIn()) {
+          <div class="login-prompt">
+            <i class="fa-solid fa-circle-user"></i>
+            <p>{{ 'consultingPage.account_notice.text' | translate }}</p>
+            <button type="button" class="btn-accent" (click)="goToLogin()">
+              {{ 'consultingPage.account_notice.cta' | translate }}
+            </button>
+          </div>
+        }
+
+        @if (submitError()) {
+          <div class="submit-error">{{ submitError() }}</div>
+        }
+
         <button type="submit" class="btn-primary btn-submit" [disabled]="submitting()">
           @if (submitting()) {
             <span class="spinner"></span>
@@ -144,9 +158,16 @@
         </svg>
         <h3 class="success-title">{{ 'consultingPage.success.title' | translate }}</h3>
         <p class="success-text">{{ 'consultingPage.success.text' | translate }}</p>
-        <button type="button" class="btn-accent" (click)="resetForm()">
-          {{ 'consultingPage.success.cta' | translate }}
-        </button>
+        <div class="success-actions">
+          @if (isStudent()) {
+            <button type="button" class="btn-primary" (click)="goToMyRequests()">
+              {{ 'student_corporate.title' | translate }}
+            </button>
+          }
+          <button type="button" class="btn-accent" (click)="resetForm()">
+            {{ 'consultingPage.success.cta' | translate }}
+          </button>
+        </div>
       </div>
     }
   </div>

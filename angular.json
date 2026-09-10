@@ -57,6 +57,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": [".e2b.app", "localhost", "127.0.0.1"]
+          },
           "configurations": {
             "production": {
               "buildTarget": "tamkeenova-hub_anguler:build:production",

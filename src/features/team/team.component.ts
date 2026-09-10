@@ -4,6 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { TrainersService } from '../../core/services/trainers.service';
 import { Trainer } from '../../core/models/trainer.model';
 import { TrainerCardComponent } from '../../shared/components/trainer-card/trainer-card.component';
+import { BookingService } from '../../core/services/booking.service';
 
 @Component({
   selector: 'app-team',
@@ -14,6 +15,12 @@ import { TrainerCardComponent } from '../../shared/components/trainer-card/train
 })
 export class TeamComponent implements OnInit {
   private trainersService = inject(TrainersService);
+  private bookingService = inject(BookingService);
+
+  // -- Open the Booking Modal for a Trainer --
+  onBook(trainer: Trainer): void {
+    this.bookingService.open(trainer);
+  }
 
   trainers = signal<Trainer[]>([]);
   isLoading = signal(true);

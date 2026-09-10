@@ -7,6 +7,7 @@ import { Trainer } from '../../../core/models/trainer.model';
 // ⚠️ لو أسماء الملفات/الـ selectors مختلفة عندك، عدّل المسارين دول
 import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
 import { BookingModalComponent } from '../../../shared/components/booking-modal/booking-modal.component';
+import { BookingService } from '../../../core/services/booking.service';
 
 @Component({
   selector: 'app-trainer-details',
@@ -18,6 +19,7 @@ import { BookingModalComponent } from '../../../shared/components/booking-modal/
 export class TrainerDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private trainersService = inject(TrainersService);
+  private bookingService = inject(BookingService);
 
   trainer = signal<Trainer | null>(null);
   loading = signal(true);
@@ -99,7 +101,9 @@ export class TrainerDetailsComponent implements OnInit {
   });
 
   openBooking(): void {
-    this.showBooking.set(true);
+    const trainer = this.trainer();
+    if (!trainer) return;
+    this.bookingService.open(trainer);
   }
 
   closeBooking(): void {

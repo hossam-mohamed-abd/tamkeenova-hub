@@ -62,18 +62,71 @@ export const routes: Routes = [
   {
     path: 'portal/student',
     canActivate: [authGuard, roleGuard(['STUDENT'])],
-    loadComponent: () =>
-      import('../features/portal/student/dashboard/student-dashboard.component').then(
-        (m) => m.StudentDashboardComponent,
-      ),
-  },
-  {
-    path: 'portal/student/profile',
-    canActivate: [authGuard, roleGuard(['STUDENT'])],
-    loadComponent: () =>
-      import('../features/portal/student/profile/student-profile.component').then(
-        (m) => m.StudentProfileComponent,
-      ),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/portal/student/dashboard/student-dashboard.component').then(
+            (m) => m.StudentDashboardComponent,
+          ),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('../features/portal/student/profile/student-profile.component').then(
+            (m) => m.StudentProfileComponent,
+          ),
+      },
+      {
+        path: 'enrollments',
+        loadComponent: () =>
+          import('../features/portal/student/enrollments/student-enrollments.component').then(
+            (m) => m.StudentEnrollmentsComponent,
+          ),
+      },
+      {
+        path: 'consultations',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/consultations/student-consultations.component'
+          ).then((m) => m.StudentConsultationsComponent),
+      },
+      {
+        path: 'certificates',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/certificates/student-certificates.component'
+          ).then((m) => m.StudentCertificatesComponent),
+      },
+      {
+        path: 'corporate-requests',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/corporate-requests/student-corporate-requests.component'
+          ).then((m) => m.StudentCorporateRequestsComponent),
+      },
+      {
+        path: 'reviews',
+        loadComponent: () =>
+          import('../features/portal/student/reviews/student-reviews.component').then(
+            (m) => m.StudentReviewsComponent,
+          ),
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/notifications/student-notifications.component'
+          ).then((m) => m.StudentNotificationsComponent),
+      },
+      {
+        path: 'trainers',
+        loadComponent: () =>
+          import('../features/portal/student/trainers/student-trainers.component').then(
+            (m) => m.StudentTrainersComponent,
+          ),
+      },
+    ],
   },
 
   // -- Trainer Portal Routes --
@@ -127,6 +180,13 @@ export const routes: Routes = [
             (m) => m.TrainerReviewsComponent,
           ),
       },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/notifications/student-notifications.component'
+          ).then((m) => m.StudentNotificationsComponent),
+      },
     ],
   },
 
@@ -135,6 +195,25 @@ export const routes: Routes = [
     loadComponent: () =>
       import('../features/team/trainer-details/trainer-details.component').then(
         (m) => m.TrainerDetailsComponent,
+      ),
+  },
+  {
+    path: 'programs/:id',
+    loadComponent: () =>
+      import('../features/programs/program-details/program-details.component').then(
+        (m) => m.ProgramDetailsComponent,
+      ),
+  },
+  {
+    path: 'verify',
+    loadComponent: () =>
+      import('../features/verify/verify.component').then((m) => m.VerifyComponent),
+  },
+  {
+    path: 'u/:username',
+    loadComponent: () =>
+      import('../features/verify/user-public-profile/user-public-profile.component').then(
+        (m) => m.UserPublicProfileComponent,
       ),
   },
 

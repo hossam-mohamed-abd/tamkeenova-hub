@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { NotificationsService } from './notifications.service';
 import {
   ApiDataResponse,
   ApiSuccessMessage,
@@ -21,6 +22,7 @@ const USER_KEY = 'user';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private notificationsService = inject(NotificationsService);
   private baseUrl = `${environment.apiUrl}/auth`;
 
   private _currentUser = signal<User | null>(this.readUserFromStorage());
@@ -104,6 +106,7 @@ export class AuthService {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     this._currentUser.set(null);
+    this.notificationsService.reset();
     if (redirect) this.router.navigate(['/login']);
   }
 

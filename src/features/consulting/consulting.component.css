@@ -349,3 +349,58 @@ textarea.form-control {
     stroke-dashoffset: 0;
   }
 }
+
+/* -- Login Prompt & Errors -- */
+.login-prompt {
+  text-align: center;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--color-accent) 45%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.login-prompt i {
+  font-size: 2rem;
+  color: var(--color-accent);
+}
+
+.login-prompt p {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.login-prompt .btn-accent {
+  padding: 0.65rem 1.4rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.submit-error {
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  color: var(--color-danger);
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+}
+
+.success-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.success-actions .btn-primary,
+.success-actions .btn-accent {
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
