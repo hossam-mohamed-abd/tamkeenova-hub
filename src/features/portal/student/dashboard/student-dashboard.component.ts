@@ -2,7 +2,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../../../core/services/auth.service';
 import { StudentService } from '../../../../core/services/student.service';
 import { ConsultationService } from '../../../../core/services/consultation.service';
@@ -66,13 +67,21 @@ export class StudentDashboardComponent {
   ];
 
   constructor() {
+    const profile$ = this.studentService.getProfile().pipe(
+      // fallback to prevent forkJoin fail
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      catchError(() => of(null as any)),
+    );
+    const enrollments$ = this.studentService.getEnrollments().pipe(catchError(() => of({ data: [] as Enrollment[], total: 0 })));
+    const consultations$ = this.consultationService.getMine().pipe(catchError(() => of({ data: [] as Consultation[], total: 0 })));
+
     forkJoin({
-      profile: this.studentService.getProfile(),
-      enrollments: this.studentService.getEnrollments(),
-      consultations: this.consultationService.getMine(),
+      profile: profile$,
+      enrollments: enrollments$,
+      consultations: consultations$,
     }).subscribe({
       next: (res) => {
-        this.profile.set(res.profile);
+        if (res.profile) this.profile.set(res.profile);
         this.enrollments.set(res.enrollments.data ?? []);
         this.consultations.set(res.consultations.data ?? []);
         this.isLoading.set(false);

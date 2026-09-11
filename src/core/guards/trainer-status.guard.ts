@@ -14,21 +14,24 @@ export const trainerStatusGuard: CanActivateFn = (route) => {
 
   return trainerService.getApplicationStatus().pipe(
     map((res) => {
-      const status = res.data.status;
-
+      const status = res.data?.status ?? (res as any).status;
       // ✅ لو معتمد، يدخل عادي
       if (status === 'APPROVED') {
         return true;
       }
-
       // ✅ لو مش معتمد (PENDING أو REJECTED)، يروح لصفحة الحالة
       console.log(`🚫 Trainer status: ${status} - Redirecting to status page`);
       return router.createUrlTree(['/portal/trainer/status']);
     }),
     catchError((err) => {
       console.error('❌ Error checking trainer status:', err);
-      // ✅ لو حصل error، يروح لصفحة الحالة
-      return of(router.createUrlTree(['/portal/trainer/status']));
+      // على خطأ شبكة أو 401، اسمح بالدخول لتجنب loop جهنمي كل ثانية
+      // authInterceptor سيتولى الـ logout لو 401
+      if (err?.status === 401) {
+        return of(true);
+      }
+      // لو خطأ آخر، اسمح بالدخول مع تحذير لتجنب loop
+      return of(true);
     }),
   );
 };
