@@ -1,5 +1,5 @@
 import { Component, OnDestroy, inject, signal } from '@angular/core';
-import { Router, RouterOutlet, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NavbarComponent } from '../shared/components/navbar/navbar.component';
 import { AiAssistantComponent } from '../shared/components/ai-assistant/ai-assistant.component';
@@ -19,27 +19,21 @@ export class App implements OnDestroy {
   private loader = inject(LoaderService);
   private router = inject(Router);
 
-  private isFirstNavigation = true;
   private routerSub: Subscription;
 
   constructor() {
-    setTimeout(() => this.loader.hide(), 2600);
+    // إظهار لودر أولي للبراند ثم إخفاؤه - لا يظهر مرة أخرى عند التنقل لتجنب الوميض الجهنمي
+    this.loader.show();
+    setTimeout(() => this.loader.hide(), 1800);
 
     this.routerSub = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        if (!this.isFirstNavigation) {
-          this.loader.show();
-        }
-      } else if (
+      if (
         event instanceof NavigationEnd ||
         event instanceof NavigationCancel ||
         event instanceof NavigationError
       ) {
-        if (this.isFirstNavigation) {
-          this.isFirstNavigation = false;
-        } else {
-          this.loader.hide();
-        }
+        // تأكد أن اللودر مخفي بعد كل تنقل - لا تظهره عند بداية التنقل لتجنب الوميض
+        this.loader.hide();
       }
     });
   }

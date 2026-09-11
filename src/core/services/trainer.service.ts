@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiDataResponse, ApiSuccessMessage } from '../models/auth.model';
 import {
@@ -33,7 +33,6 @@ export class TrainerService {
       .get<ApiDataResponse<ApplicationStatusData>>(`${this.baseUrl}/application-status`)
       .pipe(
         tap((res) => {
-          // ✅ لو معتمد، احفظ في الـ cache
           if (res.data.status === 'APPROVED') {
             this.approvedStatus.set(true);
           } else {
@@ -43,10 +42,14 @@ export class TrainerService {
       );
   }
 
-
-  // -- Retrieve the Current Trainer Profile --
+  // -- Retrieve the Current Trainer Profile -- يدعم {data} و مباشر
   getMyProfile() {
-    return this.http.get<TrainerProfile>(`${this.baseUrl}/me`);
+    return this.http.get<any>(`${this.baseUrl}/me`).pipe(
+      map((res) => {
+        // لو { success, data: profile } أو { data: profile } أو مباشرة profile
+        return (res?.data ?? res) as TrainerProfile;
+      }),
+    );
   }
 
   // -- Update the Current Trainer Profile --
@@ -54,10 +57,14 @@ export class TrainerService {
     return this.http.patch<ApiSuccessMessage>(`${this.baseUrl}/me`, payload);
   }
 
-
-  // -- Retrieve Trainer Programs --
+  // -- Retrieve Trainer Programs -- يدعم wrapper
   getPrograms() {
-    return this.http.get<TrainerProgram[]>(`${this.baseUrl}/programs`);
+    return this.http.get<any>(`${this.baseUrl}/programs`).pipe(
+      map((res) => {
+        const data = res?.data ?? res;
+        return Array.isArray(data) ? data : (data?.data ?? []);
+      }),
+    );
   }
 
   // -- Create a Trainer Program --
@@ -75,9 +82,14 @@ export class TrainerService {
     return this.http.delete<ApiSuccessMessage>(`${this.baseUrl}/programs/${id}`);
   }
 
-  // -- Retrieve Availability Slots --
+  // -- Retrieve Availability Slots -- يدعم wrapper
   getAvailability() {
-    return this.http.get<AvailabilitySlot[]>(`${this.baseUrl}/availability`);
+    return this.http.get<any>(`${this.baseUrl}/availability`).pipe(
+      map((res) => {
+        const data = res?.data ?? res;
+        return Array.isArray(data) ? data : (data?.data ?? []);
+      }),
+    );
   }
 
   // -- Create an Availability Slot --
@@ -95,9 +107,14 @@ export class TrainerService {
     return this.http.delete<ApiSuccessMessage>(`${this.baseUrl}/availability/${id}`);
   }
 
-  // -- Retrieve Trainer Reviews --
+  // -- Retrieve Trainer Reviews -- يدعم wrapper
   getTrainerReviews(trainerId: string) {
-    return this.http.get<TrainerReview[]>(`${this.baseUrl}/${trainerId}/reviews`);
+    return this.http.get<any>(`${this.baseUrl}/${trainerId}/reviews`).pipe(
+      map((res) => {
+        const data = res?.data ?? res;
+        return Array.isArray(data) ? data : (data?.data ?? []);
+      }),
+    );
   }
 
   // -- Submit a Trainer Review --
@@ -113,7 +130,6 @@ export class TrainerService {
   uploadProfileImage(file: File) {
     const formData = new FormData();
     formData.append('image', file);
-
     return this.http.post<{ success: boolean; profile_image: string }>(
       `${this.baseUrl}/upload-profile-image`,
       formData,

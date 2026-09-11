@@ -20,36 +20,30 @@ export class TrainerDashboardComponent implements OnInit {
 
   currentUser = this.authService.currentUser;
   isLoading = signal(true);
+  hasLoaded = signal(false);
   stats = signal<TrainerDashboardStats | null>(null);
   hasError = signal(false);
 
-  // احسب الاكتمال بشكل مستقر - لا يختفي فجأة
+  // ثبات الاكتمال - لا يختفي فجأة
   profileCompletion = computed(() => {
     const s = this.stats();
     if (!s) return 0;
     let completed = 0;
     const total = 6;
-    // 1: برامج
     if ((s.programs_count ?? 0) > 0) completed++;
-    // 2: مواعيد
     if ((s.availability_count ?? 0) > 0) completed++;
-    // 3: تقييمات
     if ((s.reviews_count ?? 0) > 0) completed++;
-    // 4: بروفايل أساسي (دائما موجود)
-    completed++;
-    // 5: متوسط تقييم
+    completed++; // بروفايل أساسي
     const avg = typeof s.average_rating === 'string' ? parseFloat(s.average_rating as any) : (s.average_rating ?? 0);
     if (avg > 0) completed++;
-    // 6: استشارات (ميزة جديدة)
-    completed++;
+    completed++; // استشارات
     return Math.round((completed / total) * 100);
   });
 
-  // دائما اعرض الأقسام حتى لو stats فشل - استخدم fallback
+  // fallback دائم لمنع اختفاء الأقسام
   displayStats = computed(() => {
     const s = this.stats();
     if (s) return s;
-    // fallback لمنع اختفاء الأجزاء
     return {
       programs_count: 0,
       reviews_count: 0,
@@ -57,14 +51,6 @@ export class TrainerDashboardComponent implements OnInit {
       average_rating: 0,
       ratings_count: 0,
     } as TrainerDashboardStats;
-  });
-
-  showCompletion = computed(() => {
-    const comp = this.profileCompletion();
-    const s = this.stats();
-    // لو مفيش stats، اعرض الاكتمال 0%، لو اكتمال 100% اخفيه بسلاسة
-    if (!s) return true;
-    return comp < 100;
   });
 
   quickActions = [
@@ -103,17 +89,30 @@ export class TrainerDashboardComponent implements OnInit {
     this.hasError.set(false);
     this.trainerService.getDashboardStats().subscribe({
       next: (res) => {
-        // API قد يرجع { data: {...} } أو مباشرة {...}
         const data = (res as any).data ?? res;
-        this.stats.set(data as TrainerDashboardStats);
+        // تأكد أن data هي الإحصائيات وليس wrapper
+        const statsData = (data as any).data ?? data;
+        // لو statsData لسه wrapper، استخدمه مباشرة
+        const finalStats = statsData && typeof statsData.programs_count !== 'undefined' ? statsData : data;
+        this.stats.set(finalStats as TrainerDashboardStats);
         this.isLoading.set(false);
+        this.hasLoaded.set(true);
       },
       error: (err) => {
         console.error('Dashboard stats error', err);
         this.hasError.set(true);
-        // لا تترك stats null لتجنب اختفاء الأجزاء - استخدم fallback
-        // لكن isLoading false لإظهار UI
         this.isLoading.set(false);
+        this.hasLoaded.set(true);
+        // fallback يمنع الاختفاء
+        if (!this.stats()) {
+          this.stats.set({
+            programs_count: 0,
+            reviews_count: 0,
+            availability_count: 0,
+            average_rating: 0,
+            ratings_count: 0,
+          } as TrainerDashboardStats);
+        }
       },
     });
   }

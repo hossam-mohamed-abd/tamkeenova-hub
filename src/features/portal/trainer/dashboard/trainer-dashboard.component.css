@@ -585,6 +585,72 @@ html[dir='ltr'] .section-card:hover .section-card-footer i {
   .sections-grid { grid-template-columns: 1fr; }
 }
 
+/* -- Stable Overrides لمنع الاختفاء الجهنمي -- */
+.stable-dashboard,
+.stable-hero,
+.stable-card,
+.stable-action,
+.stable-section,
+.stable-stats {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+.dashboard-content-stable {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
+.dashboard-content-stable.is-loading {
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.stable-loader {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.stable-hero {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  display: block !important;
+}
+
+.stable-card {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  animation: none !important;
+  display: flex !important;
+  visibility: visible !important;
+}
+
+.stable-action {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  animation: none !important;
+  display: flex !important;
+  visibility: visible !important;
+}
+
+.stable-section {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.quick-actions-grid,
+.sections-grid {
+  display: grid !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dashboard-hero,
   .quick-action-card,

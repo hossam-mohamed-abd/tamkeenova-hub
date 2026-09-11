@@ -2,14 +2,13 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class LoaderService {
-  isVisible = signal(true);
+  // يبدأ مخفي لتجنب الوميض الجهنمي - App يظهره أوليا ثم يخفيه
+  isVisible = signal(false);
 
-  // -- Show the Global Loader --
   show(): void {
     this.isVisible.set(true);
   }
 
-  // -- Hide the Global Loader --
   hide(): void {
     this.isVisible.set(false);
   }

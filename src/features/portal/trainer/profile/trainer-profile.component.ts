@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -24,7 +24,7 @@ type TabId = 'general' | 'specialization' | 'links' | 'pricing' | 'certificates'
   templateUrl: './trainer-profile.component.html',
   styleUrls: ['../../portal-shared.css', './trainer-profile.component.css'],
 })
-export class TrainerProfileComponent {
+export class TrainerProfileComponent implements OnInit {
   private fb = inject(FormBuilder);
   private trainerService = inject(TrainerService);
   private specializationService = inject(SpecializationService);
@@ -41,10 +41,14 @@ export class TrainerProfileComponent {
   activeTab = signal<TabId>('general');
 
   isLoading = signal(true);
+  hasLoaded = signal(false);
   isSaving = signal(false);
   saveSuccess = signal(false);
   errorMessage = signal<string | null>(null);
   profile = signal<TrainerProfile | null>(null);
+
+  // fallback لمنع اختفاء الصفحة بالكامل لو الـ API فشل
+  displayProfile = computed(() => this.profile());
 
   isUploadingImage = signal(false);
   uploadImageError = signal<string | null>(null);
@@ -54,7 +58,7 @@ export class TrainerProfileComponent {
   specRequestSaving = signal(false);
   specRequestDone = signal(false);
 
-  hasChanges = computed(() => this.form.dirty);
+  hasChanges = computed(() => this.form.dirty || this.certificateUrls.dirty || this.documents.dirty);
 
   specRequestForm = this.fb.nonNullable.group({
     name_ar: ['', Validators.required],
@@ -84,7 +88,7 @@ export class TrainerProfileComponent {
     }>
   >([]);
 
-  constructor() {
+  ngOnInit(): void {
     this.load();
   }
 
@@ -92,9 +96,18 @@ export class TrainerProfileComponent {
     this.isLoading.set(true);
 
     this.trainerService.getMyProfile().subscribe({
-      next: (profile) => {
+      next: (res: any) => {
+        // يدعم { data: {...} } أو مباشرة {...}
+        const profile: TrainerProfile = res?.data ?? res;
+        if (!profile || !profile.users) {
+          console.warn('Trainer profile unexpected shape', res);
+          this.isLoading.set(false);
+          this.hasLoaded.set(true);
+          this.errorMessage.set('auth.errors.generic');
+          return;
+        }
         this.profile.set(profile);
-        this.profileImage.set(profile.users.profile_image);
+        this.profileImage.set(profile.users?.profile_image ?? null);
 
         this.form.patchValue({
           bio_ar: profile.bio_ar ?? '',
@@ -115,7 +128,7 @@ export class TrainerProfileComponent {
         });
 
         this.certificateUrls.clear();
-        profile.trainer_certificates.forEach((c) => {
+        (profile.trainer_certificates ?? []).forEach((c: any) => {
           this.certificateUrls.push(
             new FormControl(c.certificate_url, {
               nonNullable: true,
@@ -125,7 +138,7 @@ export class TrainerProfileComponent {
         });
 
         this.documents.clear();
-        profile.trainer_documents.forEach((d) => {
+        (profile.trainer_documents ?? []).forEach((d: any) => {
           this.documents.push(
             this.fb.nonNullable.group({
               file_name: [d.file_name, Validators.required],
@@ -136,16 +149,22 @@ export class TrainerProfileComponent {
         });
 
         this.form.markAsPristine();
+        this.certificateUrls.markAsPristine();
+        this.documents.markAsPristine();
         this.isLoading.set(false);
+        this.hasLoaded.set(true);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Trainer profile load error', err);
         this.isLoading.set(false);
+        this.hasLoaded.set(true);
         this.errorMessage.set('auth.errors.generic');
       },
     });
   }
 
   setTab(id: TabId): void {
+    // ثبات تام - لا يعيد تحميل ولا يخفي المحتوى
     this.activeTab.set(id);
   }
 
@@ -158,27 +177,22 @@ export class TrainerProfileComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-
     if (!file) return;
-
     if (!file.type.startsWith('image/')) {
       this.uploadImageError.set('trainer_profile.errors.invalid_image_type');
       return;
     }
-
     const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       this.uploadImageError.set('trainer_profile.errors.image_too_large');
       return;
     }
-
     this.uploadImage(file);
   }
 
   uploadImage(file: File): void {
     this.isUploadingImage.set(true);
     this.uploadImageError.set(null);
-
     this.trainerService.uploadProfileImage(file).subscribe({
       next: (res) => {
         this.isUploadingImage.set(false);
@@ -202,9 +216,7 @@ export class TrainerProfileComponent {
       this.specRequestForm.markAllAsTouched();
       return;
     }
-
     this.specRequestSaving.set(true);
-
     this.specializationService.requestNew(this.specRequestForm.getRawValue()).subscribe({
       next: () => {
         this.specRequestSaving.set(false);
@@ -224,6 +236,7 @@ export class TrainerProfileComponent {
         validators: [Validators.required, Validators.pattern(URL_PATTERN)],
       }),
     );
+    this.form.markAsDirty();
   }
 
   removeCertificate(index: number): void {
@@ -239,6 +252,7 @@ export class TrainerProfileComponent {
         file_type: ['CV', Validators.required],
       }),
     );
+    this.form.markAsDirty();
   }
 
   removeDocument(index: number): void {
@@ -251,13 +265,10 @@ export class TrainerProfileComponent {
       this.form.markAllAsTouched();
       return;
     }
-
     this.isSaving.set(true);
     this.saveSuccess.set(false);
     this.errorMessage.set(null);
-
     const raw = this.form.getRawValue();
-
     const payload = {
       bio_ar: raw.bio_ar || undefined,
       bio_en: raw.bio_en || undefined,
@@ -273,12 +284,13 @@ export class TrainerProfileComponent {
       certificate_urls: this.certificateUrls.getRawValue().filter((v) => !!v),
       documents: this.documents.getRawValue(),
     };
-
     this.trainerService.updateMyProfile(payload).subscribe({
       next: () => {
         this.isSaving.set(false);
         this.saveSuccess.set(true);
         this.form.markAsPristine();
+        this.certificateUrls.markAsPristine();
+        this.documents.markAsPristine();
         setTimeout(() => this.saveSuccess.set(false), 3000);
       },
       error: (err) => {
