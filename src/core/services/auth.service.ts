@@ -12,6 +12,7 @@ import {
   ResendOtpRequest,
   User,
   VerifyEmailRequest,
+  VolunteerRegisterRequest,
   type RegisterResponse,
 } from '../models/auth.model';
 
@@ -32,11 +33,19 @@ export class AuthService {
   role = computed(() => this._currentUser()?.role ?? null);
   isTrainer = computed(() => this.role() === 'TRAINER');
   isStudent = computed(() => this.role() === 'STUDENT');
-  isAdmin = computed(() => this.role() === 'ADMIN');
+  isAdmin = computed(() => this.role() === 'ADMIN' || this.role() === 'SUPER_ADMIN');
+  isEmployee = computed(() => this.role() === 'EMPLOYEE');
+  isVolunteer = computed(() => this.role() === 'VOLUNTEER');
+  isStaffMember = computed(() => this.isEmployee() || this.isVolunteer());
 
   // -- Register a New User --
   register(payload: RegisterRequest) {
     return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, payload);
+  }
+
+  // -- Submit a Volunteer Application (public) --
+  registerVolunteer(payload: VolunteerRegisterRequest) {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/register/volunteer`, payload);
   }
 
   // -- Verify an Email Address --

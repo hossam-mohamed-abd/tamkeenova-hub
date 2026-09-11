@@ -80,7 +80,12 @@ export class NavbarComponent {
       case 'TRAINER':
         return 'nav.role_trainer';
       case 'ADMIN':
+      case 'SUPER_ADMIN':
         return 'nav.role_admin';
+      case 'EMPLOYEE':
+        return 'nav.role_employee';
+      case 'VOLUNTEER':
+        return 'nav.role_volunteer';
       default:
         return 'nav.role_student';
     }
@@ -89,7 +94,9 @@ export class NavbarComponent {
   dashboardRoute = computed(() => {
     const role = this.authService.role();
     if (role === 'TRAINER') return '/portal/trainer';
-    if (role === 'ADMIN') return '/portal/admin';
+    if (role === 'ADMIN' || role === 'SUPER_ADMIN') return '/portal/admin';
+    if (role === 'EMPLOYEE') return '/portal/employee';
+    if (role === 'VOLUNTEER') return '/portal/volunteer';
     return '/portal/student';
   });
 

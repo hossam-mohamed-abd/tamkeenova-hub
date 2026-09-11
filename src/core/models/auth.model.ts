@@ -1,4 +1,4 @@
-export type UserRole = 'STUDENT' | 'TRAINER' | 'ADMIN';
+export type UserRole = 'STUDENT' | 'TRAINER' | 'CLIENT' | 'EMPLOYEE' | 'ADMIN' | 'SUPER_ADMIN' | 'VOLUNTEER';
 
 export interface User {
   id: string;
@@ -42,6 +42,15 @@ export interface RegisterResponse {
   success: boolean;
   message: string;
   user_id?: string;
+}
+
+export interface VolunteerRegisterRequest {
+  full_name: string;
+  username?: string;
+  email: string;
+  phone: string;
+  password: string;
+  bio?: string;
 }
 
 export interface LoginRequest {

@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
 import { HomeComponent } from '../features/home/home.component';
 import { NotFoundComponent } from '../features/not-found/not-found.component.js';
 import { guestGuard } from '../core/guards/guest.guard';
 import { authGuard } from '../core/guards/auth.guard';
 import { roleGuard } from '../core/guards/role.guard';
 import { trainerStatusGuard } from '../core/guards/trainer-status.guard';
+import { AuthService } from '../core/services/auth.service';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -46,6 +48,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'register/volunteer',
+    canActivate: [guestGuard],
+    loadComponent: () =>
+      import('../features/auth/register-volunteer/volunteer-register.component').then(
+        (m) => m.VolunteerRegisterComponent,
+      ),
+  },
+  {
     path: 'verify-otp',
     canActivate: [guestGuard],
     loadComponent: () =>
@@ -59,6 +69,19 @@ export const routes: Routes = [
   },
 
   // -- Student Portal Routes --
+  {
+    path: 'portal',
+    canActivate: [authGuard],
+    redirectTo: () => {
+      const role = inject(AuthService).role();
+      if (role === 'TRAINER') return '/portal/trainer';
+      if (role === 'ADMIN' || role === 'SUPER_ADMIN') return '/portal/admin';
+      if (role === 'EMPLOYEE') return '/portal/employee';
+      if (role === 'VOLUNTEER') return '/portal/volunteer';
+      return '/portal/student';
+    },
+    pathMatch: 'full',
+  },
   {
     path: 'portal/student',
     canActivate: [authGuard, roleGuard(['STUDENT'])],
@@ -186,6 +209,135 @@ export const routes: Routes = [
         loadComponent: () =>
           import('../features/portal/trainer/reviews/trainer-reviews.component').then(
             (m) => m.TrainerReviewsComponent,
+          ),
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/notifications/student-notifications.component'
+          ).then((m) => m.StudentNotificationsComponent),
+      },
+    ],
+  },
+
+  // -- Admin Portal Routes --
+  {
+    path: 'portal/admin',
+    canActivate: [authGuard, roleGuard(['ADMIN', 'SUPER_ADMIN'])],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/portal/admin/dashboard/admin-dashboard.component').then(
+            (m) => m.AdminDashboardComponent,
+          ),
+      },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('../features/portal/admin/users/admin-users.component').then(
+            (m) => m.AdminUsersComponent,
+          ),
+      },
+      {
+        path: 'trainers',
+        loadComponent: () =>
+          import('../features/portal/admin/trainers/admin-trainers.component').then(
+            (m) => m.AdminTrainersComponent,
+          ),
+      },
+      {
+        path: 'volunteers',
+        loadComponent: () =>
+          import('../features/portal/admin/volunteers/admin-volunteers.component').then(
+            (m) => m.AdminVolunteersComponent,
+          ),
+      },
+      {
+        path: 'certificates',
+        loadComponent: () =>
+          import('../features/portal/admin/certificates/admin-certificates.component').then(
+            (m) => m.AdminCertificatesComponent,
+          ),
+      },
+      {
+        path: 'corporate',
+        loadComponent: () =>
+          import('../features/portal/admin/corporate/admin-corporate.component').then(
+            (m) => m.AdminCorporateComponent,
+          ),
+      },
+      {
+        path: 'specializations',
+        loadComponent: () =>
+          import('../features/portal/admin/specializations/admin-specializations.component').then(
+            (m) => m.AdminSpecializationsComponent,
+          ),
+      },
+      {
+        path: 'programs',
+        loadComponent: () =>
+          import('../features/portal/admin/programs/admin-programs.component').then(
+            (m) => m.AdminProgramsComponent,
+          ),
+      },
+      {
+        path: 'tasks',
+        loadComponent: () =>
+          import('../features/portal/admin/tasks/admin-tasks.component').then(
+            (m) => m.AdminTasksComponent,
+          ),
+      },
+    ],
+  },
+
+  // -- Employee Portal Routes --
+  {
+    path: 'portal/employee',
+    canActivate: [authGuard, roleGuard(['EMPLOYEE'])],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/portal/employee/dashboard/employee-dashboard.component').then(
+            (m) => m.EmployeeDashboardComponent,
+          ),
+      },
+      {
+        path: 'tasks',
+        loadComponent: () =>
+          import('../features/portal/tasks/my-tasks/my-tasks.component').then(
+            (m) => m.MyTasksComponent,
+          ),
+      },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import(
+            '../features/portal/student/notifications/student-notifications.component'
+          ).then((m) => m.StudentNotificationsComponent),
+      },
+    ],
+  },
+
+  // -- Volunteer Portal Routes --
+  {
+    path: 'portal/volunteer',
+    canActivate: [authGuard, roleGuard(['VOLUNTEER'])],
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('../features/portal/volunteer/dashboard/volunteer-dashboard.component').then(
+            (m) => m.VolunteerDashboardComponent,
+          ),
+      },
+      {
+        path: 'tasks',
+        loadComponent: () =>
+          import('../features/portal/tasks/my-tasks/my-tasks.component').then(
+            (m) => m.MyTasksComponent,
           ),
       },
       {

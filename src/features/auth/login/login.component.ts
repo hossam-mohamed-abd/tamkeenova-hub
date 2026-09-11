@@ -70,8 +70,12 @@ export class LoginComponent {
         const role = res.data.user.role;
         if (role === 'TRAINER') {
           this.router.navigate(['/portal/trainer']);
-        } else if (role === 'ADMIN') {
+        } else if (role === 'ADMIN' || role === 'SUPER_ADMIN') {
           this.router.navigate(['/portal/admin']);
+        } else if (role === 'EMPLOYEE') {
+          this.router.navigate(['/portal/employee']);
+        } else if (role === 'VOLUNTEER') {
+          this.router.navigate(['/portal/volunteer']);
         } else {
           this.router.navigate(['/portal/student']);
         }
