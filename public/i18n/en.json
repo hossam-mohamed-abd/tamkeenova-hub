@@ -1050,7 +1050,12 @@
     "doc_add_error": "Could not add the document",
     "doc_delete_error": "Could not delete the document",
     "empty": "No trainers with this status",
-    "load_error": "Could not load trainers"
+    "load_error": "Could not load trainers",
+    "edit_title": "Edit trainer data",
+    "update_success": "Trainer data updated successfully",
+    "update_error": "Could not update trainer data",
+    "bio_ar": "Short bio (Arabic)",
+    "bio_en": "Short bio (English)"
   },
   "admin_volunteers": {
     "title": "Volunteers Management",

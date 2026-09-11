@@ -62,6 +62,16 @@ export class AdminTrainersComponent implements OnInit {
   busyId = signal<string | null>(null);
 
   toastError = signal<string | null>(null);
+  toastSuccess = signal<string | null>(null);
+
+  // -- Edit trainer form --
+  editTarget = signal<AdminTrainer | null>(null);  isSavingTrainer = signal(false);
+
+  editForm = this.fb.nonNullable.group({
+    years_of_experience: this.fb.control<number | null>(null),
+    bio_ar: [''],
+    bio_en: [''],
+  });
 
   filtered = computed(() => {
     const f = this.activeFilter();
@@ -202,6 +212,48 @@ export class AdminTrainersComponent implements OnInit {
     });
   }
 
+  // ================= Edit trainer =================
+
+  openEdit(trainer: AdminTrainer): void {
+    this.editTarget.set(trainer);
+    this.editForm.reset({
+      years_of_experience: trainer.years_of_experience ?? null,
+      bio_ar: trainer.bio_ar ?? '',
+      bio_en: trainer.bio_en ?? '',
+    });
+  }
+
+  closeEdit(): void {
+    this.editTarget.set(null);
+    this.isSavingTrainer.set(false);
+  }
+
+  saveEdit(): void {
+    const target = this.editTarget();
+    if (!target) return;
+    const raw = this.editForm.getRawValue();
+    this.isSavingTrainer.set(true);
+    this.adminService
+      .updateTrainer(target.id, {
+        years_of_experience: raw.years_of_experience ?? undefined,
+        bio_ar: raw.bio_ar || undefined,
+        bio_en: raw.bio_en || undefined,
+      })
+      .subscribe({
+        next: (updated) => {
+          const merged = updated ?? { ...target, ...raw };
+          this.replaceTrainer(merged);
+          this.isSavingTrainer.set(false);
+          this.closeEdit();
+          this.showToast('admin_trainers.update_success');
+        },
+        error: () => {
+          this.isSavingTrainer.set(false);
+          this.showError('admin_trainers.update_error');
+        },
+      });
+  }
+
   closeDetails(): void {
     this.details.set(null);
   }
@@ -295,5 +347,10 @@ export class AdminTrainersComponent implements OnInit {
   private showError(key: string): void {
     this.toastError.set(key);
     setTimeout(() => this.toastError.set(null), 3000);
+  }
+
+  private showToast(key: string): void {
+    this.toastSuccess.set(key);
+    setTimeout(() => this.toastSuccess.set(null), 3000);
   }
 }

@@ -96,6 +96,11 @@ export class AdminService {
     return this.unwrap<AdminTrainer>(this.http.patch<any>(`${this.baseUrl}/trainers/${id}/activate`, {}));
   }
 
+  // -- Update Trainer Data (Admin) --
+  updateTrainer(id: string, payload: { years_of_experience?: number; bio_ar?: string; bio_en?: string }): Observable<AdminTrainer> {
+    return this.unwrap<AdminTrainer>(this.http.patch<any>(`${this.baseUrl}/trainers/${id}`, payload));
+  }
+
   addTrainerCertificate(id: string, payload: { title: string; certificate_url: string }): Observable<AdminTrainer> {
     return this.unwrap<AdminTrainer>(this.http.post<any>(`${this.baseUrl}/trainers/${id}/certificates`, payload));
   }
