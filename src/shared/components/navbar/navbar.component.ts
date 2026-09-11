@@ -104,12 +104,21 @@ export class NavbarComponent {
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
+    if (typeof window === 'undefined') return;
     this.isScrolled.set(window.scrollY > 24);
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
+    const target = event.target as HTMLElement | null;
+    if (!target || typeof (target as any).closest !== 'function') {
+      // text node or non-element click
+      this.isUserMenuOpen.set(false);
+      if (!this.isNotifHovering()) {
+        this.isNotifDropdownOpen.set(false);
+      }
+      return;
+    }
     const clickedInside = this.elementRef.nativeElement.contains(target);
     const isNotifArea = target.closest('.notif-dropdown-wrapper') || target.closest('.notif-glass-dropdown') || target.closest('.notif-detail-modal');
     if (!clickedInside && !isNotifArea) {
@@ -196,16 +205,21 @@ export class NavbarComponent {
   }
 
   timeAgo(dateStr: string): string {
-    const now = new Date();
-    const date = new Date(dateStr);
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    if (diffMins < 1) return 'الآن';
-    if (diffMins < 60) return `منذ ${diffMins} د`;
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `منذ ${diffHours} س`;
-    const diffDays = Math.floor(diffHours / 24);
-    return `منذ ${diffDays} يوم`;
+    try {
+      const now = new Date();
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return '';
+      const diffMs = now.getTime() - date.getTime();
+      const diffMins = Math.floor(diffMs / 60000);
+      if (diffMins < 1) return 'الآن';
+      if (diffMins < 60) return `منذ ${diffMins} د`;
+      const diffHours = Math.floor(diffMins / 60);
+      if (diffHours < 24) return `منذ ${diffHours} س`;
+      const diffDays = Math.floor(diffHours / 24);
+      return `منذ ${diffDays} يوم`;
+    } catch {
+      return '';
+    }
   }
 
   openNotificationDetail(notif: AppNotification, event?: Event): void {
@@ -300,14 +314,16 @@ export class NavbarComponent {
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen.update((v) => !v);
-    document.body.style.overflow = this.isMobileMenuOpen() ? 'hidden' : '';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = this.isMobileMenuOpen() ? 'hidden' : '';
+    }
   }
 
   closeMobileMenu(): void {
     this.isMobileMenuOpen.set(false);
     this.isUserMenuOpen.set(false);
     this.isNotifDropdownOpen.set(false);
-    document.body.style.overflow = '';
+    if (typeof document !== 'undefined') document.body.style.overflow = '';
   }
 
   logout(): void {

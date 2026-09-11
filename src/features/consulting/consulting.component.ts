@@ -257,6 +257,7 @@ export class ConsultingComponent {
   }
 
   triggerAttachmentInput(): void {
+    if (typeof document === 'undefined') return;
     document.getElementById('consulting-attachment-input')?.click();
   }
 

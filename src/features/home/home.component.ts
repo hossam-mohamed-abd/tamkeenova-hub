@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
     if (!prefersReduced) {
       this.heroTimer = setInterval(() => {
@@ -154,7 +154,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       initial.map((img) => ({ currentImg: img, nextImg: img, sliding: false, resetting: false })),
     );
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
     if (prefersReduced) return;
 
     const startDelay = setTimeout(() => {

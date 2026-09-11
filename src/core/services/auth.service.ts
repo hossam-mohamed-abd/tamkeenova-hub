@@ -57,8 +57,12 @@ export class AuthService {
   // -- Persist the Authenticated User Session --
   setSession(response: LoginResponse): void {
     const { access_token, user } = response.data;
-    localStorage.setItem(TOKEN_KEY, access_token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(TOKEN_KEY, access_token);
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+      }
+    } catch {}
     this._currentUser.set(user);
   }
 
@@ -71,7 +75,9 @@ export class AuthService {
   refreshCurrentUser(): void {
     this.fetchCurrentUser().subscribe({
       next: (res) => {
-        localStorage.setItem(USER_KEY, JSON.stringify(res.data));
+        try {
+          if (typeof localStorage !== 'undefined') localStorage.setItem(USER_KEY, JSON.stringify(res.data));
+        } catch {}
         this._currentUser.set(res.data);
       },
       error: () => this.logout(),
@@ -89,22 +95,30 @@ export class AuthService {
 
   // -- Restore a Valid User from Local Storage --
   private readUserFromStorage(): User | null {
-    const raw = localStorage.getItem(USER_KEY);
-    if (!raw) return null;
-
     try {
+      if (typeof localStorage === 'undefined') return null;
+      const raw = localStorage.getItem(USER_KEY);
+      if (!raw) return null;
       return JSON.parse(raw) as User;
     } catch {
-      localStorage.removeItem(USER_KEY);
-      localStorage.removeItem(TOKEN_KEY);
+      try {
+        if (typeof localStorage !== 'undefined') {
+          localStorage.removeItem(USER_KEY);
+          localStorage.removeItem(TOKEN_KEY);
+        }
+      } catch {}
       return null;
     }
   }
 
   // -- Clear the Current User Session --
   logout(redirect = true): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(USER_KEY);
+      }
+    } catch {}
     this._currentUser.set(null);
     this.notificationsService.reset();
     if (redirect) this.router.navigate(['/login']);

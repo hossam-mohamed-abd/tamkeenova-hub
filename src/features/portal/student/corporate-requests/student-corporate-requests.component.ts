@@ -150,6 +150,7 @@ export class StudentCorporateRequestsComponent {
   }
 
   triggerAttachmentInput(): void {
+    if (typeof document === 'undefined') return;
     const input = document.getElementById('corp-attachment-input') as HTMLInputElement;
     input?.click();
   }

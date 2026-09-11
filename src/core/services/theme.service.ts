@@ -20,16 +20,24 @@ export class ThemeService {
 
     effect(() => {
       const theme = this.theme();
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem(THEME_KEY, theme);
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('data-theme', theme);
+      }
+      if (typeof localStorage !== 'undefined') {
+        try { localStorage.setItem(THEME_KEY, theme); } catch {}
+      }
     });
 
     effect(() => {
       const lang = this.language();
       const dir: Direction = lang === 'ar' ? 'rtl' : 'ltr';
-      document.documentElement.setAttribute('lang', lang);
-      document.documentElement.setAttribute('dir', dir);
-      localStorage.setItem(LANG_KEY, lang);
+      if (typeof document !== 'undefined') {
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', dir);
+      }
+      if (typeof localStorage !== 'undefined') {
+        try { localStorage.setItem(LANG_KEY, lang); } catch {}
+      }
       this.translate.use(lang);
     });
   }
@@ -56,14 +64,28 @@ export class ThemeService {
 
   // -- Resolve the Initial Theme Preference --
   private getStoredTheme(): ThemeMode {
-    const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
-    if (stored) return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const stored = localStorage.getItem(THEME_KEY) as ThemeMode | null;
+        if (stored) return stored;
+      }
+    } catch {}
+    try {
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+    } catch {}
+    return 'light';
   }
 
   // -- Resolve the Initial Language Preference --
   private getStoredLanguage(): Language {
-    const stored = localStorage.getItem(LANG_KEY) as Language | null;
-    return stored ?? 'ar';
+    try {
+      if (typeof localStorage !== 'undefined') {
+        const stored = localStorage.getItem(LANG_KEY) as Language | null;
+        if (stored) return stored;
+      }
+    } catch {}
+    return 'ar';
   }
 }

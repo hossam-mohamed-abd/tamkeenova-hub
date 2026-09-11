@@ -116,6 +116,7 @@ export class StudentProfileComponent {
 
   // -- Avatar Upload --
   triggerFileInput(): void {
+    if (typeof document === 'undefined') return;
     const input = document.getElementById('student-avatar-input') as HTMLInputElement;
     input?.click();
   }

@@ -109,7 +109,7 @@ export class StudentTrainersComponent {
     if (p < 1 || p > this.totalPages()) return;
     this.page.set(p);
     this.load();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   ratingOf(t: TrainerListItem): number {

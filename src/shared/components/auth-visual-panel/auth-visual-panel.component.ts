@@ -29,7 +29,7 @@ export class AuthVisualPanelComponent implements AfterViewInit {
     const path = this.pathLineRef?.nativeElement;
     if (!path) return;
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
     if (prefersReduced) return;
 
     const length = path.getTotalLength();

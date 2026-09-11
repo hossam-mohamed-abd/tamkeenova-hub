@@ -23,7 +23,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   programs = signal<GalleryImage[]>([]);
   events = signal<GalleryImage[]>([]);
 
-  private readonly prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  private readonly prefersReduced = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
   loadedImages = signal<Set<string>>(new Set());
   imageAspect = signal<Map<string, number>>(new Map());
@@ -63,7 +63,7 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    document.body.style.overflow = '';
+    if (typeof document !== 'undefined') document.body.style.overflow = '';
   }
 
   // -- Retrieve the Active Lightbox Image List --
@@ -119,20 +119,20 @@ export class GalleryShowcaseComponent implements OnInit, OnDestroy {
 
   // -- Open the Image Lightbox --
   openLightbox(event: MouseEvent, section: 'programs' | 'events', index: number): void {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1000;
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
     this.originX.set(Math.round((event.clientX / vw) * 100));
     this.originY.set(Math.round((event.clientY / vh) * 100));
     this.lightboxSection.set(section);
     this.lightboxIndex.set(index);
     this.imgVisible.set(true);
-    document.body.style.overflow = 'hidden';
+    if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
   }
 
   // -- Close the Image Lightbox --
   closeLightbox(): void {
     this.lightboxSection.set(null);
-    document.body.style.overflow = '';
+    if (typeof document !== 'undefined') document.body.style.overflow = '';
   }
 
   lightboxNext(): void {

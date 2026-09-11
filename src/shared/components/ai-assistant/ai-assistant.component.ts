@@ -103,14 +103,17 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
   }
   // -- Calculate the Closed Assistant Bounds --
   private closedBox(): Box {
-    return { x: 24, y: window.innerHeight - 24 - 60, w: 60, h: 60, r: 30 };
+    const ih = typeof window !== 'undefined' ? window.innerHeight : 800;
+    return { x: 24, y: ih - 24 - 60, w: 60, h: 60, r: 30 };
   }
 
   // -- Calculate the Open Assistant Bounds --
   private openBox(): Box {
-    const w = Math.min(420, window.innerWidth - 48);
-    const h = Math.min(640, window.innerHeight - 48);
-    return { x: (window.innerWidth - w) / 2, y: (window.innerHeight - h) / 2, w, h, r: 24 };
+    const iw = typeof window !== 'undefined' ? window.innerWidth : 1200;
+    const ih = typeof window !== 'undefined' ? window.innerHeight : 800;
+    const w = Math.min(420, iw - 48);
+    const h = Math.min(640, ih - 48);
+    return { x: (iw - w) / 2, y: (ih - h) / 2, w, h, r: 24 };
   }
 
   // -- Apply Bounds to the Assistant Shell --
@@ -144,7 +147,7 @@ export class AiAssistantComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
     const start = this.closedBox();
     const end = this.openBox();
 

@@ -83,7 +83,7 @@ export class TeamShowcaseComponent implements OnDestroy {
       })),
     );
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
     if (prefersReduced) return;
 
     const t = setTimeout(() => {

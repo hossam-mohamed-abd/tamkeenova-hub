@@ -64,7 +64,7 @@ export class AppLoaderComponent implements AfterViewInit, OnDestroy {
     gate.classList.remove('is-drawing');
     t.classList.remove('is-drawing');
 
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
     if (prefersReduced) {
       root.classList.add('is-filled', 'is-revealing', 'is-loading');
       return;

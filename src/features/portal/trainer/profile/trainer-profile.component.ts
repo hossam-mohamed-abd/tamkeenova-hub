@@ -150,6 +150,7 @@ export class TrainerProfileComponent {
   }
 
   triggerFileInput(): void {
+    if (typeof document === 'undefined') return;
     const input = document.getElementById('profile-image-input') as HTMLInputElement;
     input?.click();
   }
