@@ -91,7 +91,7 @@
                   <span class="notif-glass-title">{{ n.title }}</span>
                   @if (!n.is_read) { <span class="notif-glass-dot"></span> }
                 </div>
-                <p class="notif-glass-msg">{{ n.message | slice:0:70 }}{{ n.message.length > 70 ? '…' : '' }}</p>
+                <p class="notif-glass-msg">{{ (n.message || '') | slice:0:70 }}{{ (n.message || '').length > 70 ? '…' : '' }}</p>
                 <span class="notif-glass-time"><i class="fa-regular fa-clock"></i> {{ timeAgo(n.created_at) }}</span>
               </div>
             </article>

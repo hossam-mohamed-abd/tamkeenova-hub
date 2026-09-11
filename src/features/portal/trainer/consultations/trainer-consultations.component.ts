@@ -128,27 +128,54 @@ export class TrainerConsultationsComponent {
     this.isUpdating.set(true);
     this.updateError.set(null);
 
-    const payload: any = {
-      action: act,
-      trainer_notes: this.trainerNotes().trim() || undefined,
-      reason: this.rejectionReason().trim() || undefined,
-      scheduled_at: this.scheduledAt().trim() ? new Date(this.scheduledAt()).toISOString() : undefined,
+    // Backend expects status mapping: APPROVE->APPROVED, REJECT->REJECTED, etc.
+    const statusMap: Record<string, ConsultationStatus> = {
+      APPROVE: 'APPROVED',
+      REJECT: 'REJECTED',
+      SCHEDULE: 'SCHEDULED',
+      COMPLETE: 'COMPLETED',
+      CANCEL: 'CANCELLED',
     };
 
+    const payload: any = {
+      status: statusMap[act] ?? act,
+      trainer_notes: this.trainerNotes().trim() || undefined,
+      rejection_reason: this.rejectionReason().trim() || undefined,
+      reason: this.rejectionReason().trim() || undefined,
+      scheduled_at: this.scheduledAt().trim() ? new Date(this.scheduledAt()).toISOString() : undefined,
+      // keep action for backward compatibility
+      action: act,
+    };
+
+    // Try primary endpoint PATCH /consultations/:id/status, fallback to PATCH /consultations/:id
     this.http.patch<{ message: string; consultation: Consultation }>(`${this.baseUrl}/${sel.id}/status`, payload).subscribe({
-      next: (res) => {
-        this.isUpdating.set(false);
-        const updated = res.consultation;
-        this.consultations.update((list) => list.map((c) => (c.id === sel.id ? { ...c, ...updated } : c)));
-        this.selected.set({ ...sel, ...updated });
-        this.showToast('تم تحديث حالة الاستشارة بنجاح');
-      },
+      next: (res) => this.handleUpdateSuccess(res, sel),
       error: (err) => {
-        this.isUpdating.set(false);
-        const msg = err?.error?.message;
-        this.updateError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+        // fallback try PATCH /:id with status
+        if (err?.status === 404) {
+          this.http.patch<{ message: string; consultation: Consultation }>(`${this.baseUrl}/${sel.id}`, { status: statusMap[act] ?? act, trainer_notes: payload.trainer_notes, rejection_reason: payload.rejection_reason, scheduled_at: payload.scheduled_at }).subscribe({
+            next: (res2) => this.handleUpdateSuccess(res2, sel),
+            error: (err2) => this.handleUpdateError(err2),
+          });
+        } else {
+          this.handleUpdateError(err);
+        }
       },
     });
+  }
+
+  private handleUpdateSuccess(res: { message: string; consultation: Consultation }, sel: Consultation): void {
+    this.isUpdating.set(false);
+    const updated = res.consultation ?? res as any;
+    this.consultations.update((list) => list.map((c) => (c.id === sel.id ? { ...c, ...updated } : c)));
+    this.selected.set({ ...sel, ...updated });
+    this.showToast('تم تحديث حالة الاستشارة بنجاح');
+  }
+
+  private handleUpdateError(err: any): void {
+    this.isUpdating.set(false);
+    const msg = err?.error?.message;
+    this.updateError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
   }
 
   badgeClass(status: string): string {

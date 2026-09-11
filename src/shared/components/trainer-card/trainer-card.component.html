@@ -22,7 +22,7 @@
 
     <!-- Rating with 5 stars + animation -->
     <div class="trainer-card-rating" [class.is-interactive]="interactiveRating() && isStudent()"
-      (mouseleave)="onStarLeave()" (mouseenter)="showRatingHint.set(true)" (mouseleave)="showRatingHint.set(false)">
+      (mouseleave)="onStarLeave(); showRatingHint.set(false)" (mouseenter)="showRatingHint.set(true)">
 
       <div class="rating-stars-row">
         @for (star of starsArray; track star) {

@@ -7,6 +7,45 @@
   font-weight: 700;
 }
 
+.portal-page {
+  background-image:
+    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--color-primary) 5%, transparent) 0%, transparent 38%),
+    radial-gradient(circle at 88% 65%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 42%);
+}
+
+.filter-pills {
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  padding: 0.8rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+  animation: filter-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes filter-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.enroll-card {
+  background: color-mix(in srgb, var(--color-surface) 84%, transparent) !important;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
+  animation: enroll-enter 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+@keyframes enroll-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.enroll-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
 .filter-pills {
   display: flex;
   gap: 0.5rem;

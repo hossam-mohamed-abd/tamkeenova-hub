@@ -18,7 +18,7 @@
     "my_profile": "My Profile",
     "account": "Account",
     "dashboard": "Dashboard",
-    "role_student": "Student / Client",
+    "role_student": "Student or Client",
     "role_trainer": "Trainer",
     "role_admin": "Admin",
     "notifications_dropdown_title": "Notifications",
@@ -154,12 +154,12 @@
       "subtitle": "Whether you're a company seeking a training partner or an individual looking for career guidance, we're here to help."
     },
     "account_notice": {
-      "text": "Submitting a consultation request requires a registered account on the platform.",
+      "text": "Submitting a consultation requires a registered account — student or client account includes all clients.",
       "cta": "Sign up / Create account"
     },
     "tabs": {
       "b2b": "I represent a company / organization (B2B)",
-      "b2c": "I'm an individual (B2C)"
+      "b2c": "I am Student or Client (B2C) — individual consultation"
     },
     "form": {
       "field_label": "Service or consultation field",
@@ -258,7 +258,7 @@
     "date_label": "Preferred date",
     "time_label": "Preferred time",
     "method_email": "Email",
-    "login_required": "Log in with a student account to book a consultation with the trainer.",
+    "login_required": "Log in with a student or client account to book consultation.",
     "login_cta": "Log in",
     "trainer_notice": "Booking consultations is available for student accounts only.",
     "view_my_consultations": "View my consultations"
@@ -343,9 +343,9 @@
       "title": "Create Account",
       "subtitle": "Join TamkeeNova and start your journey",
       "role_label": "Account Type",
-      "role_student": "Student / Client",
+      "role_student": "Student or Client",
       "role_trainer": "Trainer",
-      "role_student_desc": "I learn and enroll in training programs — student or client account",
+      "role_student_desc": "I learn and enroll — student or client account",
       "role_trainer_desc": "I want to deliver programs and sessions",
       "trainer_note": "Trainer accounts require admin approval before activation",
       "submit": "Create Account",
@@ -361,10 +361,10 @@
     "login": {
       "eyebrow": "Sign In",
       "title": "Login",
-      "subtitle": "Welcome back — login as Student / Client or Trainer",
+      "subtitle": "Welcome back — login as Student or Client or Trainer",
       "submit": "Login",
       "no_account": "Don't have an account?",
-      "student_hint": "Student account includes all clients — student, trainee or beneficiary"
+      "student_hint": "Student account includes all clients — student or client, trainee or beneficiary"
     },
     "trainer_register": {
       "eyebrow": "Trainer Registration",

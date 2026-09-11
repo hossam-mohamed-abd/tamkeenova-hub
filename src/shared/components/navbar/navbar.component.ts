@@ -68,7 +68,11 @@ export class NavbarComponent {
       .join('');
   });
 
-  userAvatar = computed(() => this.currentUser()?.profile_image ?? null);
+  userAvatar = computed(() => {
+    const img = this.currentUser()?.profile_image;
+    if (!img || (typeof img === 'string' && img.trim() === '')) return null;
+    return img;
+  });
 
   roleLabel = computed(() => {
     const role = this.authService.role();

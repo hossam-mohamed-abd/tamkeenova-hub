@@ -261,13 +261,27 @@ export class ConsultingComponent {
   }
 
   resetForm(): void {
-    Object.values(this.b2b).forEach((s: any) => {
-      if (typeof s() === 'number' || s() === null) s.set(null);
-      else s.set('');
-    });
+    this.b2b.contact_name.set('');
+    this.b2b.contact_email.set('');
+    this.b2b.contact_phone.set('');
+    this.b2b.contact_whatsapp.set('');
+    this.b2b.company_name.set('');
+    this.b2b.sector.set('');
+    this.b2b.country.set('');
+    this.b2b.employees_count.set(null);
     this.b2b.service_type.set('TRAINING');
-    Object.values(this.b2c).forEach((s: any) => s.set(''));
+    this.b2b.service_description.set('');
+    this.b2b.expected_budget.set('');
+    this.b2b.project_duration.set('');
+    this.b2c.trainer_id.set('');
+    this.b2c.trainer_search.set('');
+    this.b2c.title.set('');
+    this.b2c.description.set('');
+    this.b2c.preferred_date.set('');
+    this.b2c.preferred_time.set('');
+    this.b2c.contact_phone.set('');
     this.b2c.contact_method.set('whatsapp');
+    this.b2c.student_notes.set('');
     this.touched.set(false);
     this.submitted.set(false);
     this.submittedRequestId.set(null);

@@ -101,7 +101,7 @@
       }
 
       <div class="detail-section">
-        <h5><i class="fa-solid fa-user"></i> بيانات الطالب / العميل كاملة</h5>
+        <h5><i class="fa-solid fa-user"></i> بيانات الطالب أو الكلاينت كاملة</h5>
         <div class="person-detail-card glass-person">
           @if (d.users?.profile_image) {
           <img [src]="d.users!.profile_image!" [alt]="d.users!.full_name" class="person-avatar" />
@@ -145,7 +145,7 @@
         }
         @if (d.student_notes) {
         <div class="detail-row detail-col">
-          <span class="text-muted">ملاحظات الطالب</span>
+          <span class="text-muted">ملاحظات الطالب أو الكلاينت</span>
           <p>{{ d.student_notes }}</p>
         </div>
         }
@@ -171,7 +171,7 @@
         </div>
 
         <div class="field">
-          <label class="field-label">ملاحظات للطالب / العميل</label>
+          <label class="field-label">ملاحظات للطالب أو الكلاينت</label>
           <textarea class="field-input field-textarea" rows="3" [ngModel]="trainerNotes()" (ngModelChange)="trainerNotes.set($event)" placeholder="اكتب ملاحظاتك هنا..."></textarea>
         </div>
 
