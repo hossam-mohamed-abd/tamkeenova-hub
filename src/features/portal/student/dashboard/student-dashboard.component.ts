@@ -29,6 +29,7 @@ export class StudentDashboardComponent {
 
   currentUser = this.authService.currentUser;
   isLoading = signal(true);
+  hasLoaded = signal(false);
 
   profile = signal<StudentProfile | null>(null);
   enrollments = signal<Enrollment[]>([]);
@@ -85,8 +86,12 @@ export class StudentDashboardComponent {
         this.enrollments.set(res.enrollments.data ?? []);
         this.consultations.set(res.consultations.data ?? []);
         this.isLoading.set(false);
+        this.hasLoaded.set(true);
       },
-      error: () => this.isLoading.set(false),
+      error: () => {
+        this.isLoading.set(false);
+        this.hasLoaded.set(true);
+      },
     });
 
     this.notificationsService.refreshUnreadCount();

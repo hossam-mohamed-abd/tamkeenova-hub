@@ -1,7 +1,8 @@
 <app-page-header eyebrowKey="consultingPage.header.eyebrow" titleKey="consultingPage.header.title"
   subtitleKey="consultingPage.header.subtitle"></app-page-header>
 
-<section class="account-notice glass-notice">
+@if (!isLoggedIn()) {
+<section class="account-notice glass-notice stable-notice">
   <div class="account-notice-inner surface chamfer-sm">
     <span class="account-notice-icon"><i class="fa-solid fa-circle-info"></i></span>
     <p class="account-notice-text">{{ 'consultingPage.account_notice.text' | translate }}</p>
@@ -10,6 +11,19 @@
     </a>
   </div>
 </section>
+} @else {
+<section class="account-notice glass-notice stable-notice is-logged">
+  <div class="account-notice-inner surface chamfer-sm logged-notice">
+    <span class="account-notice-icon success-icon"><i class="fa-solid fa-circle-check"></i></span>
+    <p class="account-notice-text">مرحباً {{ currentUser()?.full_name }}! يمكنك الآن تقديم طلبات الاستشارات والخدمات المؤسسية مباشرة</p>
+    @if (isStudent()) {
+      <span class="badge badge-approved"><i class="fa-solid fa-user-graduate"></i> حساب طالب / كلاينت فعال</span>
+    } @else {
+      <span class="badge badge-pending"><i class="fa-solid fa-chalkboard-user"></i> حساب مدرب</span>
+    }
+  </div>
+</section>
+}
 
 <section class="consulting-main">
 

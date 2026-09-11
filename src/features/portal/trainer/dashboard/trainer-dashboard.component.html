@@ -50,46 +50,115 @@
       </div>
     </div>
 
-    <!-- Profile Completion - ثابت دائما -->
-    <div class="profile-completion-card surface glass-completion stable-card" [class.is-complete]="profileCompletion() >= 100">
-      <div class="completion-header">
-        <div>
-          <h3>
-            @if (profileCompletion() >= 100) {
-              <i class="fa-solid fa-circle-check" style="color: var(--color-success)"></i> تم إكمال البروفايل
-            } @else {
-              {{ 'trainer_dashboard.complete_profile' | translate }}
-            }
-          </h3>
-          <p class="text-muted">
-            @if (profileCompletion() >= 100) {
-              بروفايلك مكتمل 100% — جاهز لاستقبال الطلاب
-            } @else {
-              {{ 'trainer_dashboard.complete_profile_desc' | translate }}
-            }
-          </p>
+    <!-- Profile Completion Premium - تصميم مبهر مع سهم ونسبة -->
+    <div class="profile-completion-card premium-completion-card stable-card" [class.is-complete]="profileCompletion() >= 100">
+      <div class="premium-bg">
+        <div class="premium-orb orb-1"></div>
+        <div class="premium-orb orb-2"></div>
+        <div class="premium-grid"></div>
+      </div>
+
+      <div class="premium-content">
+        <div class="premium-visual">
+          <div class="circular-wrapper">
+            <svg class="progress-ring" viewBox="0 0 120 120">
+              <defs>
+                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="var(--color-primary)" />
+                  <stop offset="100%" stop-color="var(--color-accent)" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <circle class="progress-ring-bg" cx="60" cy="60" r="54" />
+              <circle class="progress-ring-fill" cx="60" cy="60" r="54"
+                [attr.stroke-dasharray]="circumference"
+                [attr.stroke-dashoffset]="progressOffset()"
+                [class.is-complete]="profileCompletion() >= 100" />
+              <!-- نقطة متحركة تشير للنسبة -->
+              <g class="progress-dot-group" [style.transform]="'rotate(' + (profileCompletion()*3.6 - 90) + 'deg)'" [style.transform-origin]="'60px 60px'">
+                <circle class="progress-dot" cx="60" cy="6" r="5" />
+              </g>
+            </svg>
+
+            <div class="progress-center">
+              <div class="progress-arrow-wrapper" [class.is-complete]="profileCompletion() >= 100">
+                <i class="fa-solid fa-arrow-trend-up progress-arrow-icon"></i>
+              </div>
+              <span class="progress-percent">{{ profileCompletion() }}%</span>
+              <span class="progress-label">
+                @if (profileCompletion() >= 100) { مكتمل }
+                @else { مكتمل }
+              </span>
+              @if (profileCompletion() >= 100) {
+                <span class="progress-check"><i class="fa-solid fa-circle-check"></i></span>
+              }
+            </div>
+          </div>
+
+          <div class="premium-badge">
+            <i class="fa-solid fa-sparkles"></i>
+            <span>
+              @if (profileCompletion() >= 100) { بروفايل متميز }
+              @else { {{ 6 - completionSteps().filter(s=>s.done).length }} خطوات متبقية }
+            </span>
+          </div>
         </div>
-        <span class="completion-badge">{{ profileCompletion() }}%</span>
+
+        <div class="premium-details">
+          <div class="premium-header">
+            <h3>
+              @if (profileCompletion() >= 100) {
+                <i class="fa-solid fa-crown" style="color: var(--color-accent)"></i> بروفايلك مكتمل 100% — مبهر!
+              } @else {
+                <i class="fa-solid fa-rocket" style="color: var(--color-primary)"></i> {{ 'trainer_dashboard.complete_profile' | translate }}
+              }
+            </h3>
+            <p class="text-muted">
+              @if (profileCompletion() >= 100) {
+                أنت الآن جاهز لاستقبال الطلاب والكلاينت — بروفايلك يظهر في المقدمة
+              } @else {
+                {{ 'trainer_dashboard.complete_profile_desc' | translate }}
+              }
+            </p>
+          </div>
+
+          <div class="completion-steps-premium">
+            @for (step of completionSteps(); track step.key) {
+              <a [routerLink]="step.route" class="step-item" [class.is-done]="step.done" [class.is-pending]="!step.done">
+                <div class="step-icon">
+                  <i class="fa-solid" [class]="step.icon"></i>
+                  @if (step.done) { <span class="step-check"><i class="fa-solid fa-check"></i></span> }
+                  @else { <span class="step-arrow"><i class="fa-solid fa-arrow-left"></i></span> }
+                </div>
+                <div class="step-info">
+                  <span class="step-label">{{ step.label }}</span>
+                  @if (step.count !== undefined) {
+                    <span class="step-count">{{ step.count }}{{ step.key === 'rating' ? ' /5' : '' }}</span>
+                  }
+                </div>
+                @if (!step.done) {
+                  <span class="step-cta"><i class="fa-solid fa-plus"></i></span>
+                }
+              </a>
+            }
+          </div>
+
+          <div class="premium-footer">
+            <div class="completion-bar-premium">
+              <div class="completion-fill-premium" [style.width.%]="profileCompletion()">
+                <span class="fill-shimmer"></span>
+              </div>
+            </div>
+            <span class="completion-hint"><i class="fa-solid fa-lightbulb"></i> كلما أكملت بروفايلك، زاد ظهورك للطلاب</span>
+          </div>
+        </div>
       </div>
-      <div class="completion-bar">
-        <div class="completion-fill" [style.width.%]="profileCompletion()"></div>
-      </div>
-      @if (profileCompletion() < 100) {
-      <div class="completion-tips">
-        @if (displayStats().programs_count === 0) {
-        <a routerLink="/portal/trainer/programs" class="completion-tip">
-          <i class="fa-solid fa-circle-plus"></i>
-          {{ 'trainer_dashboard.tips.add_programs' | translate }}
-        </a>
-        }
-        @if (displayStats().availability_count === 0) {
-        <a routerLink="/portal/trainer/availability" class="completion-tip">
-          <i class="fa-solid fa-circle-plus"></i>
-          {{ 'trainer_dashboard.tips.set_availability' | translate }}
-        </a>
-        }
-      </div>
-      }
     </div>
 
     <!-- Quick Actions - ثابت دائما -->

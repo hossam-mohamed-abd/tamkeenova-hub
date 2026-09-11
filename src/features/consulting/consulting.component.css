@@ -767,6 +767,26 @@ textarea.form-control {
   background: rgba(255,255,255,0.15);
 }
 
+.stable-notice,
+.logged-notice,
+.glass-form-card,
+.glass-perks,
+.perk-item,
+.consulting-main {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
+.logged-notice {
+  background: color-mix(in srgb, var(--color-success) 8%, var(--color-surface) 92%) !important;
+  border-inline-start: 4px solid var(--color-success) !important;
+}
+
+.logged-notice .success-icon {
+  color: var(--color-success) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .audience-toggle-pill,
   .spinner,

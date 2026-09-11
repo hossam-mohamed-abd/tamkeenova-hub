@@ -1,10 +1,11 @@
-<section class="dashboard-page">
-  @if (isLoading()) {
-    <div class="dashboard-loader">
+<section class="dashboard-page stable-dashboard">
+  @if (isLoading() && !hasLoaded()) {
+    <div class="dashboard-loader stable-loader">
       <div class="loader-spinner"></div>
       <p>{{ 'loader.loading' | translate }}</p>
     </div>
-  } @else {
+  }
+  <div class="dashboard-content-stable" [class.is-loading]="isLoading() && hasLoaded()">
     <!-- -- Hero Section -- -->
     <div class="dashboard-hero chamfer-sm">
       <div class="dashboard-hero-bg"></div>
@@ -228,5 +229,5 @@
         }
       </div>
     </div>
-  }
+  </div>
 </section>

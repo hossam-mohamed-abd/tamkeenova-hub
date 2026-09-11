@@ -584,6 +584,42 @@ html[dir='ltr'] .section-card:hover .section-card-footer i {
   }
 }
 
+/* Stable overrides */
+.stable-dashboard,
+.dashboard-content-stable,
+.stable-loader {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
+.dashboard-content-stable {
+  display: block !important;
+}
+
+.dashboard-content-stable.is-loading {
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.quick-actions-grid,
+.sections-grid,
+.recent-grid {
+  display: grid !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.quick-action-card,
+.section-card,
+.recent-card,
+.dashboard-hero {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  visibility: visible !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dashboard-hero,
   .quick-action-card,

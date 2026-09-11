@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -13,10 +13,11 @@ import { Consultation, ConsultationStatus } from '../../../../core/models/studen
   templateUrl: './student-consultations.component.html',
   styleUrls: ['../../portal-shared.css', './student-consultations.component.css'],
 })
-export class StudentConsultationsComponent {
+export class StudentConsultationsComponent implements OnInit {
   private consultationService = inject(ConsultationService);
 
   isLoading = signal(true);
+  hasLoaded = signal(false);
   consultations = signal<Consultation[]>([]);
   activeFilter = signal<ConsultationStatus | 'ALL'>('ALL');
 
@@ -47,18 +48,23 @@ export class StudentConsultationsComponent {
     return f === 'ALL' ? list : list.filter((c) => c.status === f);
   });
 
-  constructor() {
+  ngOnInit(): void {
     this.load();
   }
 
   load(): void {
     this.isLoading.set(true);
     this.consultationService.getMine().subscribe({
-      next: (res) => {
-        this.consultations.set(res.data ?? []);
+      next: (res: any) => {
+        const data = res?.data ?? res ?? [];
+        this.consultations.set(Array.isArray(data) ? data : data?.data ?? []);
         this.isLoading.set(false);
+        this.hasLoaded.set(true);
       },
-      error: () => this.isLoading.set(false),
+      error: () => {
+        this.isLoading.set(false);
+        this.hasLoaded.set(true);
+      },
     });
   }
 
@@ -70,8 +76,9 @@ export class StudentConsultationsComponent {
     this.selected.set(item);
     this.loadingDetails.set(true);
     this.consultationService.getById(item.id).subscribe({
-      next: (res) => {
-        this.selected.set(res);
+      next: (res: any) => {
+        const data = res?.data ?? res;
+        this.selected.set(data as Consultation);
         this.loadingDetails.set(false);
       },
       error: () => this.loadingDetails.set(false),

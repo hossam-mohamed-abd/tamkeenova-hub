@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   ChangePasswordPayload,
@@ -26,19 +27,25 @@ export class StudentService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/students`;
 
-  // -- Profile & Account --
+  // -- Profile & Account -- يدعم wrapper
   getProfile(): Observable<StudentProfile> {
-    return this.http.get<StudentProfile>(`${this.baseUrl}/profile`);
+    return this.http.get<any>(`${this.baseUrl}/profile`).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   updateProfile(payload: UpdateStudentProfilePayload): Observable<StudentProfile> {
-    return this.http.patch<StudentProfile>(`${this.baseUrl}/profile`, payload);
+    return this.http.patch<any>(`${this.baseUrl}/profile`, payload).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   uploadAvatar(file: File): Observable<StudentProfile> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.patch<StudentProfile>(`${this.baseUrl}/avatar`, formData);
+    return this.http.patch<any>(`${this.baseUrl}/avatar`, formData).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   changePassword(payload: ChangePasswordPayload): Observable<{ message: string }> {
@@ -46,11 +53,15 @@ export class StudentService {
   }
 
   getContactInfo(): Observable<ContactInfo> {
-    return this.http.get<ContactInfo>(`${this.baseUrl}/contact-info`);
+    return this.http.get<any>(`${this.baseUrl}/contact-info`).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   updateContactInfo(payload: UpdateContactInfoPayload): Observable<ContactInfo> {
-    return this.http.patch<ContactInfo>(`${this.baseUrl}/contact-info`, payload);
+    return this.http.patch<any>(`${this.baseUrl}/contact-info`, payload).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   // -- Trainer Browse --
@@ -85,7 +96,9 @@ export class StudentService {
   }
 
   getProgramDetails(id: string): Observable<StudentProgramDetails> {
-    return this.http.get<StudentProgramDetails>(`${this.baseUrl}/programs/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/programs/${id}`).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   // -- Enrollments --
@@ -104,7 +117,9 @@ export class StudentService {
   }
 
   getEnrollmentDetails(id: string): Observable<Enrollment> {
-    return this.http.get<Enrollment>(`${this.baseUrl}/enrollments/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/enrollments/${id}`).pipe(
+      map((res) => res?.data ?? res)
+    );
   }
 
   cancelEnrollment(id: string): Observable<{ message: string; enrollment: Enrollment }> {

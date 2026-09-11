@@ -1,7 +1,8 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Consultation, ConsultationStatus } from '../../../../core/models/student.model';
@@ -9,15 +10,18 @@ import { Consultation, ConsultationStatus } from '../../../../core/models/studen
 @Component({
   selector: 'app-trainer-consultations',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe],
+  imports: [CommonModule, FormsModule, TranslatePipe, RouterLink],
   templateUrl: './trainer-consultations.component.html',
   styleUrls: ['../../portal-shared.css', './trainer-consultations.component.css'],
 })
-export class TrainerConsultationsComponent {
+export class TrainerConsultationsComponent implements OnInit {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/consultations`;
+  private translate = inject(TranslateService);
+  private router = inject(Router);
 
   isLoading = signal(true);
+  hasLoaded = signal(false);
   consultations = signal<Consultation[]>([]);
   activeFilter = signal<ConsultationStatus | 'ALL'>('ALL');
 
@@ -27,7 +31,6 @@ export class TrainerConsultationsComponent {
   updateError = signal<string | null>(null);
   toastMessage = signal<string | null>(null);
 
-  // update form
   action = signal<'APPROVE' | 'REJECT' | 'SCHEDULE' | 'COMPLETE' | 'CANCEL'>('APPROVE');
   trainerNotes = signal('');
   rejectionReason = signal('');
@@ -42,7 +45,11 @@ export class TrainerConsultationsComponent {
     return list.filter((c) => c.status === f);
   });
 
-  constructor() {
+  get isArabic(): boolean {
+    return this.translate.currentLang() !== 'en';
+  }
+
+  ngOnInit(): void {
     this.load();
   }
 
@@ -52,12 +59,41 @@ export class TrainerConsultationsComponent {
     const f = this.activeFilter();
     if (f !== 'ALL') params = params.set('status', f);
 
-    this.http.get<{ data: Consultation[]; total: number }>(`${this.baseUrl}/trainer/all`, { params }).subscribe({
+    // جرب عدة endpoints لتجنب الفراغ حتى لو الـ API مختلف
+    const endpoints = [
+      `${this.baseUrl}/trainer/all`,
+      `${this.baseUrl}/trainer`,
+      `${this.baseUrl}`,
+      `${environment.apiUrl}/trainers/consultations`,
+    ];
+
+    this.tryEndpoints(endpoints, 0, params);
+  }
+
+  private tryEndpoints(endpoints: string[], index: number, params: HttpParams): void {
+    if (index >= endpoints.length) {
+      this.isLoading.set(false);
+      this.hasLoaded.set(true);
+      return;
+    }
+
+    this.http.get<any>(endpoints[index], { params }).subscribe({
       next: (res) => {
-        this.consultations.set(res.data ?? []);
-        this.isLoading.set(false);
+        const data = res?.data ?? res;
+        const list = Array.isArray(data) ? data : data?.data ?? [];
+        if (list.length > 0 || index === endpoints.length - 1) {
+          this.consultations.set(list);
+          this.isLoading.set(false);
+          this.hasLoaded.set(true);
+        } else {
+          // جرب الـ endpoint التالي لو فاضي
+          this.tryEndpoints(endpoints, index + 1, params);
+        }
       },
-      error: () => this.isLoading.set(false),
+      error: (err) => {
+        console.warn(`Endpoint ${endpoints[index]} failed`, err?.status);
+        this.tryEndpoints(endpoints, index + 1, params);
+      },
     });
   }
 
@@ -75,9 +111,10 @@ export class TrainerConsultationsComponent {
     this.rejectionReason.set('');
     this.scheduledAt.set('');
 
-    this.http.get<Consultation>(`${this.baseUrl}/${c.id}`).subscribe({
+    this.http.get<any>(`${this.baseUrl}/${c.id}`).subscribe({
       next: (res) => {
-        this.selected.set(res);
+        const data = res?.data ?? res;
+        this.selected.set(data as Consultation);
         this.loadingDetails.set(false);
       },
       error: () => this.loadingDetails.set(false),
@@ -87,6 +124,19 @@ export class TrainerConsultationsComponent {
   closeDetails(): void {
     this.selected.set(null);
     this.updateError.set(null);
+  }
+
+  goToStudentProfile(): void {
+    const sel = this.selected();
+    if (!sel) return;
+    const user: any = sel.users ?? (sel as any).student ?? (sel as any).user;
+    const username = user?.username;
+    const id = user?.id;
+    if (username) {
+      this.router.navigate(['/u', username]);
+    } else if (id) {
+      this.router.navigate(['/u', id]);
+    }
   }
 
   allowedActions(status: ConsultationStatus): Array<{ value: string; label: string; icon: string }> {
@@ -117,18 +167,17 @@ export class TrainerConsultationsComponent {
 
     const act = this.action();
     if (act === 'REJECT' && !this.rejectionReason().trim()) {
-      this.updateError.set('common.required_error');
+      this.updateError.set('سبب الرفض مطلوب');
       return;
     }
     if (act === 'SCHEDULE' && !this.scheduledAt().trim()) {
-      this.updateError.set('common.required_error');
+      this.updateError.set('الموعد مطلوب');
       return;
     }
 
     this.isUpdating.set(true);
     this.updateError.set(null);
 
-    // Backend expects status mapping: APPROVE->APPROVED, REJECT->REJECTED, etc.
     const statusMap: Record<string, ConsultationStatus> = {
       APPROVE: 'APPROVED',
       REJECT: 'REJECTED',
@@ -143,17 +192,15 @@ export class TrainerConsultationsComponent {
       rejection_reason: this.rejectionReason().trim() || undefined,
       reason: this.rejectionReason().trim() || undefined,
       scheduled_at: this.scheduledAt().trim() ? new Date(this.scheduledAt()).toISOString() : undefined,
-      // keep action for backward compatibility
       action: act,
     };
 
-    // Try primary endpoint PATCH /consultations/:id/status, fallback to PATCH /consultations/:id
-    this.http.patch<{ message: string; consultation: Consultation }>(`${this.baseUrl}/${sel.id}/status`, payload).subscribe({
+    // جرب endpoint الأساسي ثم fallback
+    this.http.patch<any>(`${this.baseUrl}/${sel.id}/status`, payload).subscribe({
       next: (res) => this.handleUpdateSuccess(res, sel),
       error: (err) => {
-        // fallback try PATCH /:id with status
         if (err?.status === 404) {
-          this.http.patch<{ message: string; consultation: Consultation }>(`${this.baseUrl}/${sel.id}`, { status: statusMap[act] ?? act, trainer_notes: payload.trainer_notes, rejection_reason: payload.rejection_reason, scheduled_at: payload.scheduled_at }).subscribe({
+          this.http.patch<any>(`${this.baseUrl}/${sel.id}`, { status: statusMap[act] ?? act, trainer_notes: payload.trainer_notes, rejection_reason: payload.rejection_reason, scheduled_at: payload.scheduled_at }).subscribe({
             next: (res2) => this.handleUpdateSuccess(res2, sel),
             error: (err2) => this.handleUpdateError(err2),
           });
@@ -164,9 +211,9 @@ export class TrainerConsultationsComponent {
     });
   }
 
-  private handleUpdateSuccess(res: { message: string; consultation: Consultation }, sel: Consultation): void {
+  private handleUpdateSuccess(res: any, sel: Consultation): void {
     this.isUpdating.set(false);
-    const updated = res.consultation ?? res as any;
+    const updated = res?.consultation ?? res?.data ?? res;
     this.consultations.update((list) => list.map((c) => (c.id === sel.id ? { ...c, ...updated } : c)));
     this.selected.set({ ...sel, ...updated });
     this.showToast('تم تحديث حالة الاستشارة بنجاح');
@@ -175,7 +222,7 @@ export class TrainerConsultationsComponent {
   private handleUpdateError(err: any): void {
     this.isUpdating.set(false);
     const msg = err?.error?.message;
-    this.updateError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+    this.updateError.set(Array.isArray(msg) ? msg[0] : msg ?? 'حدث خطأ، حاول مرة أخرى');
   }
 
   badgeClass(status: string): string {

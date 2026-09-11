@@ -40,6 +40,28 @@ export class TrainerDashboardComponent implements OnInit {
     return Math.round((completed / total) * 100);
   });
 
+  // خطوات الاكتمال التفصيلية للعرض المبهر
+  completionSteps = computed(() => {
+    const s = this.displayStats();
+    const avg = typeof s.average_rating === 'string' ? parseFloat(s.average_rating as any) : (s.average_rating ?? 0);
+    return [
+      { key: 'profile', label: 'الملف الشخصي', icon: 'fa-user-pen', done: true, route: '/portal/trainer/profile' },
+      { key: 'programs', label: 'إضافة برامج', icon: 'fa-book', done: (s.programs_count ?? 0) > 0, route: '/portal/trainer/programs', count: s.programs_count },
+      { key: 'availability', label: 'تحديد المواعيد', icon: 'fa-calendar-days', done: (s.availability_count ?? 0) > 0, route: '/portal/trainer/availability', count: s.availability_count },
+      { key: 'reviews', label: 'الحصول على تقييمات', icon: 'fa-star', done: (s.reviews_count ?? 0) > 0, route: '/portal/trainer/reviews', count: s.reviews_count },
+      { key: 'rating', label: 'متوسط التقييم', icon: 'fa-chart-line', done: avg > 0, route: '/portal/trainer/reviews', count: avg },
+      { key: 'consultations', label: 'إدارة الاستشارات', icon: 'fa-comments', done: true, route: '/portal/trainer/consultations' },
+    ];
+  });
+
+  // للـ SVG
+  readonly circumference = 2 * Math.PI * 54; // 339.292
+
+  progressOffset = computed(() => {
+    const pct = this.profileCompletion();
+    return this.circumference - (pct / 100) * this.circumference;
+  });
+
   // fallback دائم لمنع اختفاء الأقسام
   displayStats = computed(() => {
     const s = this.stats();

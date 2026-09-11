@@ -13,19 +13,13 @@
   padding: 0.8rem;
   border-radius: var(--radius-lg);
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
-  animation: filter-in 0.5s ease;
 }
 
 .consult-card {
   background: color-mix(in srgb, var(--color-surface) 84%, transparent) !important;
   backdrop-filter: blur(14px) saturate(140%);
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
-  animation: consult-enter 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-}
-
-@keyframes consult-enter {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .consult-card:hover {
@@ -33,9 +27,50 @@
   box-shadow: 0 10px 28px rgba(0,0,0,0.07);
 }
 
-@keyframes filter-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Stable overrides */
+.stable-consult-page,
+.stable-header,
+.stable-card,
+.stable-pills,
+.stable-pill,
+.stable-btn,
+.stable-list,
+.stable-empty,
+.stable-loader,
+.stable-modal,
+.stable-modal-backdrop,
+.stable-toast,
+.consult-content-stable {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.consult-content-stable {
+  display: block !important;
+}
+
+.stable-list {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.stable-card {
+  display: flex !important;
+}
+
+.stable-pills {
+  display: flex !important;
+}
+
+.stable-modal-backdrop {
+  display: flex !important;
+}
+
+.stable-modal {
+  display: block !important;
+  opacity: 1 !important;
 }
 
 .filter-pills {

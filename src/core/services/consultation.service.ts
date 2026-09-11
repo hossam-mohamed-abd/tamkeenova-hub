@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   Consultation,
@@ -14,24 +15,28 @@ export class ConsultationService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/consultations`;
 
-  // -- Create Consultation Request --
   create(payload: CreateConsultationPayload): Observable<{ message: string; consultation: Consultation }> {
     return this.http.post<{ message: string; consultation: Consultation }>(this.baseUrl, payload);
   }
 
-  // -- My Consultations --
   getMine(status?: ConsultationStatus): Observable<{ data: Consultation[]; total: number }> {
     let params = new HttpParams();
     if (status) params = params.set('status', status);
-    return this.http.get<{ data: Consultation[]; total: number }>(this.baseUrl, { params });
+    return this.http.get<any>(this.baseUrl, { params }).pipe(
+      map((res) => {
+        if (res?.data && Array.isArray(res.data)) return res;
+        if (Array.isArray(res)) return { data: res, total: res.length };
+        return { data: res?.data ?? [], total: res?.total ?? 0 };
+      })
+    );
   }
 
-  // -- Consultation Details --
   getById(id: string): Observable<Consultation> {
-    return this.http.get<Consultation>(`${this.baseUrl}/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/${id}`).pipe(
+      map((res) => res?.data ?? res?.consultation ?? res)
+    );
   }
 
-  // -- Cancel Consultation (only PENDING) --
   cancel(id: string): Observable<{ message: string; consultation: Consultation }> {
     return this.http.patch<{ message: string; consultation: Consultation }>(
       `${this.baseUrl}/${id}/cancel`,
@@ -39,7 +44,6 @@ export class ConsultationService {
     );
   }
 
-  // -- Review Consultation (only COMPLETED) --
   review(
     id: string,
     payload: ReviewConsultationPayload,
