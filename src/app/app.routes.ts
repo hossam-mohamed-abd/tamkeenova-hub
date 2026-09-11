@@ -71,14 +71,23 @@ export const routes: Routes = [
   // -- Student Portal Routes --
   {
     path: 'portal',
-    canActivate: [authGuard],
+    // Redirects happen before guards, so the role lookup reads the stored session
+    // directly instead of combining redirectTo with canActivate (invalid config).
     redirectTo: () => {
-      const role = inject(AuthService).role();
-      if (role === 'TRAINER') return '/portal/trainer';
-      if (role === 'ADMIN' || role === 'SUPER_ADMIN') return '/portal/admin';
-      if (role === 'EMPLOYEE') return '/portal/employee';
-      if (role === 'VOLUNTEER') return '/portal/volunteer';
-      return '/portal/student';
+      try {
+        if (typeof localStorage === 'undefined') return '/login';
+        const token = localStorage.getItem('token');
+        const raw = localStorage.getItem('user');
+        if (!token || !raw) return '/login';
+        const role = (JSON.parse(raw) as { role?: string }).role;
+        if (role === 'TRAINER') return '/portal/trainer';
+        if (role === 'ADMIN' || role === 'SUPER_ADMIN') return '/portal/admin';
+        if (role === 'EMPLOYEE') return '/portal/employee';
+        if (role === 'VOLUNTEER') return '/portal/volunteer';
+        return '/portal/student';
+      } catch {
+        return '/login';
+      }
     },
     pathMatch: 'full',
   },

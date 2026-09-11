@@ -32,6 +32,9 @@ export class AuthVisualPanelComponent implements AfterViewInit {
     const prefersReduced = (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false);
     if (prefersReduced) return;
 
+    // jsdom (and very old browsers) do not implement SVGGeometryElement.getTotalLength
+    if (typeof path.getTotalLength !== 'function') return;
+
     const length = path.getTotalLength();
     path.style.strokeDasharray = `${length}`;
     path.style.strokeDashoffset = `${length}`;
