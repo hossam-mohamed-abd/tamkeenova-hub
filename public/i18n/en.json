@@ -31,8 +31,8 @@
     "hero": {
       "eyebrow": "Upper Egypt's leading training and empowerment platform",
       "title_line1": "Empowering Upper Egypt's Workforce",
-      "title_line2": "For The Jobs Of Tomorrow",
-      "subtitle": "Closing the field gap between academic knowledge and market demands through certified programs, job fairs, and applied practice.",
+      "title_line2": "For the Jobs of Tomorrow",
+      "subtitle": "We close the gap between academic knowledge and real market demands through certified programs, job fairs, and hands-on practice.",
       "cta": "Explore Available Programs"
     },
     "partners": {
@@ -40,7 +40,7 @@
     },
     "stats": {
       "trainees": "Trainees & Beneficiaries",
-      "programs": "Development Programs",
+      "programs": "Training & Development Programs",
       "hours": "Certified Training Hours",
       "partnerships": "Institutional Partnerships",
       "team": "Advisory Team Members"
@@ -55,12 +55,12 @@
       },
       "programs": {
         "title": "Training Programs & Grants",
-        "desc": "Hands-on programs designed by experts and consultants, with certified outcomes tailored to the job market.",
+        "desc": "Hands-on programs designed by expert consultants, with certified outcomes that keep pace with the job market.",
         "link": "Browse Programs"
       },
       "consulting": {
         "title": "Services & Consulting",
-        "desc": "Institutional consulting and custom corporate training, plus personal career guidance for individuals.",
+        "desc": "Institutional consulting and tailored corporate training, plus personal career guidance for individuals.",
         "link": "Request Consulting"
       }
     },
@@ -73,33 +73,33 @@
       "empty_text": "Approved trainers will be displayed after review"
     },
     "gallery": {
-      "label": "From The Field",
+      "label": "From the Field",
       "title": "A look inside our programs and workshops",
-      "desc": "Real moments from the halls and sessions of programs already delivered.",
+      "desc": "Real moments from our halls and sessions, documenting the programs we've already delivered.",
       "latest_event": "Annual Forum for Youth Empowerment & Partners",
-      "link": "Visit The Full Gallery"
+      "link": "Visit the Full Gallery"
     }
   },
   "contact": {
     "eyebrow": "Don't hesitate",
-    "title": "Get In Touch",
+    "title": "Get in Touch",
     "subtitle": "Always here to support your training and institutional journey",
     "phone_label": "Call Us",
     "email_label": "Email Us",
     "facebook_label": "Follow on Facebook",
-    "whatsapp_cta": "Chat with us on WhatsApp"
+    "whatsapp_cta": "Chat with Us on WhatsApp"
   },
   "footer": {
     "tagline": "Upper Egypt's leading empowerment and training platform, closing the gap between education and the job market.",
     "quick_links": "Quick Links",
-    "contact_title": "Get In Touch",
+    "contact_title": "Get in Touch",
     "rights": "© {{year}} TamkeeNova HUB. All rights reserved.",
     "built_by": "Built by"
   },
   "assistant": {
     "name": "TamkeeNova Assistant",
     "badge": "Gemini Powered",
-    "welcome": "Hi! I'm TamkeeNova's assistant. Ask me about programs, services, or anything on the platform.",
+    "welcome": "Hi there! I'm the TamkeeNova assistant. Ask me about programs, services, or anything on the platform.",
     "placeholder": "Type your question...",
     "open": "Open AI assistant",
     "close": "Close chat",
@@ -107,9 +107,9 @@
   },
   "programs": {
     "header": {
-      "eyebrow": "Certified Training Programs & Courses Directory",
+      "eyebrow": "Directory of Certified Training Programs & Courses",
       "title": "Training Programs & Grants",
-      "subtitle": "Hands-on training opportunities designed by experts and consultants to kickstart your professional journey"
+      "subtitle": "Hands-on training opportunities designed by expert consultants to kick-start your professional journey"
     },
     "stats": {
       "total_programs": "Available Programs",
@@ -154,12 +154,12 @@
       "subtitle": "Whether you're a company seeking a training partner or an individual looking for career guidance, we're here to help."
     },
     "account_notice": {
-      "text": "Submitting a consultation requires a registered account — student or client account includes all clients.",
-      "cta": "Sign up / Create account"
+      "text": "Submitting a consultation request requires a registered account. Student and client accounts cover all clients.",
+      "cta": "Sign Up / Create Account"
     },
     "tabs": {
-      "b2b": "I represent a company / organization (B2B)",
-      "b2c": "I am Student or Client (B2C) — individual consultation"
+      "b2b": "I represent a company or organization (B2B)",
+      "b2c": "I am a student or client (B2C) , individual consultation"
     },
     "form": {
       "field_label": "Service or consultation field",
@@ -171,7 +171,7 @@
         "hr_training": "Talent Development & Corporate Training",
         "digital_transformation": "Digital Transformation & Software Solutions",
         "governance_hr": "Governance & HR Consulting",
-        "other": "Other (specify in the dedicated field)"
+        "other": "Other (please specify in the field below)"
       },
       "other_placeholder": "Specify the required field",
       "name_label": "Company / Organization Name / Contact Person",
@@ -179,18 +179,18 @@
       "phone_label": "Phone & WhatsApp",
       "phone_placeholder": "01xxxxxxxxx",
       "details_label": "Details of the requested service or consultation",
-      "details_placeholder": "Describe your needs in detail so our team can assist you better...",
+      "details_placeholder": "Describe your needs in detail so our team can assist you more precisely...",
       "submit": "Send Request to Our Team",
       "submitting": "Sending...",
       "required_error": "This field is required",
-      "b2b_title": "Corporate service request (B2B)",
-      "b2b_subtitle": "Fill all details so our team can help best",
-      "b2c_title": "Individual consultation with a trainer",
+      "b2b_title": "Corporate Service Request (B2B)",
+      "b2b_subtitle": "Fill in all the details so our team can help you in the best way",
+      "b2c_title": "Individual Consultation with a Trainer",
       "b2c_subtitle": "Choose a trainer and set your consultation details",
       "select_trainer": "Select trainer",
-      "trainer_placeholder": "Search and select trainer...",
+      "trainer_placeholder": "Search and select a trainer...",
       "consultation_title": "Consultation title",
-      "consultation_desc": "Detailed description of what you need help with",
+      "consultation_desc": "A detailed description of what you need help with",
       "preferred_date": "Preferred date",
       "preferred_time": "Preferred time",
       "contact_phone": "Contact phone",
@@ -201,7 +201,7 @@
       "contact_email": "Contact email",
       "sector": "Sector",
       "country": "Country",
-      "employees_count": "Employees count",
+      "employees_count": "Number of employees",
       "service_type": "Service type",
       "service_desc": "Detailed service description",
       "expected_budget": "Expected budget",
@@ -209,15 +209,15 @@
       "whatsapp": "WhatsApp",
       "phone": "Phone",
       "email": "Email",
-      "upload_attachment": "Upload attachment later from My Requests page",
-      "view_my_requests": "View my requests",
-      "view_my_consultations": "View my consultations"
+      "upload_attachment": "You can upload an attachment later from My Requests",
+      "view_my_requests": "View My Requests",
+      "view_my_consultations": "View My Consultations"
     },
     "perks": {
       "title": "Why work with us?",
       "response": {
         "title": "Fast Response",
-        "desc": "Our team responds within 24 business hours."
+        "desc": "Our team gets back to you within 24 business hours."
       },
       "confidential": {
         "title": "Full Confidentiality",
@@ -225,13 +225,27 @@
       },
       "experts": {
         "title": "Specialized Experts",
-        "desc": "Your request is routed to the most suitable consultant."
+        "desc": "Your request is routed to the most suitable consultant for your field."
       }
     },
     "success": {
-      "title": "Your request has been sent successfully",
-      "text": "Our team will contact you soon to discuss the details.",
-      "cta": "Send a new request"
+      "title": "Your Request Has Been Sent Successfully",
+      "text": "Our team will reach out soon to discuss the details.",
+      "cta": "Send a New Request"
+    }
+  },
+  "team": {
+    "header": {
+      "eyebrow": "Advisory Team",
+      "title": "Certified Experts and Trainers Leading Your Path",
+      "subtitle": "A select group of certified consultants and trainers across various fields, ready to support you or your organization."
+    },
+    "book_btn": "Book a Consultation",
+    "card": {
+      "years": "yrs experience",
+      "consultation_price": "Consultation Price",
+      "minutes": "min",
+      "view_profile": "View Profile"
     }
   },
   "booking": {
@@ -244,43 +258,29 @@
     "method_whatsapp": "WhatsApp",
     "method_phone": "Phone Call",
     "method_video": "Video Call",
-    "topic_label": "Brief about what you need consulting on",
+    "topic_label": "Brief overview of your consultation topic",
     "topic_placeholder": "Briefly describe what you need help with...",
     "required_error": "This field is required",
     "submit": "Send Booking Request",
     "submitting": "Sending...",
     "close": "Close",
-    "success_title": "Booking request sent",
+    "success_title": "Booking Request Sent",
     "success_text": "The trainer or our team will contact you soon to confirm the appointment.",
-    "success_cta": "Got it",
+    "success_cta": "Got It",
     "title_label": "Consultation title",
-    "title_placeholder": "Example: Consultation about learning programming",
+    "title_placeholder": "Example: Consultation about learning to code",
     "date_label": "Preferred date",
     "time_label": "Preferred time",
     "method_email": "Email",
-    "login_required": "Log in with a student or client account to book consultation.",
-    "login_cta": "Log in",
+    "login_required": "Log in with a student or client account to book a consultation with this trainer.",
+    "login_cta": "Log In",
     "trainer_notice": "Booking consultations is available for student accounts only.",
-    "view_my_consultations": "View my consultations"
-  },
-  "team": {
-    "header": {
-      "eyebrow": "Advisory Team",
-      "title": "Certified experts and trainers leading your path",
-      "subtitle": "A select group of certified consultants and trainers across various fields to support you or your organization."
-    },
-    "book_btn": "Book a Consultation",
-    "card": {
-      "years": "yrs exp",
-      "consultation_price": "Consultation Price",
-      "minutes": "min",
-      "view_profile": "View Profile"
-    }
+    "view_my_consultations": "View My Consultations"
   },
   "gallery_page": {
     "hero_eyebrow": "Our Moments",
     "hero_title": "A Glimpse Into Our Journey",
-    "hero_subtitle": "Explore highlights from our training programs, workshops, and events  captured moments that tell the story of every session we run.",
+    "hero_subtitle": "Explore highlights from our training programs, workshops, and events , captured moments that tell the story of every session we run.",
     "programs_label": "Training Programs",
     "programs_title": "Inside Our Sessions",
     "events_label": "Events",
@@ -290,8 +290,8 @@
     "loading": "Loading"
   },
   "notfound": {
-    "title": "This page doesn't exist",
-    "subtitle": "The link may have changed or the page was removed. Head back home or browse our programs.",
+    "title": "This Page Doesn't Exist",
+    "subtitle": "The link may have changed, or the page was removed. Head back home or browse our available programs.",
     "cta_home": "Back to Home",
     "cta_programs": "Browse Programs"
   },
@@ -306,13 +306,13 @@
     },
     "errors": {
       "full_name": "Please enter your full name (at least 3 characters)",
-      "email": "Please enter a valid email",
+      "email": "Please enter a valid email address",
       "phone": "Please enter a valid Egyptian phone number",
       "password": "Password must be at least 8 characters",
       "password_required": "Password is required",
       "otp": "Please enter a valid code",
       "username": "Username is required (English letters and numbers only)",
-      "generic": "Something went wrong, please try again",
+      "generic": "Something went wrong. Please try again",
       "invalid_credentials": "Invalid email or password",
       "specialization": "Please choose your specialization",
       "url": "Please enter a valid URL (starting with http:// or https://)"
@@ -320,9 +320,9 @@
     "optional": "optional",
     "toggle_password": "Show/hide password",
     "visual": {
-      "login_title": "Welcome back to TamkeeNova",
-      "login_subtitle": "Sign in and continue your training journey right where you left off.",
-      "register_title": "Start your journey with TamkeeNova",
+      "login_title": "Welcome Back to TamkeeNova",
+      "login_subtitle": "Sign in and pick up your training journey right where you left off.",
+      "register_title": "Start Your Journey with TamkeeNova",
       "register_subtitle": "From learning to mastery, step by step, ending with a certified credential.",
       "steps": {
         "learn": "Learn",
@@ -330,7 +330,7 @@
         "certify": "Certify",
         "career": "Career"
       },
-      "quote": "Over 1,200 trainees have started their career path here."
+      "quote": "Over 1,200 trainees have started their career journey right here."
     },
     "password_rules": {
       "length": "At least 8 characters",
@@ -345,38 +345,38 @@
       "role_label": "Account Type",
       "role_student": "Student or Client",
       "role_trainer": "Trainer",
-      "role_student_desc": "I learn and enroll — student or client account",
-      "role_trainer_desc": "I want to deliver programs and sessions",
+      "role_student_desc": "I want to learn and enroll in training programs , student or client account",
+      "role_trainer_desc": "I want to deliver programs and training sessions",
       "trainer_note": "Trainer accounts require admin approval before activation",
       "submit": "Create Account",
       "have_account": "Already have an account?"
     },
     "otp": {
       "title": "Verify Your Email",
-      "subtitle": "We sent a verification code to",
+      "subtitle": "We've sent a verification code to",
       "submit": "Verify",
-      "resend": "Resend code",
+      "resend": "Resend Code",
       "resent": "Code sent successfully"
     },
     "login": {
       "eyebrow": "Sign In",
       "title": "Login",
-      "subtitle": "Welcome back — login as Student or Client or Trainer",
+      "subtitle": "Welcome back , log in as a student, client, or trainer to continue",
+      "student_hint": "Student accounts cover all clients: students, clients, trainees, or anyone benefiting from our services",
       "submit": "Login",
-      "no_account": "Don't have an account?",
-      "student_hint": "Student account includes all clients — student or client, trainee or beneficiary"
+      "no_account": "Don't have an account yet?"
     },
     "trainer_register": {
       "eyebrow": "Trainer Registration",
       "title": "Join TamkeeNova as a Trainer",
-      "subtitle": "Submit your application in 3 simple steps and we'll review it and get back to you.",
+      "subtitle": "Submit your application in 3 simple steps, and we'll review it and get back to you.",
       "steps": {
         "account": "Account Info",
         "profile": "Professional Profile",
         "links": "Links & Certificates"
       },
       "specialization_label": "Specialization",
-      "specialization_not_found": "Can't find your specialization? Pick the closest one for now — you can request a new one from your profile after your account is approved.",
+      "specialization_not_found": "Can't find your specialization? Pick the closest one for now , you can request a new one from your profile once your account is approved.",
       "bio_ar_label": "Short Bio (Arabic)",
       "bio_en_label": "Short Bio (English)",
       "description_ar_label": "Detailed Description (Arabic)",
@@ -388,7 +388,7 @@
       "portfolio_label": "Portfolio URL",
       "price_from_label": "Consultation Price From",
       "price_to_label": "Consultation Price To",
-      "duration_label": "Consultation Duration (min)",
+      "duration_label": "Consultation Duration (minutes)",
       "certificates_label": "Certificates",
       "add_certificate": "Add Certificate",
       "documents_label": "Documents",
@@ -419,9 +419,9 @@
     "pending_badge": "Under Review",
     "approved_badge": "Approved",
     "rejected_badge": "Rejected",
-    "pending_title": "Your application is under review",
-    "pending_text": "Our team is reviewing your details. We'll email you as soon as your account is approved. Reviews usually take 24–72 hours.",
-    "rejected_title": "Unfortunately, your application was rejected",
+    "pending_title": "Your Application Is Under Review",
+    "pending_text": "Our team is currently reviewing your details, and we'll email you as soon as your account is approved. Reviews typically take 24 to 72 hours.",
+    "rejected_title": "Unfortunately, Your Application Was Rejected",
     "rejected_text": "Check the reason below, update your details from your profile page, and we'll review your application again.",
     "rejection_reason": "Rejection Reason",
     "no_reason": "No reason was provided.",
@@ -430,7 +430,7 @@
     "timeline_decision": "Final Decision",
     "refresh": "Refresh Status",
     "edit_profile": "Edit My Details",
-    "approved_redirect": "Your account is approved! Redirecting to your dashboard..."
+    "approved_redirect": "Your account has been approved! Redirecting you to your dashboard..."
   },
   "trainer_dashboard": {
     "programs_count": "Programs",
@@ -441,7 +441,7 @@
     "availability_link": "Availability",
     "reviews_link": "Reviews",
     "complete_profile": "Complete Your Profile",
-    "complete_profile_desc": "The more complete your profile, the better your reach to trainees",
+    "complete_profile_desc": "The more complete your profile, the more trainees you'll reach",
     "tips": {
       "add_programs": "Add your first program",
       "set_availability": "Set your availability"
@@ -451,7 +451,7 @@
       "edit_profile": "Edit Profile",
       "add_program": "Add New Program",
       "set_availability": "Set Availability",
-      "manage_consultations": "Manage consultations"
+      "manage_consultations": "Manage Consultations"
     },
     "overview": "Overview",
     "programs_desc": "Manage your training programs",
@@ -499,8 +499,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "currency": "EGP",
-    "delete_confirm_title": "Delete this program?",
-    "delete_confirm_text": "This action cannot be undone. The program will be permanently deleted.",
+    "delete_confirm_title": "Delete This Program?",
+    "delete_confirm_text": "This action cannot be undone, and the program will be permanently deleted.",
     "fields": {
       "title": "Program Title",
       "image_url": "Cover Image URL",
@@ -550,7 +550,7 @@
     "back": "Back",
     "back_to_team": "Back to Team",
     "not_found_title": "Trainer Not Found",
-    "not_found_text": "The link may have changed or the trainer is not available right now.",
+    "not_found_text": "The link may have changed, or the trainer is not available right now.",
     "years_exp": "Years of Experience",
     "students": "Students",
     "programs": "Programs",
@@ -613,195 +613,195 @@
     }
   },
   "student_dashboard": {
-    "active_enrollments": "Active enrollments",
-    "completed_programs": "Completed programs",
+    "active_enrollments": "Active Enrollments",
+    "completed_programs": "Completed Programs",
     "certificates": "Certificates",
-    "training_hours": "Training hours",
-    "my_learning": "My learning journey",
-    "quick_actions": "Quick actions",
+    "training_hours": "Training Hours",
+    "my_learning": "My Learning Journey",
+    "quick_actions": "Quick Actions",
     "overview": "Overview",
-    "view_all": "View all",
+    "view_all": "View All",
     "manage": "Manage",
     "actions": {
-      "browse_programs": "Browse programs",
-      "find_trainer": "Find a trainer",
-      "my_consultations": "My consultations",
-      "corporate_request": "Corporate service request"
+      "browse_programs": "Browse Programs",
+      "find_trainer": "Find a Trainer",
+      "my_consultations": "My Consultations",
+      "corporate_request": "Corporate Service Request"
     },
     "cards": {
-      "enrollments": "My enrollments",
+      "enrollments": "My Enrollments",
       "enrollments_desc": "Track your current programs and progress",
-      "consultations": "My consultations",
+      "consultations": "My Consultations",
       "consultations_desc": "Consultation requests with trainers",
-      "certificates": "My certificates",
+      "certificates": "My Certificates",
       "certificates_desc": "Your verified completion certificates",
-      "profile": "My profile",
+      "profile": "My Profile",
       "profile_desc": "Edit your personal info and photo"
     },
-    "recent_enrollments": "Recent enrollments",
-    "recent_consultations": "Recent consultations",
+    "recent_enrollments": "Recent Enrollments",
+    "recent_consultations": "Recent Consultations",
     "no_enrollments": "You haven't enrolled in any program yet",
     "no_consultations": "You haven't requested any consultation yet",
-    "browse_programs_cta": "Browse available programs",
-    "find_trainers_cta": "Find a trainer",
+    "browse_programs_cta": "Browse Available Programs",
+    "find_trainers_cta": "Find a Trainer",
     "progress": "Progress"
   },
   "student_profile": {
     "tabs": {
       "general": "General",
-      "contact": "Contact info",
+      "contact": "Contact Info",
       "security": "Security"
     },
-    "change_image": "Change photo",
-    "upload_image": "Upload photo",
-    "member_since": "Member since",
+    "change_image": "Change Photo",
+    "upload_image": "Upload Photo",
+    "member_since": "Member Since",
     "fields": {
-      "full_name": "Full name",
+      "full_name": "Full Name",
       "username": "Username",
       "username_hint": "Shown in your public profile link: /u/username",
       "bio": "Bio",
       "location": "Location",
-      "phone": "Phone number",
+      "phone": "Phone Number",
       "whatsapp": "WhatsApp",
-      "email": "Email address",
-      "website": "Personal website",
+      "email": "Email Address",
+      "website": "Personal Website",
       "linkedin": "LinkedIn",
-      "current_password": "Current password",
-      "new_password": "New password",
-      "confirm_password": "Confirm new password"
+      "current_password": "Current Password",
+      "new_password": "New Password",
+      "confirm_password": "Confirm New Password"
     },
     "errors": {
-      "invalid_image_type": "Please choose a JPG, PNG or WEBP image",
+      "invalid_image_type": "Please choose a JPG, PNG, or WEBP image",
       "image_too_large": "Image is too large (max 5MB)",
       "username_taken": "This username is already taken",
       "email_taken": "This email is already in use",
       "phone_taken": "This phone number is already in use",
       "password_mismatch": "New password and confirmation do not match",
-      "password_same": "New password must be different from current password",
+      "password_same": "New password must be different from the current one",
       "password_weak": "Password must be at least 8 characters"
     },
-    "save": "Save changes",
+    "save": "Save Changes",
     "save_success": "Changes saved successfully",
-    "password_change": "Change password",
+    "password_change": "Change Password",
     "password_success": "Password changed successfully",
-    "public_profile": "Public profile",
-    "view_public": "View my public profile",
+    "public_profile": "Public Profile",
+    "view_public": "View My Public Profile",
     "skills": "Skills",
     "no_skills": "No skills recorded yet",
     "stats": {
-      "completed": "Completed programs",
+      "completed": "Completed Programs",
       "certificates": "Certificates",
-      "hours": "Training hours"
+      "hours": "Training Hours"
     }
   },
   "student_enrollments": {
-    "title": "My enrollments",
-    "subtitle": "All programs you enrolled in and their status",
+    "title": "My Enrollments",
+    "subtitle": "All the programs you've enrolled in and their status",
     "empty": "You haven't enrolled in any training program yet",
-    "browse_cta": "Browse programs",
-    "enrolled_at": "Enrolled at",
-    "completed_at": "Completed at",
+    "browse_cta": "Browse Programs",
+    "enrolled_at": "Enrolled At",
+    "completed_at": "Completed At",
     "progress": "Progress",
-    "trainer_notes": "Trainer notes",
-    "cancel": "Cancel enrollment",
-    "cancel_confirm_title": "Cancel enrollment?",
+    "trainer_notes": "Trainer Notes",
+    "cancel": "Cancel Enrollment",
+    "cancel_confirm_title": "Cancel Enrollment?",
     "cancel_confirm_text": "Are you sure you want to cancel your enrollment in this program?",
     "cancel_success": "Enrollment cancelled successfully",
-    "details": "Enrollment details",
-    "view_program": "View program"
+    "details": "Enrollment Details",
+    "view_program": "View Program"
   },
   "student_consultations": {
-    "title": "My consultations",
+    "title": "My Consultations",
     "subtitle": "Track your consultation requests with trainers",
     "empty": "You haven't requested any consultation yet",
-    "find_trainer_cta": "Find a trainer",
-    "new_request": "New consultation request",
-    "cancel": "Cancel request",
-    "cancel_confirm_title": "Cancel consultation request?",
+    "find_trainer_cta": "Find a Trainer",
+    "new_request": "New Consultation Request",
+    "cancel": "Cancel Request",
+    "cancel_confirm_title": "Cancel Consultation Request?",
     "cancel_confirm_text": "Are you sure you want to cancel this consultation request?",
     "cancel_success": "Consultation request cancelled successfully",
-    "details": "Consultation details",
-    "review": "Rate the consultation",
-    "review_submit": "Submit review",
+    "details": "Consultation Details",
+    "review": "Rate the Consultation",
+    "review_submit": "Submit Review",
     "review_success": "Your review was submitted successfully",
-    "review_placeholder": "Write your opinion about the consultation...",
+    "review_placeholder": "Write your thoughts about the consultation...",
     "fields": {
-      "title": "Consultation title",
+      "title": "Consultation Title",
       "description": "Describe what you need help with in detail",
-      "preferred_date": "Preferred date",
-      "preferred_time": "Preferred time",
-      "contact_phone": "Contact phone",
-      "contact_method": "Preferred contact method",
-      "notes": "Additional notes"
+      "preferred_date": "Preferred Date",
+      "preferred_time": "Preferred Time",
+      "contact_phone": "Contact Phone",
+      "contact_method": "Preferred Contact Method",
+      "notes": "Additional Notes"
     },
     "contact_method": {
       "whatsapp": "WhatsApp",
-      "phone": "Phone call",
+      "phone": "Phone Call",
       "email": "Email"
     },
-    "scheduled_at": "Scheduled at",
+    "scheduled_at": "Scheduled At",
     "price": "Price",
-    "trainer_notes": "Trainer notes",
-    "rejection_reason": "Rejection reason",
-    "submit": "Send request",
+    "trainer_notes": "Trainer Notes",
+    "rejection_reason": "Rejection Reason",
+    "submit": "Send Request",
     "submit_success": "Consultation request sent successfully"
   },
   "student_certificates": {
-    "title": "My certificates",
-    "subtitle": "All verified completion certificates you earned",
+    "title": "My Certificates",
+    "subtitle": "All the verified completion certificates you've earned",
     "empty": "You haven't earned any certificates yet",
     "empty_hint": "Complete a training program to earn your verified certificate",
-    "verification_code": "Verification code",
-    "issued_at": "Issued at",
-    "training_hours": "Training hours",
-    "view_pdf": "View certificate",
+    "verification_code": "Verification Code",
+    "issued_at": "Issued At",
+    "training_hours": "Training Hours",
+    "view_pdf": "View Certificate",
     "download": "Download",
     "verify": "Verify",
-    "copy_code": "Copy code",
+    "copy_code": "Copy Code",
     "program": "Program",
     "trainer": "Trainer"
   },
   "student_corporate": {
-    "title": "Corporate requests",
-    "subtitle": "Institutional (B2B) service requests you submitted",
+    "title": "Corporate Requests",
+    "subtitle": "Institutional (B2B) service requests you've submitted",
     "empty": "You haven't submitted any corporate requests yet",
-    "new_request": "New request",
-    "details": "Request details",
+    "new_request": "New Request",
+    "details": "Request Details",
     "attachments": "Attachments",
-    "upload_attachment": "Upload attachment",
-    "upload_hint": "PDF, DOC, DOCX, JPG, PNG, WEBP — max 10MB",
+    "upload_attachment": "Upload Attachment",
+    "upload_hint": "PDF, DOC, DOCX, JPG, PNG, WEBP , max 10MB",
     "upload_success": "Attachment uploaded successfully",
-    "admin_notes": "Admin notes",
-    "rejection_reason": "Rejection reason",
+    "admin_notes": "Admin Notes",
+    "rejection_reason": "Rejection Reason",
     "submit_success": "Your request was submitted successfully",
     "fields": {
-      "contact_name": "Contact person name",
-      "contact_email": "Contact email",
-      "contact_phone": "Contact phone",
+      "contact_name": "Contact Person Name",
+      "contact_email": "Contact Email",
+      "contact_phone": "Contact Phone",
       "contact_whatsapp": "Contact WhatsApp",
-      "company_name": "Company / Organization name",
+      "company_name": "Company / Organization Name",
       "sector": "Sector",
       "country": "Country",
-      "employees_count": "Employees count",
-      "service_type": "Service type",
+      "employees_count": "Number of Employees",
+      "service_type": "Service Type",
       "service_description": "Detailed description of the requested service",
-      "expected_budget": "Expected budget",
-      "project_duration": "Expected project duration"
+      "expected_budget": "Expected Budget",
+      "project_duration": "Expected Project Duration"
     },
     "service_types": {
       "TRAINING": "Training",
       "CONSULTING": "Consulting",
-      "CORPORATE_TRAINING": "Corporate training",
+      "CORPORATE_TRAINING": "Corporate Training",
       "OTHER": "Other"
     }
   },
   "student_reviews": {
-    "title": "My reviews",
-    "subtitle": "All reviews you wrote for trainers",
+    "title": "My Reviews",
+    "subtitle": "All the reviews you've written for trainers",
     "empty": "You haven't written any reviews yet",
-    "edit": "Edit review",
-    "delete": "Delete review",
-    "delete_confirm_title": "Delete review?",
+    "edit": "Edit Review",
+    "delete": "Delete Review",
+    "delete_confirm_title": "Delete Review?",
     "delete_confirm_text": "Are you sure you want to delete this review?",
     "delete_success": "Review deleted successfully",
     "update_success": "Review updated successfully",
@@ -812,86 +812,86 @@
     "title": "Notifications",
     "subtitle": "Latest updates and alerts for your account",
     "empty": "No notifications yet",
-    "mark_all_read": "Mark all as read",
-    "mark_read": "Mark as read",
+    "mark_all_read": "Mark All as Read",
+    "mark_read": "Mark as Read",
     "unread": "Unread",
-    "view_all": "View all notifications",
-    "details_title": "Notification details",
-    "consultation_details": "Consultation details",
-    "corporate_details": "Corporate request details",
-    "student_info": "Student / Client info",
-    "trainer_info": "Trainer info",
-    "full_message": "Full message",
+    "view_all": "View All Notifications",
+    "details_title": "Notification Details",
+    "consultation_details": "Consultation Details",
+    "corporate_details": "Corporate Request Details",
+    "student_info": "Student / Client Info",
+    "trainer_info": "Trainer Info",
+    "full_message": "Full Message",
     "reference": "Reference",
-    "created_at": "Created at",
-    "contact_info": "Contact info",
+    "created_at": "Created At",
+    "contact_info": "Contact Info",
     "no_details": "No additional details",
     "loading_details": "Loading details...",
-    "go_to_consultation": "Go to consultation",
-    "go_to_corporate": "Go to corporate request",
+    "go_to_consultation": "Go to Consultation",
+    "go_to_corporate": "Go to Corporate Request",
     "dropdown_empty": "No new notifications",
     "just_now": "Just now",
-    "minutes_ago": "Since {{count}} minutes",
-    "hours_ago": "Since {{count}} hours",
-    "days_ago": "Since {{count}} days"
+    "minutes_ago": "{{count}} minutes ago",
+    "hours_ago": "{{count}} hours ago",
+    "days_ago": "{{count}} days ago"
   },
   "student_trainers": {
-    "title": "Find a trainer",
+    "title": "Find a Trainer",
     "subtitle": "Discover top certified trainers and book your consultation",
     "search_placeholder": "Search by trainer name or field...",
-    "min_rating": "Min rating",
-    "any_rating": "Any rating",
+    "min_rating": "Min Rating",
+    "any_rating": "Any Rating",
     "empty": "No trainers match your search",
     "years_exp": "years experience",
     "students": "students",
-    "view_profile": "View profile",
-    "book": "Book consultation",
-    "rate_trainer": "Rate trainer",
+    "view_profile": "View Profile",
+    "book": "Book Consultation",
+    "rate_trainer": "Rate Trainer",
     "rating_success": "Your rating was submitted successfully",
-    "already_rated": "You already rated this trainer",
-    "rate_hint": "Click stars to rate trainer",
-    "average_rating": "Average rating"
+    "already_rated": "You've already rated this trainer",
+    "rate_hint": "Click the stars to rate this trainer",
+    "average_rating": "Average Rating"
   },
   "program_details": {
-    "back": "Back to programs",
-    "not_found_title": "Program not found",
-    "not_found_text": "The link may have changed or the program is unavailable.",
-    "about": "About the program",
+    "back": "Back to Programs",
+    "not_found_title": "Program Not Found",
+    "not_found_text": "The link may have changed, or the program is unavailable.",
+    "about": "About the Program",
     "trainer": "Trainer",
     "duration": "Duration",
     "level": "Level",
     "enrolled": "enrolled",
-    "enroll_now": "Enroll now",
+    "enroll_now": "Enroll Now",
     "enrolling": "Enrolling...",
-    "enroll_success": "You enrolled in the program successfully",
+    "enroll_success": "You've enrolled in the program successfully",
     "already_enrolled": "You are already enrolled in this program",
     "unavailable": "This program is not currently available",
     "login_to_enroll": "Log in to enroll in this program",
-    "view_trainer": "View trainer profile"
+    "view_trainer": "View Trainer Profile"
   },
   "verify": {
-    "title": "Certificate verification",
-    "subtitle": "Verify any certificate issued by Tamkeenova platform",
+    "title": "Certificate Verification",
+    "subtitle": "Verify any certificate issued by the TamkeeNova platform",
     "certificate_tab": "Certificate",
-    "user_tab": "Trainee profile",
-    "code_label": "Verification code",
+    "user_tab": "Trainee Profile",
+    "code_label": "Verification Code",
     "code_placeholder": "Example: TAM-A1B2C3D4",
     "username_label": "Username",
     "username_placeholder": "Enter username",
-    "verify_btn": "Verify now",
+    "verify_btn": "Verify Now",
     "verifying": "Verifying...",
-    "valid": "Valid verified certificate",
+    "valid": "Valid, verified certificate",
     "invalid": "Invalid code or certificate not found",
     "user_not_found": "User not found",
-    "holder": "Certificate holder",
+    "holder": "Certificate Holder",
     "program": "Program",
     "trainer": "Trainer",
-    "issued_at": "Issued at",
-    "training_hours": "Training hours",
-    "member_since": "Member since",
-    "completed_programs": "Completed programs",
+    "issued_at": "Issued At",
+    "training_hours": "Training Hours",
+    "member_since": "Member Since",
+    "completed_programs": "Completed Programs",
     "certificates": "Certificates",
     "skills": "Skills",
-    "view_pdf": "View certificate"
+    "view_pdf": "View Certificate"
   }
 }
