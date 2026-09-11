@@ -471,10 +471,34 @@ html[dir='rtl'] .auth-form-col {
   font-weight: 700;
 }
 
+.glass-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface) 75%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 18%, var(--color-border));
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  animation: note-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s backwards;
+}
+
+.glass-hint i {
+  color: var(--color-accent);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
   .trainer-note,
-  .form-error-banner {
+  .form-error-banner,
+  .glass-hint {
     animation: none;
   }
 }

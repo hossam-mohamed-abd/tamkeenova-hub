@@ -34,7 +34,7 @@
   transform: translateY(-5px);
 }
 
-/* ===== Cover / Avatar ===== */
+/* Cover / Avatar */
 .trainer-card-cover {
   position: relative;
   height: 88px;
@@ -84,9 +84,15 @@
   border-radius: 50%;
   background: var(--color-success);
   border: 2px solid var(--color-surface);
+  animation: avail-pulse 2s infinite;
 }
 
-/* ===== Body ===== */
+@keyframes avail-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-success) 40%, transparent); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+
+/* Body */
 .trainer-card-body {
   flex: 1;
   display: flex;
@@ -120,7 +126,193 @@
   margin-top: 0.15rem;
 }
 
-/* ===== Stats chips ===== */
+/* ===== Rating Stars with Animation ===== */
+.trainer-card-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface-alt) 60%, transparent);
+  border: 1px solid transparent;
+  transition: all var(--transition-base);
+  width: 100%;
+  margin-top: 0.2rem;
+}
+
+.trainer-card-rating.is-interactive:hover {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface-alt));
+  border-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  transform: translateY(-1px);
+}
+
+.rating-stars-row {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.rating-star-btn {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: star-pop-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--star-delay, 0s) + 0.3s);
+}
+
+@keyframes star-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.rating-star-btn:hover {
+  transform: scale(1.25) translateY(-2px);
+}
+
+.rating-star-btn:active {
+  transform: scale(0.92);
+}
+
+.rating-star-btn:disabled {
+  cursor: default;
+}
+
+.star-icon {
+  font-size: 1.15rem;
+  color: var(--color-border);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.rating-star-btn.is-active .star-icon,
+.rating-star-btn.is-hovered .star-icon {
+  color: var(--color-accent);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--color-accent) 50%, transparent));
+}
+
+.rating-star-btn.is-hovered .star-icon {
+  animation: star-wiggle 0.4s ease;
+}
+
+@keyframes star-wiggle {
+  0%, 100% { transform: scale(1.2) rotate(0); }
+  25% { transform: scale(1.3) rotate(-8deg); }
+  75% { transform: scale(1.3) rotate(8deg); }
+}
+
+.rating-star-btn.is-user-rated .star-icon {
+  color: var(--color-accent);
+  animation: star-rated-pulse 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes star-rated-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1.1); }
+}
+
+.star-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 30%, transparent) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.rating-star-btn.is-hovered .star-glow,
+.rating-star-btn.is-active .star-glow {
+  opacity: 1;
+  transform: scale(1.6);
+}
+
+.rating-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+}
+
+.rating-value {
+  font-weight: 800;
+  color: var(--color-text);
+  font-family: var(--font-numeric);
+}
+
+.rating-count {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+}
+
+.rating-loading {
+  color: var(--color-accent);
+}
+
+.rating-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-success);
+  font-weight: 700;
+  font-size: 0.72rem;
+  animation: success-slide-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes success-slide-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rating-hint {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.3s ease;
+  height: 0;
+  overflow: hidden;
+}
+
+.rating-hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  height: auto;
+  margin-top: 0.15rem;
+}
+
+.rating-error {
+  font-size: 0.7rem;
+  color: var(--color-danger);
+  font-weight: 600;
+  animation: error-shake 0.4s ease;
+}
+
+@keyframes error-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* Stats chips */
 .trainer-card-stats {
   display: flex;
   flex-wrap: wrap;
@@ -147,20 +339,7 @@
   color: var(--color-text-muted);
 }
 
-.stat-rating {
-  color: var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-}
-
-.stat-rating i {
-  color: var(--color-accent);
-}
-
-.stat-chip-sub {
-  opacity: 0.75;
-}
-
-/* ===== Footer: price + book ===== */
+/* Footer */
 .trainer-card-footer {
   width: 100%;
   display: flex;
@@ -213,7 +392,11 @@
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.trainer-card-book-btn:hover {
+  transform: translateY(-1px);
 }
 
 .trainer-card-view-details {
@@ -242,4 +425,13 @@
 
 html[dir='ltr'] .trainer-card:hover .trainer-card-view-details i {
   transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rating-star-btn,
+  .star-icon,
+  .trainer-card-rating {
+    animation: none;
+    transition: none;
+  }
 }

@@ -2,7 +2,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { NotificationsService } from '../../../../core/services/notifications.service';
-import { AppNotification } from '../../../../core/models/student.model';
+import { ConsultationService } from '../../../../core/services/consultation.service';
+import { CorporateRequestService } from '../../../../core/services/corporate-request.service';
+import { AppNotification, Consultation, CorporateRequest } from '../../../../core/models/student.model';
 
 @Component({
   selector: 'app-student-notifications',
@@ -13,11 +15,19 @@ import { AppNotification } from '../../../../core/models/student.model';
 })
 export class StudentNotificationsComponent {
   private notificationsService = inject(NotificationsService);
+  private consultationService = inject(ConsultationService);
+  private corporateService = inject(CorporateRequestService);
 
   isLoading = signal(true);
   notifications = signal<AppNotification[]>([]);
   showUnreadOnly = signal(false);
   isMarkingAll = signal(false);
+
+  // detail modal
+  selectedNotification = signal<AppNotification | null>(null);
+  notificationDetail = signal<Consultation | CorporateRequest | null>(null);
+  isLoadingDetail = signal(false);
+  showDetailModal = signal(false);
 
   unreadCount = this.notificationsService.unreadCount;
 
@@ -57,6 +67,64 @@ export class StudentNotificationsComponent {
     });
   }
 
+  openDetails(item: AppNotification): void {
+    this.selectedNotification.set(item);
+    this.notificationDetail.set(null);
+    this.isLoadingDetail.set(true);
+    this.showDetailModal.set(true);
+
+    if (!item.is_read) {
+      this.markAsRead(item);
+    }
+
+    const refId = item.reference_id;
+    const refType = (item.reference_type ?? item.type ?? '').toUpperCase();
+    if (!refId) {
+      this.isLoadingDetail.set(false);
+      return;
+    }
+
+    if (refType.includes('CONSULTATION')) {
+      this.consultationService.getById(refId).subscribe({
+        next: (res) => {
+          this.notificationDetail.set(res);
+          this.isLoadingDetail.set(false);
+        },
+        error: () => this.isLoadingDetail.set(false),
+      });
+    } else if (refType.includes('CORPORATE')) {
+      this.corporateService.getById(refId).subscribe({
+        next: (res) => {
+          this.notificationDetail.set(res);
+          this.isLoadingDetail.set(false);
+        },
+        error: () => this.isLoadingDetail.set(false),
+      });
+    } else {
+      this.consultationService.getById(refId).subscribe({
+        next: (res) => {
+          this.notificationDetail.set(res);
+          this.isLoadingDetail.set(false);
+        },
+        error: () => {
+          this.corporateService.getById(refId).subscribe({
+            next: (res) => {
+              this.notificationDetail.set(res);
+              this.isLoadingDetail.set(false);
+            },
+            error: () => this.isLoadingDetail.set(false),
+          });
+        },
+      });
+    }
+  }
+
+  closeDetails(): void {
+    this.showDetailModal.set(false);
+    this.selectedNotification.set(null);
+    this.notificationDetail.set(null);
+  }
+
   markAllAsRead(): void {
     if (this.unreadCount() === 0 || this.isMarkingAll()) return;
     this.isMarkingAll.set(true);
@@ -77,5 +145,13 @@ export class StudentNotificationsComponent {
     if (t.includes('ENROLL')) return 'fa-book';
     if (t.includes('REVIEW')) return 'fa-star';
     return 'fa-bell';
+  }
+
+  isConsultationDetail(detail: Consultation | CorporateRequest | null): detail is Consultation {
+    return !!detail && 'title' in detail && 'status' in detail && !('company_name' in detail);
+  }
+
+  isCorporateDetail(detail: Consultation | CorporateRequest | null): detail is CorporateRequest {
+    return !!detail && 'company_name' in detail;
   }
 }

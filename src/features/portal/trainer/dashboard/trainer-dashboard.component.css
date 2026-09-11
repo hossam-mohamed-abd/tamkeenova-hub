@@ -3,6 +3,42 @@
   min-height: 100vh;
   padding: 8rem 6vw 4rem;
   background: var(--color-background);
+  background-image:
+    radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--color-primary) 5%, transparent) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 45%);
+}
+
+.glass-hero {
+  background: color-mix(in srgb, var(--color-surface) 78%, transparent) !important;
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+}
+
+.glass-stats {
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  border-radius: var(--radius-lg);
+}
+
+.glass-completion {
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
+}
+
+.glass-action {
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent) !important;
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
+}
+
+.glass-section-card {
+  background: color-mix(in srgb, var(--color-surface) 82%, transparent) !important;
+  backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent) !important;
 }
 
 .dashboard-loader {

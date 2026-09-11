@@ -22,41 +22,44 @@ export class TrainerDashboardComponent {
   isLoading = signal(true);
   stats = signal<TrainerDashboardStats | null>(null);
 
-  // -- Calculate Dashboard Completion Progress --
   profileCompletion = computed(() => {
     const s = this.stats();
     if (!s) return 0;
-
     let completed = 0;
-    const total = 5;
-
+    const total = 6;
     if (s.programs_count > 0) completed++;
     if (s.availability_count > 0) completed++;
     if (s.reviews_count > 0) completed++;
     completed++;
     if (s.average_rating > 0) completed++;
-
+    completed++; // consultations
     return Math.round((completed / total) * 100);
   });
 
   quickActions = [
     {
+      icon: 'fa-comments',
+      labelKey: 'trainer_dashboard.actions.manage_consultations',
+      route: '/portal/trainer/consultations',
+      color: 'primary',
+    },
+    {
       icon: 'fa-user-pen',
       labelKey: 'trainer_dashboard.actions.edit_profile',
       route: '/portal/trainer/profile',
-      color: 'primary',
+      color: 'accent',
     },
     {
       icon: 'fa-book-medical',
       labelKey: 'trainer_dashboard.actions.add_program',
       route: '/portal/trainer/programs',
-      color: 'accent',
+      color: 'success',
     },
     {
       icon: 'fa-calendar-plus',
       labelKey: 'trainer_dashboard.actions.set_availability',
       route: '/portal/trainer/availability',
-      color: 'success',
+      color: 'dark',
     },
   ];
 
@@ -70,7 +73,6 @@ export class TrainerDashboardComponent {
     });
   }
 
-  // -- Navigate to a Trainer Portal Route --
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }

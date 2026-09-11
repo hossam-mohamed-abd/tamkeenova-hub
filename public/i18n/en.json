@@ -18,9 +18,11 @@
     "my_profile": "My Profile",
     "account": "Account",
     "dashboard": "Dashboard",
-    "role_student": "Student",
+    "role_student": "Student / Client",
     "role_trainer": "Trainer",
-    "role_admin": "Admin"
+    "role_admin": "Admin",
+    "notifications_dropdown_title": "Notifications",
+    "notifications_view_all": "View all notifications"
   },
   "profile": {
     "title": "My Profile"
@@ -180,7 +182,36 @@
       "details_placeholder": "Describe your needs in detail so our team can assist you better...",
       "submit": "Send Request to Our Team",
       "submitting": "Sending...",
-      "required_error": "This field is required"
+      "required_error": "This field is required",
+      "b2b_title": "Corporate service request (B2B)",
+      "b2b_subtitle": "Fill all details so our team can help best",
+      "b2c_title": "Individual consultation with a trainer",
+      "b2c_subtitle": "Choose a trainer and set your consultation details",
+      "select_trainer": "Select trainer",
+      "trainer_placeholder": "Search and select trainer...",
+      "consultation_title": "Consultation title",
+      "consultation_desc": "Detailed description of what you need help with",
+      "preferred_date": "Preferred date",
+      "preferred_time": "Preferred time",
+      "contact_phone": "Contact phone",
+      "contact_method": "Preferred contact method",
+      "student_notes": "Additional notes",
+      "company_name": "Company name",
+      "contact_name": "Contact person name",
+      "contact_email": "Contact email",
+      "sector": "Sector",
+      "country": "Country",
+      "employees_count": "Employees count",
+      "service_type": "Service type",
+      "service_desc": "Detailed service description",
+      "expected_budget": "Expected budget",
+      "project_duration": "Expected duration",
+      "whatsapp": "WhatsApp",
+      "phone": "Phone",
+      "email": "Email",
+      "upload_attachment": "Upload attachment later from My Requests page",
+      "view_my_requests": "View my requests",
+      "view_my_consultations": "View my consultations"
     },
     "perks": {
       "title": "Why work with us?",
@@ -312,9 +343,9 @@
       "title": "Create Account",
       "subtitle": "Join TamkeeNova and start your journey",
       "role_label": "Account Type",
-      "role_student": "Student",
+      "role_student": "Student / Client",
       "role_trainer": "Trainer",
-      "role_student_desc": "I want to learn and enroll in programs",
+      "role_student_desc": "I learn and enroll in training programs — student or client account",
       "role_trainer_desc": "I want to deliver programs and sessions",
       "trainer_note": "Trainer accounts require admin approval before activation",
       "submit": "Create Account",
@@ -330,9 +361,10 @@
     "login": {
       "eyebrow": "Sign In",
       "title": "Login",
-      "subtitle": "Welcome back, login to continue",
+      "subtitle": "Welcome back — login as Student / Client or Trainer",
       "submit": "Login",
-      "no_account": "Don't have an account?"
+      "no_account": "Don't have an account?",
+      "student_hint": "Student account includes all clients — student, trainee or beneficiary"
     },
     "trainer_register": {
       "eyebrow": "Trainer Registration",
@@ -418,7 +450,8 @@
     "actions": {
       "edit_profile": "Edit Profile",
       "add_program": "Add New Program",
-      "set_availability": "Set Availability"
+      "set_availability": "Set Availability",
+      "manage_consultations": "Manage consultations"
     },
     "overview": "Overview",
     "programs_desc": "Manage your training programs",
@@ -782,7 +815,25 @@
     "mark_all_read": "Mark all as read",
     "mark_read": "Mark as read",
     "unread": "Unread",
-    "view_all": "View all notifications"
+    "view_all": "View all notifications",
+    "details_title": "Notification details",
+    "consultation_details": "Consultation details",
+    "corporate_details": "Corporate request details",
+    "student_info": "Student / Client info",
+    "trainer_info": "Trainer info",
+    "full_message": "Full message",
+    "reference": "Reference",
+    "created_at": "Created at",
+    "contact_info": "Contact info",
+    "no_details": "No additional details",
+    "loading_details": "Loading details...",
+    "go_to_consultation": "Go to consultation",
+    "go_to_corporate": "Go to corporate request",
+    "dropdown_empty": "No new notifications",
+    "just_now": "Just now",
+    "minutes_ago": "Since {{count}} minutes",
+    "hours_ago": "Since {{count}} hours",
+    "days_ago": "Since {{count}} days"
   },
   "student_trainers": {
     "title": "Find a trainer",
@@ -794,7 +845,12 @@
     "years_exp": "years experience",
     "students": "students",
     "view_profile": "View profile",
-    "book": "Book consultation"
+    "book": "Book consultation",
+    "rate_trainer": "Rate trainer",
+    "rating_success": "Your rating was submitted successfully",
+    "already_rated": "You already rated this trainer",
+    "rate_hint": "Click stars to rate trainer",
+    "average_rating": "Average rating"
   },
   "program_details": {
     "back": "Back to programs",

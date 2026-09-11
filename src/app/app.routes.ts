@@ -173,6 +173,14 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'consultations',
+        canActivate: [trainerStatusGuard],
+        loadComponent: () =>
+          import('../features/portal/trainer/consultations/trainer-consultations.component').then(
+            (m) => m.TrainerConsultationsComponent,
+          ),
+      },
+      {
         path: 'reviews',
         canActivate: [trainerStatusGuard],
         loadComponent: () =>

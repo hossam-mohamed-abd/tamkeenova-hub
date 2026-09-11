@@ -12,6 +12,10 @@
         translate }}</h1>
       <p class="auth-subtitle text-muted">{{
         'auth.login.subtitle' | translate }}</p>
+      <div class="auth-role-hint glass-hint">
+        <i class="fa-solid fa-users"></i>
+        <span>{{ 'auth.login.student_hint' | translate }}</span>
+      </div>
 
       <form [formGroup]="form" (ngSubmit)="submit()"
         class="auth-form" novalidate>

@@ -1,0 +1,174 @@
+import { Component, inject, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { Consultation, ConsultationStatus } from '../../../../core/models/student.model';
+
+@Component({
+  selector: 'app-trainer-consultations',
+  standalone: true,
+  imports: [CommonModule, FormsModule, TranslatePipe],
+  templateUrl: './trainer-consultations.component.html',
+  styleUrls: ['../../portal-shared.css', './trainer-consultations.component.css'],
+})
+export class TrainerConsultationsComponent {
+  private http = inject(HttpClient);
+  private baseUrl = `${environment.apiUrl}/consultations`;
+
+  isLoading = signal(true);
+  consultations = signal<Consultation[]>([]);
+  activeFilter = signal<ConsultationStatus | 'ALL'>('ALL');
+
+  selected = signal<Consultation | null>(null);
+  loadingDetails = signal(false);
+  isUpdating = signal(false);
+  updateError = signal<string | null>(null);
+  toastMessage = signal<string | null>(null);
+
+  // update form
+  action = signal<'APPROVE' | 'REJECT' | 'SCHEDULE' | 'COMPLETE' | 'CANCEL'>('APPROVE');
+  trainerNotes = signal('');
+  rejectionReason = signal('');
+  scheduledAt = signal('');
+
+  statuses: Array<ConsultationStatus | 'ALL'> = ['ALL', 'PENDING', 'APPROVED', 'SCHEDULED', 'COMPLETED', 'REJECTED', 'CANCELLED'];
+
+  filtered = computed(() => {
+    const f = this.activeFilter();
+    const list = this.consultations();
+    if (f === 'ALL') return list;
+    return list.filter((c) => c.status === f);
+  });
+
+  constructor() {
+    this.load();
+  }
+
+  load(): void {
+    this.isLoading.set(true);
+    let params = new HttpParams();
+    const f = this.activeFilter();
+    if (f !== 'ALL') params = params.set('status', f);
+
+    this.http.get<{ data: Consultation[]; total: number }>(`${this.baseUrl}/trainer/all`, { params }).subscribe({
+      next: (res) => {
+        this.consultations.set(res.data ?? []);
+        this.isLoading.set(false);
+      },
+      error: () => this.isLoading.set(false),
+    });
+  }
+
+  setFilter(s: ConsultationStatus | 'ALL'): void {
+    this.activeFilter.set(s);
+    this.load();
+  }
+
+  openDetails(c: Consultation): void {
+    this.selected.set(c);
+    this.loadingDetails.set(true);
+    this.updateError.set(null);
+    this.action.set('APPROVE');
+    this.trainerNotes.set('');
+    this.rejectionReason.set('');
+    this.scheduledAt.set('');
+
+    this.http.get<Consultation>(`${this.baseUrl}/${c.id}`).subscribe({
+      next: (res) => {
+        this.selected.set(res);
+        this.loadingDetails.set(false);
+      },
+      error: () => this.loadingDetails.set(false),
+    });
+  }
+
+  closeDetails(): void {
+    this.selected.set(null);
+    this.updateError.set(null);
+  }
+
+  allowedActions(status: ConsultationStatus): Array<{ value: string; label: string; icon: string }> {
+    switch (status) {
+      case 'PENDING':
+        return [
+          { value: 'APPROVE', label: 'موافقة', icon: 'fa-check' },
+          { value: 'REJECT', label: 'رفض', icon: 'fa-xmark' },
+        ];
+      case 'APPROVED':
+        return [
+          { value: 'SCHEDULE', label: 'تحديد موعد', icon: 'fa-calendar' },
+          { value: 'CANCEL', label: 'إلغاء', icon: 'fa-ban' },
+        ];
+      case 'SCHEDULED':
+        return [
+          { value: 'COMPLETE', label: 'إتمام', icon: 'fa-check-double' },
+          { value: 'CANCEL', label: 'إلغاء', icon: 'fa-ban' },
+        ];
+      default:
+        return [];
+    }
+  }
+
+  updateStatus(): void {
+    const sel = this.selected();
+    if (!sel || this.isUpdating()) return;
+
+    const act = this.action();
+    if (act === 'REJECT' && !this.rejectionReason().trim()) {
+      this.updateError.set('common.required_error');
+      return;
+    }
+    if (act === 'SCHEDULE' && !this.scheduledAt().trim()) {
+      this.updateError.set('common.required_error');
+      return;
+    }
+
+    this.isUpdating.set(true);
+    this.updateError.set(null);
+
+    const payload: any = {
+      action: act,
+      trainer_notes: this.trainerNotes().trim() || undefined,
+      reason: this.rejectionReason().trim() || undefined,
+      scheduled_at: this.scheduledAt().trim() ? new Date(this.scheduledAt()).toISOString() : undefined,
+    };
+
+    this.http.patch<{ message: string; consultation: Consultation }>(`${this.baseUrl}/${sel.id}/status`, payload).subscribe({
+      next: (res) => {
+        this.isUpdating.set(false);
+        const updated = res.consultation;
+        this.consultations.update((list) => list.map((c) => (c.id === sel.id ? { ...c, ...updated } : c)));
+        this.selected.set({ ...sel, ...updated });
+        this.showToast('تم تحديث حالة الاستشارة بنجاح');
+      },
+      error: (err) => {
+        this.isUpdating.set(false);
+        const msg = err?.error?.message;
+        this.updateError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+      },
+    });
+  }
+
+  badgeClass(status: string): string {
+    switch (status) {
+      case 'PENDING':
+        return 'badge badge-pending';
+      case 'APPROVED':
+      case 'SCHEDULED':
+      case 'COMPLETED':
+        return 'badge badge-approved';
+      case 'REJECTED':
+      case 'CANCELLED':
+        return 'badge badge-rejected';
+      default:
+        return 'badge';
+    }
+  }
+
+  private showToast(msg: string): void {
+    this.toastMessage.set(msg);
+    setTimeout(() => this.toastMessage.set(null), 3000);
+  }
+}

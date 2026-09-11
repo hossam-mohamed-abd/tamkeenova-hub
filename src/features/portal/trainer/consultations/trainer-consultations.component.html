@@ -1,0 +1,210 @@
+<section class="portal-page trainer-consultations-page">
+  <div class="portal-header">
+    <div>
+      <h1><i class="fa-solid fa-comments"></i> إدارة الاستشارات</h1>
+      <p class="text-muted">تابع طلبات الاستشارات من الطلاب / العملاء وقم بإدارتها</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+  <div class="empty-state"><div class="loader-spinner"></div></div>
+  } @else {
+  <div class="filter-pills glass-pills">
+    @for (s of statuses; track s) {
+    <button type="button" class="filter-pill" [class.is-active]="activeFilter() === s" (click)="setFilter(s)">
+      {{ s === 'ALL' ? ('common.all' | translate) : ('status.consultation.' + s | translate) }}
+    </button>
+    }
+  </div>
+
+  @if (filtered().length === 0) {
+  <div class="empty-state surface glass-empty">
+    <i class="fa-solid fa-comments"></i>
+    <p>لا توجد استشارات {{ activeFilter() !== 'ALL' ? ('status.consultation.' + activeFilter() | translate) : '' }}</p>
+  </div>
+  } @else {
+  <div class="item-list">
+    @for (c of filtered(); track c.id) {
+    <article class="consult-card surface chamfer-sm animate-in glass-consult-card">
+      <div class="consult-main">
+        <div class="consult-student">
+          @if (c.users?.profile_image) {
+          <img [src]="c.users!.profile_image!" [alt]="c.users!.full_name" />
+          } @else {
+          <div class="consult-avatar-fallback"><i class="fa-solid fa-user"></i></div>
+          }
+          <div>
+            <h3 class="consult-title">{{ c.title }}</h3>
+            <span class="consult-student-name text-muted">
+              <i class="fa-solid fa-user"></i> {{ c.users?.full_name ?? '—' }}
+              @if (c.users?.email) { <span dir="ltr">• {{ c.users?.email }}</span> }
+            </span>
+          </div>
+        </div>
+
+        <div class="consult-meta">
+          <span [class]="badgeClass(c.status)">{{ 'status.consultation.' + c.status | translate }}</span>
+          <span class="consult-date text-muted"><i class="fa-regular fa-calendar"></i> {{ c.created_at | date:'yyyy/MM/dd' }}</span>
+          @if (c.preferred_date) {
+          <span class="consult-date text-muted"><i class="fa-solid fa-clock"></i> يفضل: {{ c.preferred_date | date:'yyyy/MM/dd' }} {{ c.preferred_time ?? '' }}</span>
+          }
+        </div>
+
+        @if (c.description) {
+        <p class="consult-desc">{{ c.description | slice:0:120 }}{{ c.description.length > 120 ? '…' : '' }}</p>
+        }
+
+        <div class="consult-contact-info">
+          @if (c.contact_phone) { <span><i class="fa-solid fa-phone"></i> <span dir="ltr">{{ c.contact_phone }}</span></span> }
+          @if (c.preferred_contact_method) { <span><i class="fa-solid fa-comment"></i> {{ 'student_consultations.contact_method.' + c.preferred_contact_method | translate }}</span> }
+        </div>
+      </div>
+
+      <div class="consult-actions">
+        <button type="button" class="btn-outline btn-sm" (click)="openDetails(c)">
+          <i class="fa-solid fa-eye"></i> تفاصيل وإدارة
+        </button>
+        <div class="quick-actions">
+          @for (act of allowedActions(c.status); track act.value) {
+          <span class="quick-action-hint"><i class="fa-solid" [class]="act.icon"></i> {{ act.label }}</span>
+          }
+        </div>
+      </div>
+    </article>
+    }
+  </div>
+  }
+  }
+
+  <!-- Details & Management Modal -->
+  @if (selected(); as d) {
+  <div class="modal-backdrop" (click)="closeDetails()">
+    <div class="modal-card surface chamfer-sm glass-modal" (click)="$event.stopPropagation()">
+      <div class="modal-head">
+        <h3><i class="fa-solid fa-comments"></i> إدارة الاستشارة</h3>
+        <button type="button" class="icon-btn" (click)="closeDetails()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      @if (loadingDetails()) {
+      <div class="empty-state"><div class="loader-spinner"></div></div>
+      } @else {
+      <div class="detail-hero">
+        <h4 class="modal-title">{{ d.title }}</h4>
+        <span [class]="badgeClass(d.status)">{{ 'status.consultation.' + d.status | translate }}</span>
+      </div>
+
+      @if (d.description) {
+      <div class="detail-section">
+        <h5><i class="fa-solid fa-align-left"></i> الوصف</h5>
+        <p class="detail-desc">{{ d.description }}</p>
+      </div>
+      }
+
+      <div class="detail-section">
+        <h5><i class="fa-solid fa-user"></i> بيانات الطالب / العميل كاملة</h5>
+        <div class="person-detail-card glass-person">
+          @if (d.users?.profile_image) {
+          <img [src]="d.users!.profile_image!" [alt]="d.users!.full_name" class="person-avatar" />
+          } @else {
+          <div class="person-avatar-fallback"><i class="fa-solid fa-user"></i></div>
+          }
+          <div class="person-info">
+            <strong>{{ d.users?.full_name ?? '—' }}</strong>
+            @if (d.users?.email) { <span><i class="fa-solid fa-envelope"></i> <span dir="ltr">{{ d.users?.email }}</span></span> }
+            @if (d.users?.phone) { <span><i class="fa-solid fa-phone"></i> <span dir="ltr">{{ d.users?.phone }}</span></span> }
+            @if (d.users?.whatsapp) { <span><i class="fa-brands fa-whatsapp"></i> <span dir="ltr">{{ d.users?.whatsapp }}</span></span> }
+            @if (d.users?.bio) { <p class="person-bio">{{ d.users?.bio }}</p> }
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-row">
+          <span class="text-muted">التاريخ المفضل</span>
+          <strong>{{ d.preferred_date ? (d.preferred_date | date:'yyyy/MM/dd') : '—' }} {{ d.preferred_time ?? '' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="text-muted">رقم التواصل</span>
+          <strong dir="ltr">{{ d.contact_phone ?? '—' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span class="text-muted">طريقة التواصل</span>
+          <strong>{{ d.preferred_contact_method ? ('student_consultations.contact_method.' + d.preferred_contact_method | translate) : '—' }}</strong>
+        </div>
+        @if (d.scheduled_at) {
+        <div class="detail-row">
+          <span class="text-muted">الموعد المحدد</span>
+          <strong>{{ d.scheduled_at | date:'yyyy/MM/dd HH:mm' }}</strong>
+        </div>
+        }
+        @if (d.price) {
+        <div class="detail-row">
+          <span class="text-muted">السعر</span>
+          <strong>{{ d.price }} ج.م</strong>
+        </div>
+        }
+        @if (d.student_notes) {
+        <div class="detail-row detail-col">
+          <span class="text-muted">ملاحظات الطالب</span>
+          <p>{{ d.student_notes }}</p>
+        </div>
+        }
+        @if (d.trainer_notes) {
+        <div class="detail-row detail-col">
+          <span class="text-muted">ملاحظاتك السابقة</span>
+          <p>{{ d.trainer_notes }}</p>
+        </div>
+        }
+      </div>
+
+      <!-- Status Update Form -->
+      @if (allowedActions(d.status).length > 0) {
+      <div class="status-update-section glass-update">
+        <h5><i class="fa-solid fa-gear"></i> تحديث الحالة</h5>
+
+        <div class="action-selector">
+          @for (act of allowedActions(d.status); track act.value) {
+          <button type="button" class="action-btn" [class.is-active]="action() === act.value" [class.is-danger]="act.value === 'REJECT' || act.value === 'CANCEL'" [class.is-success]="act.value === 'APPROVE' || act.value === 'COMPLETE'" (click)="action.set($any(act.value))">
+            <i class="fa-solid" [class]="act.icon"></i> {{ act.label }}
+          </button>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field-label">ملاحظات للطالب / العميل</label>
+          <textarea class="field-input field-textarea" rows="3" [ngModel]="trainerNotes()" (ngModelChange)="trainerNotes.set($event)" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+        </div>
+
+        @if (action() === 'REJECT') {
+        <div class="field">
+          <label class="field-label">سبب الرفض *</label>
+          <input type="text" class="field-input" [ngModel]="rejectionReason()" (ngModelChange)="rejectionReason.set($event)" placeholder="اذكر سبب الرفض بوضوح" />
+        </div>
+        }
+
+        @if (action() === 'SCHEDULE') {
+        <div class="field">
+          <label class="field-label">تحديد الموعد النهائي *</label>
+          <input type="datetime-local" class="field-input" dir="ltr" [ngModel]="scheduledAt()" (ngModelChange)="scheduledAt.set($event)" />
+        </div>
+        }
+
+        @if (updateError()) {
+        <div class="form-error-banner"><i class="fa-solid fa-triangle-exclamation"></i> {{ updateError()! | translate }}</div>
+        }
+
+        <button type="button" class="btn-accent btn-update" (click)="updateStatus()" [disabled]="isUpdating()">
+          @if (isUpdating()) { <div class="loader-spinner-sm"></div> }
+          @else { <i class="fa-solid fa-paper-plane"></i> {{ action() === 'APPROVE' ? 'موافقة' : action() === 'REJECT' ? 'رفض' : action() === 'SCHEDULE' ? 'تأكيد الموعد' : action() === 'COMPLETE' ? 'إتمام الاستشارة' : 'إلغاء' }} }
+        </button>
+      </div>
+      }
+      }
+    </div>
+  </div>
+  }
+
+  @if (toastMessage()) {
+  <div class="toast toast-success animate-in"><i class="fa-solid fa-circle-check"></i> {{ toastMessage() }}</div>
+  }
+</section>

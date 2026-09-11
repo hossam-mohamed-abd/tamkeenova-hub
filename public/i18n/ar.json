@@ -18,9 +18,11 @@
     "my_profile": "بياناتي الشخصية",
     "account": "الحساب",
     "dashboard": "لوحة التحكم",
-    "role_student": "متدرب",
+    "role_student": "طالب / عميل",
     "role_trainer": "مدرب",
-    "role_admin": "إدارة"
+    "role_admin": "إدارة",
+    "notifications_dropdown_title": "الإشعارات",
+    "notifications_view_all": "عرض كل الإشعارات"
   },
   "profile": {
     "title": "بياناتي الشخصية"
@@ -152,12 +154,12 @@
       "subtitle": "سواء كنت شركة تبحث عن شريك تنفيذي لتدريب كوادرها، أو فرداً يلتمس توجيهاً مهنياً خاصاً، نحن هنا لخدمتك."
     },
     "account_notice": {
-      "text": "يتطلب تقديم الاستشارات وجود حساب مسجل على المنصة.",
+      "text": "يتطلب تقديم الاستشارات وجود حساب مسجل على المنصة — حساب الطالب يشمل كل العملاء.",
       "cta": "تسجيل / إنشاء حساب"
     },
     "tabs": {
       "b2b": "أنا أمثل شركة / جهة (B2B)",
-      "b2c": "أنا طالب / فرد (B2C)"
+      "b2c": "أنا طالب / عميل (B2C) — استشارة فردية"
     },
     "form": {
       "field_label": "مجال الخدمة أو الاستشارة المطلوبة",
@@ -180,7 +182,36 @@
       "details_placeholder": "اشرح احتياجك بالتفصيل عشان الفريق يقدر يساعدك بشكل أدق...",
       "submit": "إرسال الطلب للفريق المختص",
       "submitting": "جاري الإرسال...",
-      "required_error": "الحقل ده مطلوب"
+      "required_error": "الحقل ده مطلوب",
+      "b2b_title": "طلب خدمة مؤسسية (B2B)",
+      "b2b_subtitle": "املأ كل التفاصيل عشان فريقنا يقدر يساعدك بأفضل شكل",
+      "b2c_title": "طلب استشارة فردية مع مدرب",
+      "b2c_subtitle": "اختار مدرب وحدد تفاصيل استشارتك",
+      "select_trainer": "اختر المدرب",
+      "trainer_placeholder": "ابحث واختر مدرب...",
+      "consultation_title": "عنوان الاستشارة",
+      "consultation_desc": "وصف مفصل لما تحتاج مساعدة فيه",
+      "preferred_date": "التاريخ المفضل",
+      "preferred_time": "الوقت المفضل",
+      "contact_phone": "رقم التواصل",
+      "contact_method": "طريقة التواصل المفضلة",
+      "student_notes": "ملاحظات إضافية",
+      "company_name": "اسم الشركة",
+      "contact_name": "اسم مسؤول التواصل",
+      "contact_email": "البريد الإلكتروني",
+      "sector": "القطاع",
+      "country": "الدولة",
+      "employees_count": "عدد الموظفين",
+      "service_type": "نوع الخدمة",
+      "service_desc": "وصف الخدمة بالتفصيل",
+      "expected_budget": "الميزانية المتوقعة",
+      "project_duration": "المدة المتوقعة",
+      "whatsapp": "واتساب",
+      "phone": "هاتف",
+      "email": "بريد إلكتروني",
+      "upload_attachment": "رفع مرفق بعد الإرسال من صفحة طلباتي",
+      "view_my_requests": "عرض طلباتي",
+      "view_my_consultations": "عرض استشاراتي"
     },
     "perks": {
       "title": "ليه تتواصل معانا؟",
@@ -312,9 +343,9 @@
       "title": "إنشاء حساب",
       "subtitle": "انضم لتمكينوفا وابدأ رحلتك",
       "role_label": "نوع الحساب",
-      "role_student": "متدرب",
+      "role_student": "طالب / عميل",
       "role_trainer": "مدرب",
-      "role_student_desc": "أتعلم وأحجز في البرامج التدريبية",
+      "role_student_desc": "أتعلم وأحجز في البرامج التدريبية — حساب طالب أو عميل",
       "role_trainer_desc": "أقدّم برامج وجلسات تدريبية",
       "trainer_note": "حسابات المدربين تحتاج موافقة الإدارة قبل التفعيل",
       "submit": "إنشاء الحساب",
@@ -330,7 +361,8 @@
     "login": {
       "eyebrow": "تسجيل الدخول",
       "title": "تسجيل الدخول",
-      "subtitle": "أهلاً بعودتك، سجل دخول للمتابعة",
+      "subtitle": "أهلاً بعودتك — سجل دخول كـ طالب / عميل أو مدرب للمتابعة",
+      "student_hint": "حساب الطالب يشمل كل العملاء — طالب، متدرب، أو مستفيد من خدماتنا",
       "submit": "دخول",
       "no_account": "لسه معملتش حساب؟"
     },
@@ -418,7 +450,8 @@
     "actions": {
       "edit_profile": "تعديل البروفايل",
       "add_program": "إضافة برنامج جديد",
-      "set_availability": "تحديد المواعيد"
+      "set_availability": "تحديد المواعيد",
+      "manage_consultations": "إدارة الاستشارات"
     },
     "overview": "نظرة عامة",
     "programs_desc": "إدارة برامجك التدريبية",
@@ -782,7 +815,25 @@
     "mark_all_read": "تحديد الكل كمقروء",
     "mark_read": "تحديد كمقروء",
     "unread": "غير مقروء",
-    "view_all": "عرض كل الإشعارات"
+    "view_all": "عرض كل الإشعارات",
+    "details_title": "تفاصيل الإشعار",
+    "consultation_details": "تفاصيل الاستشارة",
+    "corporate_details": "تفاصيل طلب الشركة",
+    "student_info": "بيانات الطالب / العميل",
+    "trainer_info": "بيانات المدرب",
+    "full_message": "الرسالة الكاملة",
+    "reference": "المرجع",
+    "created_at": "تاريخ الإنشاء",
+    "contact_info": "معلومات التواصل",
+    "no_details": "لا توجد تفاصيل إضافية",
+    "loading_details": "جاري تحميل التفاصيل...",
+    "go_to_consultation": "الذهاب للاستشارة",
+    "go_to_corporate": "الذهاب لطلب الشركة",
+    "dropdown_empty": "لا توجد إشعارات جديدة",
+    "just_now": "الآن",
+    "minutes_ago": "منذ {{count}} دقيقة",
+    "hours_ago": "منذ {{count}} ساعة",
+    "days_ago": "منذ {{count}} يوم"
   },
   "student_trainers": {
     "title": "ابحث عن مدرب",
@@ -794,7 +845,12 @@
     "years_exp": "سنوات خبرة",
     "students": "متدرب",
     "view_profile": "عرض البروفايل",
-    "book": "احجز استشارة"
+    "book": "احجز استشارة",
+    "rate_trainer": "قيّم المدرب",
+    "rating_success": "تم إرسال تقييمك بنجاح",
+    "already_rated": "لقد قيّمت هذا المدرب من قبل",
+    "rate_hint": "اضغط على النجوم لتقييم المدرب",
+    "average_rating": "متوسط التقييم"
   },
   "program_details": {
     "back": "رجوع للبرامج",
