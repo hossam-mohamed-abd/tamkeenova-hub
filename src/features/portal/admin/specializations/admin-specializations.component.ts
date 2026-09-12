@@ -147,6 +147,7 @@ export class AdminSpecializationsComponent implements OnInit {
         this.isSaving.set(false);
         this.closeForm();
         this.showToast(this.editTarget() ? 'admin_specializations.updated' : 'admin_specializations.created');
+        this.loadList();
       },
       error: () => {
         this.isSaving.set(false);
@@ -174,6 +175,7 @@ export class AdminSpecializationsComponent implements OnInit {
         this.isDeleting.set(false);
         this.closeDelete();
         this.showToast('admin_specializations.deleted');
+        this.loadList();
       },
       error: () => {
         this.isDeleting.set(false);

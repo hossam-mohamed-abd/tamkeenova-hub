@@ -78,8 +78,13 @@ export class AdminVolunteersComponent implements OnInit {
     this.activeFilter.set(filter);
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.adminService.getVolunteers().subscribe({
       next: (list) => {
@@ -97,9 +102,10 @@ export class AdminVolunteersComponent implements OnInit {
   approve(volunteer: AdminVolunteer): void {
     this.busyId.set(volunteer.id);
     this.adminService.approveVolunteer(volunteer.id).subscribe({
-      next: (updated) => {
-        this.replaceVolunteer(updated ?? { ...volunteer, status: 'APPROVED' });
+      next: () => {
         this.busyId.set(null);
+        this.refresh();
+        this.refreshDetailsIfOpen(volunteer.id);
       },
       error: () => {
         this.busyId.set(null);
@@ -123,10 +129,11 @@ export class AdminVolunteersComponent implements OnInit {
     if (!target) return;
     this.isRejecting.set(true);
     this.adminService.rejectVolunteer(target.id, this.rejectForm.getRawValue().reason || undefined).subscribe({
-      next: (updated) => {
-        this.replaceVolunteer(updated ?? { ...target, status: 'REJECTED' });
+      next: () => {
         this.isRejecting.set(false);
         this.closeReject();
+        this.refresh();
+        this.refreshDetailsIfOpen(target.id);
       },
       error: () => {
         this.isRejecting.set(false);
@@ -149,6 +156,18 @@ export class AdminVolunteersComponent implements OnInit {
 
   closeDetails(): void {
     this.details.set(null);
+  }
+
+  // Re-fetch the open details modal content from the server
+  private refreshDetailsIfOpen(volunteerId: string): void {
+    const current = this.details();
+    if (!current || current.id !== volunteerId) return;
+    this.adminService.getVolunteer(volunteerId).subscribe({
+      next: (full) => {
+        if (this.details()?.id === volunteerId && full) this.details.set(full);
+      },
+      error: () => undefined,
+    });
   }
 
   private replaceVolunteer(updated: AdminVolunteer): void {

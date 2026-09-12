@@ -110,8 +110,13 @@ export class AdminTrainersComponent implements OnInit {
     this.activeFilter.set(filter);
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.adminService.getTrainers().subscribe({
       next: (list) => {
@@ -138,14 +143,27 @@ export class AdminTrainersComponent implements OnInit {
           : this.adminService.activateTrainer(trainer.id);
 
     request$.subscribe({
-      next: (updated) => {
-        this.replaceTrainer(updated ?? { ...trainer, trainer_status: this.statusAfter(action) });
+      next: () => {
         this.busyId.set(null);
+        this.refresh();
+        this.refreshDetailsIfOpen(trainer.id);
       },
       error: () => {
         this.busyId.set(null);
         this.showError('admin_trainers.action_error');
       },
+    });
+  }
+
+  // Re-fetch the open details modal content from the server
+  private refreshDetailsIfOpen(trainerId: string): void {
+    const current = this.details();
+    if (!current || current.id !== trainerId) return;
+    this.adminService.getTrainer(trainerId).subscribe({
+      next: (full) => {
+        if (this.details()?.id === trainerId && full) this.details.set(full);
+      },
+      error: () => undefined,
     });
   }
 
@@ -185,10 +203,11 @@ export class AdminTrainersComponent implements OnInit {
     if (!target) return;
     this.isRejecting.set(true);
     this.adminService.rejectTrainer(target.id, this.rejectForm.getRawValue().reason || undefined).subscribe({
-      next: (updated) => {
-        this.replaceTrainer(updated ?? { ...target, trainer_status: 'REJECTED' });
+      next: () => {
         this.isRejecting.set(false);
         this.closeReject();
+        this.refresh();
+        this.refreshDetailsIfOpen(target.id);
       },
       error: () => {
         this.isRejecting.set(false);
@@ -240,12 +259,12 @@ export class AdminTrainersComponent implements OnInit {
         bio_en: raw.bio_en || undefined,
       })
       .subscribe({
-        next: (updated) => {
-          const merged = updated ?? { ...target, ...raw };
-          this.replaceTrainer(merged);
+        next: () => {
           this.isSavingTrainer.set(false);
           this.closeEdit();
           this.showToast('admin_trainers.update_success');
+          this.refresh();
+          this.refreshDetailsIfOpen(target.id);
         },
         error: () => {
           this.isSavingTrainer.set(false);
@@ -270,10 +289,11 @@ export class AdminTrainersComponent implements OnInit {
     }
     this.isAddingCertificate.set(true);
     this.adminService.addTrainerCertificate(current.id, this.certificateForm.getRawValue()).subscribe({
-      next: (updated) => {
+      next: () => {
         this.certificateForm.reset();
         this.isAddingCertificate.set(false);
-        this.replaceTrainer(updated ?? current);
+        this.refresh();
+        this.refreshDetailsIfOpen(current.id);
       },
       error: () => {
         this.isAddingCertificate.set(false);
@@ -295,6 +315,7 @@ export class AdminTrainersComponent implements OnInit {
               }
             : d,
         );
+        this.refresh();
       },
       error: () => this.showError('admin_trainers.cert_delete_error'),
     });
@@ -308,10 +329,11 @@ export class AdminTrainersComponent implements OnInit {
     }
     this.isAddingDocument.set(true);
     this.adminService.addTrainerDocument(current.id, this.documentForm.getRawValue()).subscribe({
-      next: (updated) => {
+      next: () => {
         this.documentForm.reset({ file_type: 'CV' });
         this.isAddingDocument.set(false);
-        this.replaceTrainer(updated ?? current);
+        this.refresh();
+        this.refreshDetailsIfOpen(current.id);
       },
       error: () => {
         this.isAddingDocument.set(false);
@@ -333,6 +355,7 @@ export class AdminTrainersComponent implements OnInit {
               }
             : d,
         );
+        this.refresh();
       },
       error: () => this.showError('admin_trainers.doc_delete_error'),
     });

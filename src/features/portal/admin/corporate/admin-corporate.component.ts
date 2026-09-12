@@ -91,8 +91,13 @@ export class AdminCorporateComponent implements OnInit {
     this.activeFilter.set(filter);
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.adminService.getCorporateRequests().subscribe({
       next: (list) => {
@@ -202,6 +207,14 @@ export class AdminCorporateComponent implements OnInit {
           );
           this.isUpdating.set(false);
           this.showToast('admin_corporate.updated');
+          this.refresh();
+          // Refresh the open modal with authoritative server data
+          this.adminService.getCorporateRequest(current.id).subscribe({
+            next: (full) => {
+              if (this.details()?.id === current.id && full) this.details.set(full);
+            },
+            error: () => undefined,
+          });
         },
         error: () => {
           this.isUpdating.set(false);

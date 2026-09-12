@@ -123,8 +123,13 @@ export class MyTasksComponent implements OnInit {
     this.activeFilter.set(filter);
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.tasksService.getMyTasks().subscribe({
       next: (list) => {
@@ -135,6 +140,12 @@ export class MyTasksComponent implements OnInit {
           return (a.task_order ?? 0) - (b.task_order ?? 0);
         });
         this.tasks.set(sorted);
+        // Keep the open details modal in sync with the fresh server data
+        const openId = this.selected()?.id;
+        if (openId) {
+          const fresh = sorted.find((t) => t.id === openId);
+          if (fresh) this.selected.set(fresh);
+        }
         this.isLoading.set(false);
       },
       error: () => {
@@ -180,6 +191,7 @@ export class MyTasksComponent implements OnInit {
         this.patchItem(item, { status: 'IN_PROGRESS', started_at: new Date().toISOString() });
         this.busy.set(false);
         this.showToast('my_tasks.started');
+        this.refresh();
       },
       error: () => {
         this.busy.set(false);
@@ -250,6 +262,7 @@ export class MyTasksComponent implements OnInit {
           });
           this.selectedFiles.set([]);
           this.showToast('my_tasks.submitted');
+          this.refresh();
         },
         error: () => {
           this.isSubmitting.set(false);

@@ -89,8 +89,13 @@ export class AdminCertificatesComponent implements OnInit {
     this.load();
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.adminService.getCertificates().subscribe({
       next: (list) => {
@@ -213,6 +218,7 @@ export class AdminCertificatesComponent implements OnInit {
             this.isSaving.set(false);
             this.closeIssue();
             this.showToast('admin_certificates.updated');
+            this.refresh();
           },
           error: (err) => {
             this.isSaving.set(false);
@@ -244,6 +250,7 @@ export class AdminCertificatesComponent implements OnInit {
           this.isSaving.set(false);
           this.closeIssue();
           this.showToast('admin_certificates.issued');
+          this.refresh();
         },
         error: (err) => {
           this.isSaving.set(false);
@@ -279,6 +286,7 @@ export class AdminCertificatesComponent implements OnInit {
         }
         this.uploadingId.set(null);
         this.showToast('admin_certificates.pdf_uploaded');
+        this.refresh();
       },
       error: () => {
         this.uploadingId.set(null);
@@ -296,6 +304,7 @@ export class AdminCertificatesComponent implements OnInit {
           list.map((c) => (c.id === cert.id ? { ...c, is_valid: false } : c)),
         );
         this.showToast('admin_certificates.revoked');
+        this.refresh();
       },
       error: () => this.showToast('admin_certificates.revoke_error', true),
     });
@@ -320,6 +329,7 @@ export class AdminCertificatesComponent implements OnInit {
         this.isDeleting.set(false);
         this.closeDelete();
         this.showToast('admin_certificates.deleted');
+        this.refresh();
       },
       error: () => {
         this.isDeleting.set(false);

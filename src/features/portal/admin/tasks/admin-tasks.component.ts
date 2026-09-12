@@ -138,8 +138,13 @@ export class AdminTasksComponent implements OnInit {
     this.activeFilter.set(filter);
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.tasksService.getAll().subscribe({
       next: (list) => {
@@ -319,6 +324,7 @@ export class AdminTasksComponent implements OnInit {
         this.isSavingTask.set(false);
         this.closeTaskForm();
         this.showToast(editing ? 'admin_tasks.updated' : 'admin_tasks.created');
+        this.refresh();
       },
       error: (err) => {
         this.isSavingTask.set(false);
@@ -350,6 +356,7 @@ export class AdminTasksComponent implements OnInit {
         this.isDeleting.set(false);
         this.closeDelete();
         this.showToast('admin_tasks.deleted');
+        this.refresh();
       },
       error: () => {
         this.isDeleting.set(false);
@@ -380,6 +387,19 @@ export class AdminTasksComponent implements OnInit {
     });
 
     this.loadComments(task.id);
+  }
+
+  // Re-fetch the open details modal (assignees + their latest statuses)
+  private refreshDetailsIfOpen(taskId: string): void {
+    if (!taskId || this.details()?.id !== taskId) return;
+    this.tasksService.getSubmissions(taskId).subscribe({
+      next: (assignees) => {
+        if (this.details()?.id === taskId && Array.isArray(assignees) && assignees.length > 0) {
+          this.details.update((t) => (t ? { ...t, task_assignees: assignees } : t));
+        }
+      },
+      error: () => undefined,
+    });
   }
 
   private loadComments(taskId: string): void {
@@ -414,6 +434,7 @@ export class AdminTasksComponent implements OnInit {
         );
         this.busyId.set(null);
         this.showToast('admin_tasks.assignee_removed');
+        this.refresh();
       },
       error: () => {
         this.busyId.set(null);
@@ -461,6 +482,8 @@ export class AdminTasksComponent implements OnInit {
         this.newAssigneeOrder.setValue((this.details()?.task_assignees?.length ?? 0) + 1);
         this.isAddingAssignee.set(false);
         this.showToast('admin_tasks.assignee_added');
+        this.refreshDetailsIfOpen(task.id);
+        this.refresh();
       },
       error: () => {
         this.isAddingAssignee.set(false);
@@ -536,6 +559,8 @@ export class AdminTasksComponent implements OnInit {
           this.showToast(
             action === 'APPROVE' ? 'admin_tasks.review_approved' : 'admin_tasks.review_rejected',
           );
+          this.refresh();
+          this.refreshDetailsIfOpen(this.details()?.id ?? '');
         },
         error: () => {
           this.isReviewing.set(false);

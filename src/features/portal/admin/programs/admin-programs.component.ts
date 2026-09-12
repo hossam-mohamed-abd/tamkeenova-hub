@@ -70,8 +70,13 @@ export class AdminProgramsComponent implements OnInit {
     return Number(program.average_rating).toFixed(1);
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.adminService.getPrograms().subscribe({
       next: (list) => {
@@ -115,6 +120,7 @@ export class AdminProgramsComponent implements OnInit {
         );
         this.busyId.set(null);
         this.showToast(currentlyVisible ? 'admin_programs.hidden' : 'admin_programs.shown');
+        this.refresh();
       },
       error: () => {
         this.busyId.set(null);
@@ -163,6 +169,7 @@ export class AdminProgramsComponent implements OnInit {
           this.isSaving.set(false);
           this.closeEdit();
           this.showToast('admin_programs.updated');
+          this.refresh();
         },
         error: () => {
           this.isSaving.set(false);
@@ -192,6 +199,7 @@ export class AdminProgramsComponent implements OnInit {
         this.isDeleting.set(false);
         this.closeDelete();
         this.showToast('admin_programs.deleted');
+        this.refresh();
       },
       error: () => {
         this.isDeleting.set(false);

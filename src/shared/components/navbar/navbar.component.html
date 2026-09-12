@@ -83,15 +83,15 @@
           <div class="notif-glass-list">
             @for (n of recentNotifications(); track n.id) {
             <article class="notif-glass-item" [class.is-unread]="!n.is_read" (click)="openNotificationDetail(n, $event)">
-              <div class="notif-glass-icon">
+              <div class="notif-glass-icon" [class]="toneFor(n.type)">
                 <i class="fa-solid" [class]="iconFor(n.type)"></i>
               </div>
               <div class="notif-glass-main">
                 <div class="notif-glass-top">
-                  <span class="notif-glass-title">{{ n.title }}</span>
+                  <span class="notif-glass-title">{{ titleFor(n) }}</span>
                   @if (!n.is_read) { <span class="notif-glass-dot"></span> }
                 </div>
-                <p class="notif-glass-msg">{{ (n.message || '') | slice:0:70 }}{{ (n.message || '').length > 70 ? '…' : '' }}</p>
+                <p class="notif-glass-msg">{{ (messageFor(n) || '') | slice:0:70 }}{{ (messageFor(n) || '').length > 70 ? '…' : '' }}</p>
                 <span class="notif-glass-time"><i class="fa-regular fa-clock"></i> {{ timeAgo(n.created_at) }}</span>
               </div>
             </article>
@@ -259,12 +259,13 @@
     } @else {
     @if (selectedNotification(); as sn) {
     <div class="notif-detail-original">
-      <div class="notif-detail-original-icon">
+      <div class="notif-detail-original-icon" [class]="toneFor(sn.type)">
         <i class="fa-solid" [class]="iconFor(sn.type)"></i>
       </div>
       <div>
-        <h4>{{ sn.title }}</h4>
-        <p class="text-muted">{{ sn.message }}</p>
+        <span class="notif-detail-type" [class]="toneFor(sn.type)">{{ typeKeyFor(sn.type) | translate }}</span>
+        <h4>{{ titleFor(sn) }}</h4>
+        <p class="text-muted">{{ messageFor(sn) }}</p>
         <span class="notif-detail-date"><i class="fa-regular fa-clock"></i> {{ sn.created_at | date:'yyyy/MM/dd HH:mm' }}</span>
       </div>
     </div>

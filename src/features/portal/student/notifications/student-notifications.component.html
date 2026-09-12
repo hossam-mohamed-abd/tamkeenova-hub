@@ -38,12 +38,12 @@
       <div class="notif-list">
         @for (n of filtered(); track n.id) {
           <article class="notif-card surface chamfer-sm animate-in glass-notif-card" [class.is-unread]="!n.is_read" (click)="openDetails(n)">
-            <div class="notif-icon">
+            <div class="notif-icon" [class]="toneFor(n.type)">
               <i class="fa-solid" [class]="iconFor(n.type)"></i>
             </div>
             <div class="notif-main">
               <div class="notif-top">
-                <h3 class="notif-title">{{ n.title }}</h3>
+                <h3 class="notif-title">{{ titleFor(n) }}</h3>
                 <div class="notif-top-actions">
                   @if (!n.is_read) {
                     <span class="notif-dot" [attr.title]="'notifications.unread' | translate"></span>
@@ -51,7 +51,7 @@
                   <span class="notif-view-hint"><i class="fa-solid fa-eye"></i></span>
                 </div>
               </div>
-              <p class="notif-message">{{ n.message }}</p>
+              <p class="notif-message">{{ messageFor(n) }}</p>
               <span class="notif-date text-muted">
                 <i class="fa-regular fa-clock"></i>
                 {{ n.created_at | date: 'yyyy/MM/dd HH:mm' }}
@@ -77,12 +77,13 @@
       } @else {
         @if (selectedNotification(); as sn) {
         <div class="notif-detail-original">
-          <div class="notif-detail-original-icon">
+          <div class="notif-detail-original-icon" [class]="toneFor(sn.type)">
             <i class="fa-solid" [class]="iconFor(sn.type)"></i>
           </div>
           <div>
-            <h4>{{ sn.title }}</h4>
-            <p class="text-muted">{{ sn.message }}</p>
+            <span class="notif-detail-type" [class]="toneFor(sn.type)">{{ typeKeyFor(sn.type) | translate }}</span>
+            <h4>{{ titleFor(sn) }}</h4>
+            <p class="text-muted">{{ messageFor(sn) }}</p>
             <span class="notif-detail-date"><i class="fa-regular fa-clock"></i> {{ sn.created_at | date:'yyyy/MM/dd HH:mm' }}</span>
           </div>
         </div>

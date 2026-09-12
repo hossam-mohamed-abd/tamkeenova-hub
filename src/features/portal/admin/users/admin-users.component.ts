@@ -140,8 +140,13 @@ export class AdminUsersComponent implements OnInit {
     this.load();
   }
 
-  load(): void {
-    this.isLoading.set(true);
+  // Silent re-fetch (no spinner) to reconcile with the server after mutations
+  refresh(): void {
+    this.load(false);
+  }
+
+  load(showSpinner = true): void {
+    if (showSpinner) this.isLoading.set(true);
     this.hasError.set(false);
     this.adminService
       .getUsers({
@@ -198,6 +203,7 @@ export class AdminUsersComponent implements OnInit {
         this.isChangingRole.set(false);
         this.closeRoleModal();
         this.showToast('admin_users.role_changed');
+        this.refresh();
       },
       error: () => {
         this.isChangingRole.set(false);
@@ -214,6 +220,7 @@ export class AdminUsersComponent implements OnInit {
       next: () => {
         this.users.update((list) => list.map((u) => (u.id === user.id ? { ...u, is_active: next } : u)));
         this.showToast(next ? 'admin_users.activated' : 'admin_users.deactivated');
+        this.refresh();
       },
       error: () => this.showToast('admin_users.status_error'),
     });

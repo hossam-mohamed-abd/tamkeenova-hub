@@ -5,6 +5,12 @@ import { NotificationsService } from '../../../../core/services/notifications.se
 import { ConsultationService } from '../../../../core/services/consultation.service';
 import { CorporateRequestService } from '../../../../core/services/corporate-request.service';
 import { AppNotification, Consultation, CorporateRequest } from '../../../../core/models/student.model';
+import {
+  notificationIcon,
+  notificationTone,
+  notificationTypeKey,
+} from '../../../../core/utils/notification-presentation';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-student-notifications',
@@ -17,6 +23,7 @@ export class StudentNotificationsComponent {
   private notificationsService = inject(NotificationsService);
   private consultationService = inject(ConsultationService);
   private corporateService = inject(CorporateRequestService);
+  private translateService = inject(TranslateService);
 
   isLoading = signal(true);
   notifications = signal<AppNotification[]>([]);
@@ -101,21 +108,9 @@ export class StudentNotificationsComponent {
         error: () => this.isLoadingDetail.set(false),
       });
     } else {
-      this.consultationService.getById(refId).subscribe({
-        next: (res) => {
-          this.notificationDetail.set(res);
-          this.isLoadingDetail.set(false);
-        },
-        error: () => {
-          this.corporateService.getById(refId).subscribe({
-            next: (res) => {
-              this.notificationDetail.set(res);
-              this.isLoadingDetail.set(false);
-            },
-            error: () => this.isLoadingDetail.set(false),
-          });
-        },
-      });
+      // Trainer / volunteer / task / system notifications have no entity
+      // endpoint — show the notification content itself instead of spinning.
+      this.isLoadingDetail.set(false);
     }
   }
 
@@ -138,13 +133,31 @@ export class StudentNotificationsComponent {
   }
 
   iconFor(type: string): string {
-    const t = type.toUpperCase();
-    if (t.includes('CONSULTATION')) return 'fa-comments';
-    if (t.includes('CORPORATE')) return 'fa-building';
-    if (t.includes('CERTIFICATE')) return 'fa-certificate';
-    if (t.includes('ENROLL')) return 'fa-book';
-    if (t.includes('REVIEW')) return 'fa-star';
-    return 'fa-bell';
+    return notificationIcon(type);
+  }
+
+  toneFor(type: string): string {
+    return 'tone-' + notificationTone(type);
+  }
+
+  // Fallback title when the backend sends an empty one
+  titleFor(notif: AppNotification): string {
+    if (notif.title && notif.title.trim()) return notif.title;
+    const key = 'notifications.types.' + notificationTypeKey(notif.type);
+    const translated = this.translateService.instant(key);
+    return translated !== key ? translated : (notif.type ?? '');
+  }
+
+  // Fallback message when the backend sends an empty one
+  messageFor(notif: AppNotification): string {
+    if (notif.message && notif.message.trim()) return notif.message;
+    const key = 'notifications.types.' + notificationTypeKey(notif.type) + '_msg';
+    const translated = this.translateService.instant(key);
+    return translated !== key ? translated : '';
+  }
+
+  typeKeyFor(type: string): string {
+    return 'notifications.types.' + notificationTypeKey(type);
   }
 
   isConsultationDetail(detail: Consultation | CorporateRequest | null): detail is Consultation {

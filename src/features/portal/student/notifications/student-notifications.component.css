@@ -384,3 +384,58 @@
     animation: none;
   }
 }
+
+/* ================= Notification tones ================= */
+.notif-icon.tone-primary,
+.notif-detail-original-icon.tone-primary {
+  background: color-mix(in srgb, var(--color-primary) 13%, transparent);
+  color: var(--color-primary);
+}
+
+.notif-icon.tone-info,
+.notif-detail-original-icon.tone-info {
+  background: color-mix(in srgb, #2f7fbf 14%, transparent);
+  color: #2f7fbf;
+}
+
+.notif-icon.tone-accent,
+.notif-detail-original-icon.tone-accent {
+  background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+  color: var(--color-accent);
+}
+
+.notif-icon.tone-success,
+.notif-detail-original-icon.tone-success {
+  background: color-mix(in srgb, var(--color-success) 14%, transparent);
+  color: var(--color-success);
+}
+
+.notif-icon.tone-danger,
+.notif-detail-original-icon.tone-danger {
+  background: color-mix(in srgb, var(--color-danger) 13%, transparent);
+  color: var(--color-danger);
+}
+
+.notif-icon.tone-neutral,
+.notif-detail-original-icon.tone-neutral {
+  background: color-mix(in srgb, var(--color-text-muted) 13%, transparent);
+  color: var(--color-text-muted);
+}
+
+.notif-detail-type {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 0.4rem;
+}
+
+.notif-detail-type.tone-primary { background: color-mix(in srgb, var(--color-primary) 12%, transparent); color: var(--color-primary); }
+.notif-detail-type.tone-info { background: color-mix(in srgb, #2f7fbf 13%, transparent); color: #2f7fbf; }
+.notif-detail-type.tone-accent { background: color-mix(in srgb, var(--color-accent) 14%, transparent); color: var(--color-accent); }
+.notif-detail-type.tone-success { background: color-mix(in srgb, var(--color-success) 13%, transparent); color: var(--color-success); }
+.notif-detail-type.tone-danger { background: color-mix(in srgb, var(--color-danger) 12%, transparent); color: var(--color-danger); }
+.notif-detail-type.tone-neutral { background: color-mix(in srgb, var(--color-text-muted) 12%, transparent); color: var(--color-text-muted); }
