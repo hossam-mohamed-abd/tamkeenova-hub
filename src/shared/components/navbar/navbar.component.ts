@@ -12,6 +12,7 @@ import {
   notificationIcon,
   notificationTone,
   notificationTypeKey,
+  isKnownNotificationType,
 } from '../../../core/utils/notification-presentation';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -216,20 +217,27 @@ export class NavbarComponent {
     return 'tone-' + notificationTone(type);
   }
 
-  // Fallback title when the backend sends an empty one
+  // Known types are ALWAYS shown in the user's language (the backend
+  // currently sends English-only titles/messages). Unknown types fall
+  // back to the backend text, then to a generic translated label.
   titleFor(notif: AppNotification): string {
-    if (notif.title && notif.title.trim()) return notif.title;
-    const key = 'notifications.types.' + notificationTypeKey(notif.type);
-    const translated = this.translateService.instant(key);
-    return translated !== key ? translated : (notif.type ?? '');
+    const key = notificationTypeKey(notif.type);
+    const fullKey = 'notifications.types.' + key;
+    if (isKnownNotificationType(notif.type) || !notif.title?.trim()) {
+      const translated = this.translateService.instant(fullKey);
+      if (translated !== fullKey) return translated;
+    }
+    return notif.title || '';
   }
 
-  // Fallback message when the backend sends an empty one
   messageFor(notif: AppNotification): string {
-    if (notif.message && notif.message.trim()) return notif.message;
-    const key = 'notifications.types.' + notificationTypeKey(notif.type) + '_msg';
-    const translated = this.translateService.instant(key);
-    return translated !== key ? translated : '';
+    const key = notificationTypeKey(notif.type);
+    const fullKey = 'notifications.types.' + key + '_msg';
+    if (isKnownNotificationType(notif.type) || !notif.message?.trim()) {
+      const translated = this.translateService.instant(fullKey);
+      if (translated !== fullKey) return translated;
+    }
+    return notif.message || '';
   }
 
   typeKeyFor(type: string): string {
@@ -243,12 +251,12 @@ export class NavbarComponent {
       if (isNaN(date.getTime())) return '';
       const diffMs = now.getTime() - date.getTime();
       const diffMins = Math.floor(diffMs / 60000);
-      if (diffMins < 1) return 'الآن';
-      if (diffMins < 60) return `منذ ${diffMins} د`;
+      if (diffMins < 1) return this.translateService.instant('notifications.time.now');
+      if (diffMins < 60) return this.translateService.instant('notifications.time.min_ago', { n: diffMins });
       const diffHours = Math.floor(diffMins / 60);
-      if (diffHours < 24) return `منذ ${diffHours} س`;
+      if (diffHours < 24) return this.translateService.instant('notifications.time.hours_ago', { n: diffHours });
       const diffDays = Math.floor(diffHours / 24);
-      return `منذ ${diffDays} يوم`;
+      return this.translateService.instant('notifications.time.days_ago', { n: diffDays });
     } catch {
       return '';
     }

@@ -912,6 +912,12 @@
       "account_msg": "There is an update on your account.",
       "update": "New notification",
       "update_msg": "You have a new notification from Tamkeenova."
+    },
+    "time": {
+      "now": "just now",
+      "min_ago": "{{n}}m ago",
+      "hours_ago": "{{n}}h ago",
+      "days_ago": "{{n}}d ago"
     }
   },
   "student_trainers": {
@@ -1081,7 +1087,8 @@
     "update_success": "Trainer data updated successfully",
     "update_error": "Could not update trainer data",
     "bio_ar": "Short bio (Arabic)",
-    "bio_en": "Short bio (English)"
+    "bio_en": "Short bio (English)",
+    "years_short": "yrs exp"
   },
   "admin_volunteers": {
     "title": "Volunteers Management",

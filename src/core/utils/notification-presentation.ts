@@ -53,3 +53,10 @@ export function notificationTypeKey(type: string | null | undefined): string {
   if (t.includes('USER') || t.includes('REGISTER') || t.includes('ACCOUNT')) return 'account';
   return 'update';
 }
+
+// Types we can confidently translate in the UI. The backend currently sends
+// English-only titles/messages, so for these types the UI overrides the
+// backend text with the user's language.
+export function isKnownNotificationType(type: string | null | undefined): boolean {
+  return notificationTypeKey(type) !== 'update';
+}

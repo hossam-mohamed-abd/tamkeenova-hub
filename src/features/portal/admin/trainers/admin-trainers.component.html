@@ -41,107 +41,135 @@
       <p>{{ 'admin_trainers.empty' | translate }}</p>
     </div>
   } @else {
-    <div class="table-wrap staff-fade">
-      <table class="staff-table">
-        <thead>
-          <tr>
-            <th>{{ 'admin_trainers.col_trainer' | translate }}</th>
-            <th>{{ 'admin_trainers.col_specialization' | translate }}</th>
-            <th>{{ 'admin_trainers.col_status' | translate }}</th>
-            <th>{{ 'admin_trainers.col_joined' | translate }}</th>
-            <th>{{ 'admin_trainers.col_actions' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (trainer of filtered(); track trainer.id) {
-            <tr>
-              <td>
-                <div class="table-user">
-                  <span class="table-avatar">
-                    @if (trainer.users?.profile_image) {
-                      <img [src]="trainer.users!.profile_image!" [alt]="trainer.users?.full_name" />
-                    } @else {
-                      {{ initials(trainer.users?.full_name ?? '') }}
-                    }
-                  </span>
-                  <span class="table-user-main">
-                    <span class="table-user-name">{{ trainer.users?.full_name ?? '—' }}</span>
-                    <span class="table-user-mail">{{ trainer.users?.email ?? '' }}</span>
-                  </span>
-                </div>
-              </td>
-              <td class="table-muted spec-cell">{{ specializationName(trainer) }}</td>
-              <td>
-                <span class="badge" [class]="statusBadge(trainer.trainer_status ?? 'PENDING')">
-                  {{ 'status.trainer.' + (trainer.trainer_status ?? 'PENDING') | translate }}
-                </span>
-              </td>
-              <td class="table-muted">{{ trainer.created_at | date: 'yyyy/MM/dd' }}</td>
-              <td>
-                <div class="cell-actions">
-                  @switch (trainer.trainer_status ?? 'PENDING') {
-                    @case ('PENDING') {
-                      <button
-                        type="button"
-                        class="btn-sm btn-success-sm"
-                        [disabled]="busyId() === trainer.id"
-                        (click)="act(trainer, 'approve')"
-                      >
-                        <i class="fa-solid fa-check"></i>
-                        {{ 'admin_trainers.approve' | translate }}
-                      </button>
-                      <button type="button" class="btn-sm btn-danger-sm" (click)="askReject(trainer)">
-                        <i class="fa-solid fa-xmark"></i>
-                        {{ 'admin_trainers.reject' | translate }}
-                      </button>
-                    }
-                    @case ('APPROVED') {
-                      <button
-                        type="button"
-                        class="btn-sm btn-danger-sm"
-                        [disabled]="busyId() === trainer.id"
-                        (click)="act(trainer, 'suspend')"
-                      >
-                        <i class="fa-solid fa-pause"></i>
-                        {{ 'admin_trainers.suspend' | translate }}
-                      </button>
-                    }
-                    @case ('SUSPENDED') {
-                      <button
-                        type="button"
-                        class="btn-sm btn-success-sm"
-                        [disabled]="busyId() === trainer.id"
-                        (click)="act(trainer, 'activate')"
-                      >
-                        <i class="fa-solid fa-play"></i>
-                        {{ 'admin_trainers.activate' | translate }}
-                      </button>
-                    }
-                    @case ('REJECTED') {
-                      <button
-                        type="button"
-                        class="btn-sm btn-success-sm"
-                        [disabled]="busyId() === trainer.id"
-                        (click)="act(trainer, 'activate')"
-                      >
-                        <i class="fa-solid fa-rotate-right"></i>
-                        {{ 'admin_trainers.activate' | translate }}
-                      </button>
-                    }
-                  }
-                  <button type="button" class="btn-sm btn-outline-sm" (click)="openDetails(trainer)">
-                    <i class="fa-solid fa-eye"></i>
-                    {{ 'common.view' | translate }}
-                  </button>
-                  <button type="button" class="btn-sm btn-outline-sm" (click)="openEdit(trainer)">
-                    <i class="fa-solid fa-pen"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
+    <div class="trainer-grid">
+      @for (trainer of filtered(); track trainer.id) {
+        <article
+          class="trainer-card surface chamfer-sm staff-fade"
+          [class.is-pending]="(trainer.trainer_status ?? 'PENDING') === 'PENDING'"
+          (click)="openDetails(trainer)"
+        >
+          <div class="trainer-card-head">
+            <span class="trainer-avatar">
+              @if (trainer.users?.profile_image) {
+                <img [src]="trainer.users!.profile_image!" [alt]="trainer.users?.full_name" />
+              } @else {
+                {{ initials(trainer.users?.full_name ?? '') }}
+              }
+            </span>
+
+            <div class="trainer-head-text">
+              <h3 class="trainer-name">{{ trainer.users?.full_name ?? '—' }}</h3>
+              <span class="trainer-mail" dir="ltr">{{ trainer.users?.email ?? '' }}</span>
+            </div>
+
+            <span class="badge" [class]="statusBadge(trainer.trainer_status ?? 'PENDING')">
+              {{ 'status.trainer.' + (trainer.trainer_status ?? 'PENDING') | translate }}
+            </span>
+          </div>
+
+          <div class="trainer-chips">
+            <span class="trainer-chip">
+              <i class="fa-solid fa-layer-group"></i>
+              {{ specializationName(trainer) }}
+            </span>
+            <span class="trainer-chip">
+              <i class="fa-regular fa-calendar"></i>
+              {{ trainer.created_at | date: 'yyyy/MM/dd' }}
+            </span>
+            @if (trainer.years_of_experience) {
+              <span class="trainer-chip">
+                <i class="fa-solid fa-briefcase"></i>
+                {{ trainer.years_of_experience }} {{ 'admin_trainers.years_short' | translate }}
+              </span>
+            }
+            @if ((trainer.trainer_certificates?.length ?? 0) > 0) {
+              <span class="trainer-chip">
+                <i class="fa-solid fa-certificate"></i>
+                {{ trainer.trainer_certificates!.length }}
+              </span>
+            }
+          </div>
+
+          @if (trainer.rejection_reason) {
+            <p class="trainer-reject-note">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              {{ trainer.rejection_reason }}
+            </p>
           }
-        </tbody>
-      </table>
+
+          <div class="trainer-card-actions" (click)="$event.stopPropagation()">
+            @switch (trainer.trainer_status ?? 'PENDING') {
+              @case ('PENDING') {
+                <button
+                  type="button"
+                  class="btn-sm btn-success-sm"
+                  [disabled]="busyId() === trainer.id"
+                  (click)="act(trainer, 'approve')"
+                >
+                  <i class="fa-solid fa-check"></i>
+                  {{ 'admin_trainers.approve' | translate }}
+                </button>
+                <button type="button" class="btn-sm btn-danger-sm" (click)="askReject(trainer)">
+                  <i class="fa-solid fa-xmark"></i>
+                  {{ 'admin_trainers.reject' | translate }}
+                </button>
+              }
+              @case ('APPROVED') {
+                <button
+                  type="button"
+                  class="btn-sm btn-danger-sm"
+                  [disabled]="busyId() === trainer.id"
+                  (click)="act(trainer, 'suspend')"
+                >
+                  <i class="fa-solid fa-pause"></i>
+                  {{ 'admin_trainers.suspend' | translate }}
+                </button>
+              }
+              @case ('SUSPENDED') {
+                <button
+                  type="button"
+                  class="btn-sm btn-success-sm"
+                  [disabled]="busyId() === trainer.id"
+                  (click)="act(trainer, 'activate')"
+                >
+                  <i class="fa-solid fa-play"></i>
+                  {{ 'admin_trainers.activate' | translate }}
+                </button>
+              }
+              @case ('REJECTED') {
+                <button
+                  type="button"
+                  class="btn-sm btn-success-sm"
+                  [disabled]="busyId() === trainer.id"
+                  (click)="act(trainer, 'activate')"
+                >
+                  <i class="fa-solid fa-rotate-right"></i>
+                  {{ 'admin_trainers.activate' | translate }}
+                </button>
+              }
+            }
+
+            <span class="trainer-card-tools">
+              <button
+                type="button"
+                class="icon-btn"
+                (click)="openDetails(trainer)"
+                [attr.aria-label]="'common.view' | translate"
+              >
+                <i class="fa-solid fa-eye"></i>
+              </button>
+              <button
+                type="button"
+                class="icon-btn"
+                (click)="openEdit(trainer)"
+                [attr.aria-label]="'common.edit' | translate"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
+            </span>
+          </div>
+        </article>
+      }
     </div>
   }
 
