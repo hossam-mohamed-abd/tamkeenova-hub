@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AdminService } from '../../../../core/services/admin.service';
 import { TasksService } from '../../../../core/services/tasks.service';
+import { submissionFiles, submissionOfAssignee } from '../../../../core/utils/submission-presentation';
 import { AdminUser } from '../../../../core/models/admin.model';
 import {
   Task,
@@ -11,6 +12,7 @@ import {
   TaskComment,
   TaskPriority,
   TaskStatus,
+  TaskSubmission,
 } from '../../../../core/models/tasks.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
@@ -83,6 +85,7 @@ export class AdminTasksComponent implements OnInit {
   // ================= Task Details =================
   details = signal<Task | null>(null);
   isLoadingDetails = signal(false);
+  detailsLoadError = signal(false);
   comments = signal<TaskComment[]>([]);
   isLoadingComments = signal(false);
 
@@ -372,21 +375,60 @@ export class AdminTasksComponent implements OnInit {
     this.comments.set([]);
     this.reviewTarget.set(null);
     this.detailMemberResults.set([]);
+    this.detailsLoadError.set(false);
     this.newAssigneeOrder.setValue((task.task_assignees?.length ?? 0) + 1);
-    this.isLoadingDetails.set(true);
-
-    // Fresh assignee statuses + submissions
-    this.tasksService.getSubmissions(task.id).subscribe({
-      next: (assignees) => {
-        if (Array.isArray(assignees) && assignees.length > 0) {
-          this.details.update((t) => (t ? { ...t, task_assignees: assignees } : t));
-        }
-        this.isLoadingDetails.set(false);
-      },
-      error: () => this.isLoadingDetails.set(false),
-    });
+    // Only show the blocking spinner when we have nothing to render yet;
+    // otherwise refresh silently in place (no content collapse/flash).
+    this.isLoadingDetails.set((task.task_assignees?.length ?? 0) === 0);
+    this.fetchAssignees(task.id);
 
     this.loadComments(task.id);
+  }
+
+  // Fetch assignees + their submissions; falls back to the task-details
+  // endpoint when the submissions endpoint answers empty, and surfaces
+  // errors instead of silently keeping stale rows.
+  private fetchAssignees(taskId: string): void {
+    this.tasksService.getSubmissions(taskId).subscribe({
+      next: (assignees) => {
+        if (this.details()?.id !== taskId) return;
+        if (Array.isArray(assignees) && assignees.length > 0) {
+          this.details.update((t) => (t ? { ...t, task_assignees: assignees } : t));
+          this.detailsLoadError.set(false);
+          this.isLoadingDetails.set(false);
+          return;
+        }
+        this.tasksService.getById(taskId).subscribe({
+          next: (task) => {
+            if (this.details()?.id !== taskId) return;
+            const rows = Array.isArray(task?.task_assignees) ? task.task_assignees : [];
+            if (rows.length > 0) {
+              this.details.update((t) => (t ? { ...t, task_assignees: rows } : t));
+              this.detailsLoadError.set(false);
+            }
+            this.isLoadingDetails.set(false);
+          },
+          error: () => {
+            if (this.details()?.id !== taskId) return;
+            this.isLoadingDetails.set(false);
+            this.detailsLoadError.set(this.assigneeRows().length === 0);
+          },
+        });
+      },
+      error: () => {
+        if (this.details()?.id !== taskId) return;
+        this.isLoadingDetails.set(false);
+        this.detailsLoadError.set(this.assigneeRows().length === 0);
+      },
+    });
+  }
+
+  retryDetails(): void {
+    const task = this.details();
+    if (!task) return;
+    this.detailsLoadError.set(false);
+    this.isLoadingDetails.set(this.assigneeRows().length === 0);
+    this.fetchAssignees(task.id);
   }
 
   // Re-fetch the open details modal (assignees + their latest statuses)
@@ -400,6 +442,15 @@ export class AdminTasksComponent implements OnInit {
       },
       error: () => undefined,
     });
+  }
+
+  // Template accessors: tolerate alternate backend field names
+  submissionOf(assignee: TaskAssignee): TaskSubmission | null {
+    return submissionOfAssignee(assignee as any);
+  }
+
+  filesOf(submission: TaskSubmission | null) {
+    return submissionFiles(submission as any);
   }
 
   private loadComments(taskId: string): void {
@@ -532,10 +583,12 @@ export class AdminTasksComponent implements OnInit {
       })
       .subscribe({
         next: (updated) => {
-          const merged = updated ?? {
+          const merged: any = updated ?? {
             ...assignee,
             status: action === 'APPROVE' ? 'APPROVED' : 'REJECTED',
           };
+          // The review response may not echo the submission — never wipe it.
+          if (!merged.submission) delete merged.submission;
           const detail = this.details();
           this.details.update((t) =>
             t

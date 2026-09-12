@@ -61,6 +61,11 @@ export class TasksService {
     return this.unwrap(this.http.patch<any>(`${this.baseUrl}/assignees/${assigneeId}/review`, payload));
   }
 
+  // -- Single Task Details (Admin/Member) --
+  getById(taskId: string): Observable<Task> {
+    return this.unwrap(this.http.get<any>(`${this.baseUrl}/${taskId}`));
+  }
+
   // -- List Submissions of a Task (Admin) --
   getSubmissions(taskId: string): Observable<TaskAssignee[]> {
     return this.unwrap(

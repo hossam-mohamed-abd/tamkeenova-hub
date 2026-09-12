@@ -313,6 +313,15 @@
 
         @if (isLoadingDetails()) {
           <div class="staff-empty"><span class="loader-spinner"></span></div>
+        } @else if (detailsLoadError() && assigneeRows().length === 0) {
+          <div class="staff-empty staff-empty-sm">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>{{ 'admin_tasks.submissions_error' | translate }}</p>
+            <button type="button" class="btn-sm btn-outline-sm" (click)="retryDetails()">
+              <i class="fa-solid fa-rotate-right"></i>
+              {{ 'common.retry' | translate }}
+            </button>
+          </div>
         } @else if (assigneeRows().length === 0) {
           <div class="staff-empty staff-empty-sm">
             <i class="fa-solid fa-user-group"></i>
@@ -346,29 +355,29 @@
                   </span>
                 </div>
 
-                @if (row.assignee.submission) {
+                @if (submissionOf(row.assignee); as sub) {
                   <div class="submission-box">
-                    @if (row.assignee.submission.content) {
-                      <p class="submission-text">{{ row.assignee.submission.content }}</p>
+                    @if (sub.content) {
+                      <p class="submission-text">{{ sub.content }}</p>
                     }
-                    @if (row.assignee.submission.link_url) {
-                      <a class="file-chip" [href]="row.assignee.submission.link_url" target="_blank" rel="noopener">
+                    @if (sub.link_url) {
+                      <a class="file-chip" [href]="sub.link_url" target="_blank" rel="noopener">
                         <i class="fa-solid fa-link"></i>
                         {{ 'admin_tasks.open_link' | translate }}
                       </a>
                     }
-                    @if ((row.assignee.submission.task_submission_attachments?.length ?? 0) > 0) {
+                    @if (filesOf(sub).length > 0) {
                       <div class="attachments-row">
-                        @for (file of row.assignee.submission.task_submission_attachments; track file.id) {
-                          <a class="file-chip" [href]="file.file_url" target="_blank" rel="noopener">
+                        @for (file of filesOf(sub); track file.id) {
+                          <a class="file-chip" [href]="file.url" target="_blank" rel="noopener">
                             <i class="fa-solid fa-paperclip"></i>
-                            {{ file.file_name ?? ('admin_tasks.attachment' | translate) }}
+                            {{ file.name || ('admin_tasks.attachment' | translate) }}
                           </a>
                         }
                       </div>
                     }
                     <small class="text-muted submitted-at">
-                      {{ 'my_tasks.submitted_at' | translate }} {{ row.assignee.submission.submitted_at | date: 'yyyy/MM/dd HH:mm' }}
+                      {{ 'my_tasks.submitted_at' | translate }} {{ sub.submitted_at | date: 'yyyy/MM/dd HH:mm' }}
                     </small>
                   </div>
                 }

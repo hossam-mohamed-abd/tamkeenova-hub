@@ -277,12 +277,12 @@
                 {{ 'my_tasks.open_link' | translate }}
               </a>
             }
-            @if ((item.submission.task_submission_attachments?.length ?? 0) > 0) {
+            @if (filesOf(item.submission).length > 0) {
               <div class="attachments-row">
-                @for (file of item.submission.task_submission_attachments; track file.id) {
-                  <a class="file-chip" [href]="file.file_url" target="_blank" rel="noopener">
+                @for (file of filesOf(item.submission); track file.id) {
+                  <a class="file-chip" [href]="file.url" target="_blank" rel="noopener">
                     <i class="fa-solid fa-paperclip"></i>
-                    {{ file.file_name ?? ('my_tasks.attachment' | translate) }}
+                    {{ file.name || ('my_tasks.attachment' | translate) }}
                   </a>
                 }
               </div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TasksService } from '../../../../core/services/tasks.service';
+import { submissionFiles } from '../../../../core/utils/submission-presentation';
 import {
   MyTaskItem,
   TaskComment,
@@ -48,6 +49,10 @@ export class MyTasksComponent implements OnInit {
   selectedFiles = signal<File[]>([]);
   readonly maxFiles = 10;
   readonly maxFileSize = 25 * 1024 * 1024;
+
+  filesOf(submission: any) {
+    return submissionFiles(submission);
+  }
 
   submitForm = this.fb.nonNullable.group({
     content: [''],

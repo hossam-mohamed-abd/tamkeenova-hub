@@ -1304,7 +1304,8 @@
     "comment_error": "Could not send the comment",
     "action_error": "Could not perform the action, please retry",
     "no_member_found": "No employee or volunteer found with this name",
-    "min_chars_hint": "Type at least 2 characters to search"
+    "min_chars_hint": "Type at least 2 characters to search",
+    "submissions_error": "Could not load submissions, please retry"
   },
   "employee_dashboard": {
     "title": "Employee Dashboard",
