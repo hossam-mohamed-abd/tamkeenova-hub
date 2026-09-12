@@ -103,15 +103,15 @@
           <tbody>
             @for (task of displayStats().last_tasks; track task.id) {
               <tr>
-                <td>
+                <td [attr.data-label]="'volunteer_dashboard.col_task' | translate">
                   <strong class="last-task-title">{{ task.title }}</strong>
                 </td>
-                <td>
+                <td [attr.data-label]="'volunteer_dashboard.col_status' | translate">
                   <span class="badge" [class]="statusBadge(task.status)">
                     {{ 'status.task.' + task.status | translate }}
                   </span>
                 </td>
-                <td>
+                <td [attr.data-label]="'volunteer_dashboard.col_score' | translate">
                   @if (task.score !== null && task.score !== undefined) {
                     <span class="score-chip">
                       <i class="fa-solid fa-star"></i>

@@ -1384,5 +1384,18 @@
     "f_required_score": "Required score",
     "f_estimated_hours": "Estimated hours",
     "open": "Open task"
+  },
+  "volunteer_status": {
+    "pending_badge": "Under review",
+    "pending_title": "Your volunteer application is under review",
+    "pending_text": "The Tamkeenova team is reviewing your application right now. You will be notified once approved — until then the volunteer dashboard stays locked.",
+    "rejected_badge": "Rejected",
+    "rejected_title": "Unfortunately your application was rejected",
+    "rejected_text": "Check the rejection reason below, or contact the administration to reconsider.",
+    "approved_badge": "Approved",
+    "approved_redirect": "Your application is approved! Redirecting to the volunteer dashboard...",
+    "timeline_submitted": "Application submitted",
+    "timeline_review": "Under review",
+    "timeline_decision": "Admin decision"
   }
 }

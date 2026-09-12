@@ -71,7 +71,7 @@
         <tbody>
           @for (program of filtered(); track program.id) {
             <tr>
-              <td>
+              <td [attr.data-label]="'admin_programs.col_program' | translate">
                 <div class="program-cell">
                   @if (program.image_url) {
                     <img class="program-thumb" [src]="program.image_url" [alt]="program.title" loading="lazy" />
@@ -88,27 +88,27 @@
                   </div>
                 </div>
               </td>
-              <td class="table-muted">{{ program.trainers?.users?.full_name ?? '—' }}</td>
-              <td>
+              <td [attr.data-label]="'admin_programs.col_trainer' | translate" class="table-muted">{{ program.trainers?.users?.full_name ?? '—' }}</td>
+              <td [attr.data-label]="'admin_programs.col_price' | translate">
                 @if (program.price !== null && program.price !== undefined) {
                   <span class="price-chip">{{ program.price }} {{ 'common.currency' | translate }}</span>
                 } @else {
                   <span class="badge badge-approved">{{ 'admin_programs.free' | translate }}</span>
                 }
               </td>
-              <td class="table-muted">{{ program.duration_hours ?? '—' }}</td>
-              <td>
+              <td [attr.data-label]="'admin_programs.col_hours' | translate" class="table-muted">{{ program.duration_hours ?? '—' }}</td>
+              <td [attr.data-label]="'admin_programs.col_rating' | translate">
                 <span class="rating-chip">
                   <i class="fa-solid fa-star"></i>
                   {{ ratingDisplay(program) }}
                 </span>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_programs.col_visibility' | translate">
                 <span class="badge" [class.badge-approved]="isVisible(program)" [class.badge-neutral]="!isVisible(program)">
                   {{ (isVisible(program) ? 'admin_programs.visible' : 'admin_programs.hidden_label') | translate }}
                 </span>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_programs.col_actions' | translate">
                 <div class="cell-actions">
                   <button
                     type="button"

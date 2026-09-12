@@ -1019,3 +1019,92 @@ html[data-theme='dark'] .badge-medium {
     padding: 0.9rem;
   }
 }
+
+/* ================= Responsive tables → cards on mobile ================= */
+@media (max-width: 760px) {
+  .table-wrap {
+    border: none;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    overflow-x: visible;
+  }
+
+  .staff-table {
+    min-width: 0;
+  }
+
+  .staff-table thead {
+    display: none;
+  }
+
+  .staff-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-bottom: 0.85rem;
+    padding: 0.9rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  }
+
+  .staff-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.4rem 0.15rem;
+    border-bottom: none;
+    font-size: 0.82rem;
+  }
+
+  .staff-table td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 0.66rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  /* action cells keep the label but stack buttons below on very small screens */
+  .staff-table td .cell-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .staff-table td .table-user,
+  .staff-table td .program-cell,
+  .staff-table td .corp-cell {
+    max-width: 60%;
+  }
+
+  .staff-table td .table-user-name,
+  .staff-table td .program-info strong {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 430px) {
+  .staff-table td {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .staff-table td::before {
+    order: -1;
+  }
+
+  .staff-table td .cell-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .staff-table td .cell-actions .btn-sm {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}

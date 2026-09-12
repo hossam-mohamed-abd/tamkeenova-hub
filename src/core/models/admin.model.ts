@@ -89,6 +89,7 @@ export interface AdminVolunteer {
   id: string;
   user_id: string;
   status: VolunteerStatus;
+  volunteer_status?: VolunteerStatus;
   bio: string | null;
   total_hours: number;
   created_at: string;

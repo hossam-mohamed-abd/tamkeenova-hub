@@ -365,6 +365,12 @@ export class NavbarComponent {
     return '/portal/student/profile';
   });
 
+  // Admins manage everything from the admin portal — no public profile page
+  isAdminRole = computed(() => {
+    const role = this.authService.role();
+    return role === 'ADMIN' || role === 'SUPER_ADMIN';
+  });
+
   notificationsRoute = computed(() => {
     const role = this.authService.role();
     if (role === 'TRAINER') return '/portal/trainer/notifications';

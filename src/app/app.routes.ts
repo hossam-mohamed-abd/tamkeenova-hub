@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
-import { inject } from '@angular/core';
 import { HomeComponent } from '../features/home/home.component';
 import { NotFoundComponent } from '../features/not-found/not-found.component.js';
 import { guestGuard } from '../core/guards/guest.guard';
 import { authGuard } from '../core/guards/auth.guard';
 import { roleGuard } from '../core/guards/role.guard';
 import { trainerStatusGuard } from '../core/guards/trainer-status.guard';
-import { AuthService } from '../core/services/auth.service';
+import { volunteerStatusGuard } from '../core/guards/volunteer-status.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -337,13 +336,22 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [volunteerStatusGuard],
         loadComponent: () =>
           import('../features/portal/volunteer/dashboard/volunteer-dashboard.component').then(
             (m) => m.VolunteerDashboardComponent,
           ),
       },
       {
+        path: 'status',
+        loadComponent: () =>
+          import('../features/portal/volunteer/status/volunteer-status.component').then(
+            (m) => m.VolunteerStatusComponent,
+          ),
+      },
+      {
         path: 'tasks',
+        canActivate: [volunteerStatusGuard],
         loadComponent: () =>
           import('../features/portal/tasks/my-tasks/my-tasks.component').then(
             (m) => m.MyTasksComponent,

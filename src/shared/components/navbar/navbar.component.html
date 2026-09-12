@@ -133,10 +133,12 @@
             </div>
           </div>
           <div class="user-dropdown-divider"></div>
+          @if (!isAdminRole()) {
           <a [routerLink]="profileRoute()" class="user-dropdown-link" (click)="closeUserMenu()">
             <i class="fa-solid fa-user"></i>
             {{ 'nav.my_profile' | translate }}
           </a>
+          }
           <a [routerLink]="dashboardRoute()" class="user-dropdown-link" (click)="closeUserMenu()">
             <i class="fa-solid fa-gauge"></i>
             {{ 'nav.dashboard' | translate }}
@@ -200,10 +202,12 @@
         </div>
       </div>
 
+      @if (!isAdminRole()) {
       <a [routerLink]="profileRoute()" class="control-btn control-btn-block" (click)="closeMobileMenu()">
         <i class="fa-solid fa-user"></i>
         <span class="control-btn-label">{{ 'nav.my_profile' | translate }}</span>
       </a>
+      }
       <a [routerLink]="dashboardRoute()" class="control-btn control-btn-block" (click)="closeMobileMenu()">
         <i class="fa-solid fa-gauge"></i>
         <span class="control-btn-label">{{ 'nav.dashboard' | translate }}</span>

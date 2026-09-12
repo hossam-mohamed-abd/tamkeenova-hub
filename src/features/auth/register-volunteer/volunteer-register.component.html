@@ -31,9 +31,10 @@
               formControlName="full_name"
               (input)="markTouched('full_name')"
               autocomplete="name" />
-            <span class="field-hint is-error"
-              [class.is-visible]="isFieldInvalid('full_name')">
-              {{ 'auth.errors.full_name' | translate }}
+            <span class="field-hint" [class.is-error]="isFieldInvalid('full_name')">
+              @if (isFieldInvalid('full_name')) {
+                {{ 'auth.errors.full_name' | translate }}
+              }
             </span>
           </div>
 
@@ -50,9 +51,10 @@
               formControlName="username"
               (input)="markTouched('username')"
               autocomplete="username" />
-            <span class="field-hint is-error"
-              [class.is-visible]="isFieldInvalid('username')">
-              {{ 'auth.errors.username' | translate }}
+            <span class="field-hint" [class.is-error]="isFieldInvalid('username')">
+              @if (isFieldInvalid('username')) {
+                {{ 'auth.errors.username' | translate }}
+              }
             </span>
           </div>
 
@@ -66,9 +68,10 @@
               formControlName="email"
               (input)="markTouched('email')"
               autocomplete="email" />
-            <span class="field-hint is-error"
-              [class.is-visible]="isFieldInvalid('email')">
-              {{ 'auth.errors.email' | translate }}
+            <span class="field-hint" [class.is-error]="isFieldInvalid('email')">
+              @if (isFieldInvalid('email')) {
+                {{ 'auth.errors.email' | translate }}
+              }
             </span>
           </div>
 
@@ -82,9 +85,10 @@
               formControlName="phone"
               (input)="markTouched('phone')"
               autocomplete="tel" />
-            <span class="field-hint is-error"
-              [class.is-visible]="isFieldInvalid('phone')">
-              {{ 'auth.errors.phone' | translate }}
+            <span class="field-hint" [class.is-error]="isFieldInvalid('phone')">
+              @if (isFieldInvalid('phone')) {
+                {{ 'auth.errors.phone' | translate }}
+              }
             </span>
           </div>
 

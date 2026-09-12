@@ -41,93 +41,109 @@
       <p>{{ 'admin_volunteers.empty' | translate }}</p>
     </div>
   } @else {
-    <div class="table-wrap staff-fade">
-      <table class="staff-table">
-        <thead>
-          <tr>
-            <th>{{ 'admin_volunteers.col_volunteer' | translate }}</th>
-            <th>{{ 'admin_volunteers.col_status' | translate }}</th>
-            <th>{{ 'admin_volunteers.col_hours' | translate }}</th>
-            <th>{{ 'admin_volunteers.col_joined' | translate }}</th>
-            <th>{{ 'admin_volunteers.col_actions' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (volunteer of filtered(); track volunteer.id) {
-            <tr>
-              <td>
-                <div class="table-user">
-                  <span class="table-avatar">
-                    @if (volunteer.users?.profile_image) {
-                      <img [src]="volunteer.users!.profile_image!" [alt]="volunteer.users?.full_name" />
-                    } @else {
-                      {{ initials(volunteer.users?.full_name ?? '') }}
-                    }
-                  </span>
-                  <span class="table-user-main">
-                    <span class="table-user-name">{{ volunteer.users?.full_name ?? '—' }}</span>
-                    <span class="table-user-mail">{{ volunteer.users?.email ?? '' }}</span>
-                  </span>
-                </div>
-              </td>
-              <td>
-                <span class="badge" [class]="statusBadge(volunteer.status ?? 'PENDING')">
-                  {{ 'status.volunteer.' + (volunteer.status ?? 'PENDING') | translate }}
-                </span>
-              </td>
-              <td>
-                <span class="hours-chip">
-                  <i class="fa-solid fa-clock"></i>
-                  {{ volunteer.total_hours ?? 0 }} {{ 'common.hours_unit' | translate }}
-                </span>
-              </td>
-              <td class="table-muted">{{ volunteer.created_at | date: 'yyyy/MM/dd' }}</td>
-              <td>
-                <div class="cell-actions">
-                  @switch (volunteer.status ?? 'PENDING') {
-                    @case ('PENDING') {
-                      <button
-                        type="button"
-                        class="btn-sm btn-success-sm"
-                        [disabled]="busyId() === volunteer.id"
-                        (click)="approve(volunteer)"
-                      >
-                        <i class="fa-solid fa-check"></i>
-                        {{ 'admin_volunteers.approve' | translate }}
-                      </button>
-                      <button type="button" class="btn-sm btn-danger-sm" (click)="askReject(volunteer)">
-                        <i class="fa-solid fa-xmark"></i>
-                        {{ 'admin_volunteers.reject' | translate }}
-                      </button>
-                    }
-                    @case ('REJECTED') {
-                      <button
-                        type="button"
-                        class="btn-sm btn-success-sm"
-                        [disabled]="busyId() === volunteer.id"
-                        (click)="approve(volunteer)"
-                      >
-                        <i class="fa-solid fa-rotate-right"></i>
-                        {{ 'admin_volunteers.approve' | translate }}
-                      </button>
-                    }
-                    @case ('APPROVED') {
-                      <button type="button" class="btn-sm btn-danger-sm" (click)="askReject(volunteer)">
-                        <i class="fa-solid fa-xmark"></i>
-                        {{ 'admin_volunteers.reject' | translate }}
-                      </button>
-                    }
-                  }
-                  <button type="button" class="btn-sm btn-outline-sm" (click)="openDetails(volunteer)">
-                    <i class="fa-solid fa-eye"></i>
-                    {{ 'common.view' | translate }}
-                  </button>
-                </div>
-              </td>
-            </tr>
+    <div class="volunteer-grid">
+      @for (volunteer of filtered(); track volunteer.id) {
+        <article
+          class="volunteer-card surface chamfer-sm staff-fade"
+          [class.is-pending]="statusOf(volunteer) === 'PENDING'"
+          (click)="openDetails(volunteer)"
+        >
+          <div class="volunteer-card-head">
+            <span class="volunteer-avatar">
+              @if (volunteer.users?.profile_image) {
+                <img [src]="volunteer.users!.profile_image!" [alt]="volunteer.users?.full_name" />
+              } @else {
+                {{ initials(volunteer.users?.full_name ?? '') }}
+              }
+            </span>
+
+            <div class="volunteer-head-text">
+              <h3 class="volunteer-name">{{ volunteer.users?.full_name ?? '—' }}</h3>
+              <span class="volunteer-mail" dir="ltr">{{ volunteer.users?.email ?? '' }}</span>
+            </div>
+
+            <span class="badge" [class]="statusBadge(statusOf(volunteer))">
+              {{ 'status.volunteer.' + statusOf(volunteer) | translate }}
+            </span>
+          </div>
+
+          <div class="volunteer-chips">
+            <span class="volunteer-chip">
+              <i class="fa-solid fa-clock"></i>
+              {{ volunteer.total_hours ?? 0 }} {{ 'common.hours_unit' | translate }}
+            </span>
+            <span class="volunteer-chip">
+              <i class="fa-regular fa-calendar"></i>
+              {{ volunteer.created_at | date: 'yyyy/MM/dd' }}
+            </span>
+            @if (volunteer.users?.phone) {
+              <span class="volunteer-chip" dir="ltr">
+                <i class="fa-solid fa-phone"></i>
+                {{ volunteer.users?.phone }}
+              </span>
+            }
+          </div>
+
+          @if (volunteer.bio) {
+            <p class="volunteer-bio">{{ volunteer.bio }}</p>
           }
-        </tbody>
-      </table>
+
+          @if (statusOf(volunteer) === 'REJECTED' && volunteer.rejection_reason) {
+            <p class="volunteer-reject-note">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              {{ volunteer.rejection_reason }}
+            </p>
+          }
+
+          <div class="volunteer-card-actions" (click)="$event.stopPropagation()">
+            @switch (statusOf(volunteer)) {
+              @case ('PENDING') {
+                <button
+                  type="button"
+                  class="btn-sm btn-success-sm"
+                  [disabled]="busyId() === volunteer.id"
+                  (click)="approve(volunteer)"
+                >
+                  <i class="fa-solid fa-check"></i>
+                  {{ 'admin_volunteers.approve' | translate }}
+                </button>
+                <button type="button" class="btn-sm btn-danger-sm" (click)="askReject(volunteer)">
+                  <i class="fa-solid fa-xmark"></i>
+                  {{ 'admin_volunteers.reject' | translate }}
+                </button>
+              }
+              @case ('REJECTED') {
+                <button
+                  type="button"
+                  class="btn-sm btn-success-sm"
+                  [disabled]="busyId() === volunteer.id"
+                  (click)="approve(volunteer)"
+                >
+                  <i class="fa-solid fa-rotate-right"></i>
+                  {{ 'admin_volunteers.approve' | translate }}
+                </button>
+              }
+              @case ('APPROVED') {
+                <button type="button" class="btn-sm btn-danger-sm" (click)="askReject(volunteer)">
+                  <i class="fa-solid fa-xmark"></i>
+                  {{ 'admin_volunteers.reject' | translate }}
+                </button>
+              }
+            }
+
+            <span class="volunteer-card-tools">
+              <button
+                type="button"
+                class="icon-btn"
+                (click)="openDetails(volunteer)"
+                [attr.aria-label]="'common.view' | translate"
+              >
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </span>
+          </div>
+        </article>
+      }
     </div>
   }
 
@@ -206,8 +222,8 @@
             </div>
             <div class="staff-detail-item">
               <span class="staff-detail-label">{{ 'admin_volunteers.col_status' | translate }}</span>
-              <span class="badge" [class]="statusBadge(d.status ?? 'PENDING')">
-                {{ 'status.volunteer.' + (d.status ?? 'PENDING') | translate }}
+              <span class="badge" [class]="statusBadge(statusOf(d))">
+                {{ 'status.volunteer.' + statusOf(d) | translate }}
               </span>
             </div>
           </div>

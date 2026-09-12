@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AdminService } from '../../../../core/services/admin.service';
 import { AdminUiService } from '../../../../core/services/admin-ui.service';
-import { AdminVolunteer } from '../../../../core/models/admin.model';
+import { AdminVolunteer, VolunteerStatus } from '../../../../core/models/admin.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
 
 type VolunteerFilter = 'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED';
@@ -28,8 +28,13 @@ export class AdminVolunteersComponent implements OnInit {
   volunteers = signal<AdminVolunteer[]>([]);
   activeFilter = signal<VolunteerFilter>('ALL');
 
+  // The API may expose the status as `volunteer_status` (like trainers) or `status`
+  statusOf(v: AdminVolunteer): VolunteerStatus {
+    return ((v as AdminVolunteer).volunteer_status ?? v.status ?? 'PENDING') as VolunteerStatus;
+  }
+
   pendingCount = computed(
-    () => this.volunteers().filter((v) => (v.status ?? 'PENDING') === 'PENDING').length,
+    () => this.volunteers().filter((v) => this.statusOf(v) === 'PENDING').length,
   );
 
   busyId = signal<string | null>(null);
@@ -47,7 +52,7 @@ export class AdminVolunteersComponent implements OnInit {
     const f = this.activeFilter();
     const list = this.volunteers();
     if (f === 'ALL') return list;
-    return list.filter((v) => (v.status ?? 'PENDING') === f);
+    return list.filter((v) => this.statusOf(v) === f);
   });
 
   statusBadge(status: string): string {
@@ -89,7 +94,7 @@ export class AdminVolunteersComponent implements OnInit {
     this.adminService.getVolunteers().subscribe({
       next: (list) => {
         this.volunteers.set(list);
-        this.adminUi.pendingVolunteers.set(list.filter((v) => (v.status ?? 'PENDING') === 'PENDING').length);
+        this.adminUi.pendingVolunteers.set(list.filter((v) => this.statusOf(v) === 'PENDING').length);
         this.isLoading.set(false);
       },
       error: () => {
@@ -174,7 +179,7 @@ export class AdminVolunteersComponent implements OnInit {
     this.volunteers.update((list) => {
       const merged = list.map((v) => (v.id === updated.id ? { ...v, ...updated, users: updated.users ?? v.users } : v));
       this.adminUi.pendingVolunteers.set(
-        merged.filter((v) => (v.status ?? 'PENDING') === 'PENDING').length,
+        merged.filter((v) => this.statusOf(v) === 'PENDING').length,
       );
       return merged;
     });

@@ -78,7 +78,7 @@
         <tbody>
           @for (user of users(); track user.id) {
             <tr>
-              <td>
+              <td [attr.data-label]="'admin_users.col_user' | translate">
                 <div class="table-user">
                   <span class="table-avatar">
                     @if (user.profile_image) {
@@ -93,17 +93,17 @@
                   </span>
                 </div>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_users.col_role' | translate">
                 <span class="badge" [class]="roleBadgeClass(user.role)">
                   {{ 'status.user_role.' + user.role | translate }}
                 </span>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_users.col_status' | translate">
                 <span class="badge" [class.badge-approved]="user.is_active" [class.badge-rejected]="!user.is_active">
                   {{ (user.is_active ? 'admin_users.active' : 'admin_users.inactive') | translate }}
                 </span>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_users.col_verified' | translate">
                 <i
                   class="fa-solid verify-icon"
                   [class.fa-circle-check]="user.email_verified"
@@ -112,8 +112,8 @@
                   [class.is-no]="!user.email_verified"
                 ></i>
               </td>
-              <td class="table-muted">{{ user.created_at | date: 'yyyy/MM/dd' }}</td>
-              <td>
+              <td [attr.data-label]="'admin_users.col_joined' | translate" class="table-muted">{{ user.created_at | date: 'yyyy/MM/dd' }}</td>
+              <td [attr.data-label]="'admin_users.col_actions' | translate">
                 <div class="cell-actions">
                   <button
                     type="button"

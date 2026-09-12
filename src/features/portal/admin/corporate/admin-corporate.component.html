@@ -57,7 +57,7 @@
         <tbody>
           @for (request of filtered(); track request.id) {
             <tr>
-              <td>
+              <td [attr.data-label]="'admin_corporate.col_company' | translate">
                 <div class="corp-cell">
                   <span class="corp-logo">{{ request.company_name.charAt(0) }}</span>
                   <span class="corp-info">
@@ -66,23 +66,23 @@
                   </span>
                 </div>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_corporate.col_contact' | translate">
                 <div class="table-user-main">
                   <span class="table-user-name">{{ request.contact_name }}</span>
                   <span class="table-user-mail">{{ request.contact_email }}</span>
                 </div>
               </td>
-              <td>
+              <td [attr.data-label]="'admin_corporate.col_service' | translate">
                 <span class="badge badge-info">{{ 'admin_corporate.service.' + request.service_type | translate }}</span>
               </td>
-              <td class="table-muted">{{ request.expected_budget ?? '—' }}</td>
-              <td>
+              <td [attr.data-label]="'admin_corporate.col_budget' | translate" class="table-muted">{{ request.expected_budget ?? '—' }}</td>
+              <td [attr.data-label]="'admin_corporate.col_status' | translate">
                 <span class="badge" [class]="statusBadge(request.status ?? 'PENDING')">
                   {{ 'status.corporate.' + (request.status ?? 'PENDING') | translate }}
                 </span>
               </td>
-              <td class="table-muted">{{ request.created_at | date: 'yyyy/MM/dd' }}</td>
-              <td>
+              <td [attr.data-label]="'admin_corporate.col_created' | translate" class="table-muted">{{ request.created_at | date: 'yyyy/MM/dd' }}</td>
+              <td [attr.data-label]="'admin_corporate.col_actions' | translate">
                 <button type="button" class="btn-sm btn-primary-sm" (click)="openDetails(request)">
                   <i class="fa-solid fa-folder-open"></i>
                   {{ 'common.view' | translate }}
