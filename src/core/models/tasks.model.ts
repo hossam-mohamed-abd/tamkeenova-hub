@@ -39,6 +39,10 @@ export interface TaskSubmission {
   id: string;
   content: string | null;
   link_url: string | null;
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED' | null;
+  score?: number | null;
+  review_note?: string | null;
+  reviewed_at?: string | null;
   submitted_at: string;
   task_submission_attachments?: TaskSubmissionAttachment[];
 }

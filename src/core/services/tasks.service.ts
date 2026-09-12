@@ -57,8 +57,13 @@ export class TasksService {
   }
 
   // -- Review a Submission (Admin) --
+  // Response is { success, message, assignee } — surface the refreshed assignee.
   review(assigneeId: string, payload: ReviewPayload): Observable<TaskAssignee> {
-    return this.unwrap(this.http.patch<any>(`${this.baseUrl}/assignees/${assigneeId}/review`, payload));
+    return this.unwrap(
+      this.http
+        .patch<any>(`${this.baseUrl}/assignees/${assigneeId}/review`, payload)
+        .pipe(map((res) => res?.assignee ?? res)),
+    );
   }
 
   // -- Single Task Details (Admin/Member) --

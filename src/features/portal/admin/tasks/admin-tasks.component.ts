@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { AdminService } from '../../../../core/services/admin.service';
 import { TasksService } from '../../../../core/services/tasks.service';
-import { submissionFiles, submissionOfAssignee } from '../../../../core/utils/submission-presentation';
+import { mergeSubmissionsIntoAssignees, submissionFiles, submissionOfAssignee } from '../../../../core/utils/submission-presentation';
 import { AdminUser } from '../../../../core/models/admin.model';
 import {
   Task,
@@ -86,13 +86,16 @@ export class AdminTasksComponent implements OnInit {
   details = signal<Task | null>(null);
   isLoadingDetails = signal(false);
   detailsLoadError = signal(false);
+  // Task roster (assignees with users) and raw submission rows, merged in assigneeRows
+  private roster = signal<TaskAssignee[]>([]);
+  private submissionsRaw = signal<any[]>([]);
   comments = signal<TaskComment[]>([]);
   isLoadingComments = signal(false);
 
   assigneeRows = computed<AssigneeRow[]>(() => {
-    const task = this.details();
-    if (!task) return [];
-    return (task.task_assignees ?? [])
+    if (!this.details()) return [];
+    const merged = mergeSubmissionsIntoAssignees(this.roster(), this.submissionsRaw()) as unknown as TaskAssignee[];
+    return merged
       .slice()
       .sort((a, b) => (a.task_order ?? 0) - (b.task_order ?? 0))
       .map((assignee) => ({ assignee, user: (assignee.users as AdminUser | null) ?? null }));
@@ -376,49 +379,47 @@ export class AdminTasksComponent implements OnInit {
     this.reviewTarget.set(null);
     this.detailMemberResults.set([]);
     this.detailsLoadError.set(false);
+    // Seed with whatever the list already carries so names render instantly,
+    // then hydrate silently from the dedicated endpoints.
+    this.roster.set(task.task_assignees ?? []);
+    this.submissionsRaw.set([]);
     this.newAssigneeOrder.setValue((task.task_assignees?.length ?? 0) + 1);
-    // Only show the blocking spinner when we have nothing to render yet;
-    // otherwise refresh silently in place (no content collapse/flash).
     this.isLoadingDetails.set((task.task_assignees?.length ?? 0) === 0);
     this.fetchAssignees(task.id);
 
     this.loadComments(task.id);
   }
 
-  // Fetch assignees + their submissions; falls back to the task-details
-  // endpoint when the submissions endpoint answers empty, and surfaces
-  // errors instead of silently keeping stale rows.
+  // GET /tasks/:id -> roster (assignees incl. users);
+  // GET /tasks/:id/submissions -> submission rows embedding their assignee.
+  // Each source fills its own signal; assigneeRows() merges both, so a
+  // partial result can never erase names or submissions.
   private fetchAssignees(taskId: string): void {
-    this.tasksService.getSubmissions(taskId).subscribe({
-      next: (assignees) => {
+    this.tasksService.getById(taskId).subscribe({
+      next: (task) => {
         if (this.details()?.id !== taskId) return;
-        if (Array.isArray(assignees) && assignees.length > 0) {
-          this.details.update((t) => (t ? { ...t, task_assignees: assignees } : t));
-          this.detailsLoadError.set(false);
-          this.isLoadingDetails.set(false);
-          return;
-        }
-        this.tasksService.getById(taskId).subscribe({
-          next: (task) => {
-            if (this.details()?.id !== taskId) return;
-            const rows = Array.isArray(task?.task_assignees) ? task.task_assignees : [];
-            if (rows.length > 0) {
-              this.details.update((t) => (t ? { ...t, task_assignees: rows } : t));
-              this.detailsLoadError.set(false);
-            }
-            this.isLoadingDetails.set(false);
-          },
-          error: () => {
-            if (this.details()?.id !== taskId) return;
-            this.isLoadingDetails.set(false);
-            this.detailsLoadError.set(this.assigneeRows().length === 0);
-          },
-        });
+        const rows = Array.isArray(task?.task_assignees) ? task.task_assignees : [];
+        if (rows.length > 0) this.roster.set(rows);
+        // An empty roster is a valid state (no assignees yet) — not an error.
+        this.detailsLoadError.set(false);
+        this.isLoadingDetails.set(false);
       },
       error: () => {
         if (this.details()?.id !== taskId) return;
         this.isLoadingDetails.set(false);
         this.detailsLoadError.set(this.assigneeRows().length === 0);
+      },
+    });
+
+    this.tasksService.getSubmissions(taskId).subscribe({
+      next: (subs) => {
+        if (this.details()?.id !== taskId) return;
+        this.submissionsRaw.set(Array.isArray(subs) ? subs : []);
+        this.isLoadingDetails.set(false);
+      },
+      error: () => {
+        if (this.details()?.id !== taskId) return;
+        this.isLoadingDetails.set(false);
       },
     });
   }
@@ -434,14 +435,7 @@ export class AdminTasksComponent implements OnInit {
   // Re-fetch the open details modal (assignees + their latest statuses)
   private refreshDetailsIfOpen(taskId: string): void {
     if (!taskId || this.details()?.id !== taskId) return;
-    this.tasksService.getSubmissions(taskId).subscribe({
-      next: (assignees) => {
-        if (this.details()?.id === taskId && Array.isArray(assignees) && assignees.length > 0) {
-          this.details.update((t) => (t ? { ...t, task_assignees: assignees } : t));
-        }
-      },
-      error: () => undefined,
-    });
+    this.fetchAssignees(taskId);
   }
 
   // Template accessors: tolerate alternate backend field names
@@ -451,6 +445,18 @@ export class AdminTasksComponent implements OnInit {
 
   filesOf(submission: TaskSubmission | null) {
     return submissionFiles(submission as any);
+  }
+
+  // Review outcome lives on the assignee row and/or its submission
+  scoreOf(assignee: TaskAssignee): number | null {
+    const row = assignee as any;
+    const value = row.score ?? this.submissionOf(assignee)?.score;
+    return value === null || value === undefined ? null : Number(value);
+  }
+
+  noteOf(assignee: TaskAssignee): string | null {
+    const row = assignee as any;
+    return row.review_note ?? this.submissionOf(assignee)?.review_note ?? null;
   }
 
   private loadComments(taskId: string): void {
@@ -475,13 +481,9 @@ export class AdminTasksComponent implements OnInit {
     this.busyId.set(row.assignee.id);
     this.tasksService.removeAssignee(task.id, row.assignee.user_id).subscribe({
       next: () => {
-        this.details.update((t) =>
-          t
-            ? {
-                ...t,
-                task_assignees: (t.task_assignees ?? []).filter((a) => a.id !== row.assignee.id),
-              }
-            : t,
+        this.roster.update((rows) => rows.filter((a) => a.id !== row.assignee.id));
+        this.submissionsRaw.update((subs) =>
+          subs.filter((s) => String(s?.task_assignees?.id ?? '') !== String(row.assignee.id)),
         );
         this.busyId.set(null);
         this.showToast('admin_tasks.assignee_removed');
@@ -525,12 +527,10 @@ export class AdminTasksComponent implements OnInit {
     this.isAddingAssignee.set(true);
     this.tasksService.addAssignee(task.id, user.id, this.newAssigneeOrder.value ?? 1).subscribe({
       next: (assignee) => {
-        this.details.update((t) =>
-          t ? { ...t, task_assignees: [...(t.task_assignees ?? []), assignee] } : t,
-        );
+        if (assignee) this.roster.update((rows) => [...rows, assignee]);
         this.detailMemberResults.set([]);
         this.detailMemberSearchTerm.set('');
-        this.newAssigneeOrder.setValue((this.details()?.task_assignees?.length ?? 0) + 1);
+        this.newAssigneeOrder.setValue(this.roster().length + 1);
         this.isAddingAssignee.set(false);
         this.showToast('admin_tasks.assignee_added');
         this.refreshDetailsIfOpen(task.id);
@@ -547,7 +547,11 @@ export class AdminTasksComponent implements OnInit {
 
   openReview(row: AssigneeRow): void {
     this.reviewTarget.set(row.assignee);
-    this.reviewForm.reset({ score: null, note: row.assignee.review_note ?? '' });
+    const previousScore = this.scoreOf(row.assignee);
+    this.reviewForm.reset({
+      score: previousScore !== null ? previousScore : null,
+      note: this.noteOf(row.assignee) ?? '',
+    });
   }
 
   closeReview(): void {
@@ -582,38 +586,16 @@ export class AdminTasksComponent implements OnInit {
         note: raw.note || undefined,
       })
       .subscribe({
-        next: (updated) => {
-          const merged: any = updated ?? {
-            ...assignee,
-            status: action === 'APPROVE' ? 'APPROVED' : 'REJECTED',
-          };
-          // The review response may not echo the submission — never wipe it.
-          if (!merged.submission) delete merged.submission;
-          const detail = this.details();
-          this.details.update((t) =>
-            t
-              ? {
-                  ...t,
-                  task_assignees: (t.task_assignees ?? []).map((a) =>
-                    a.id === assignee.id ? { ...a, ...merged } : a,
-                  ),
-                }
-              : t,
-          );
-          if (detail) {
-            this.tasks.update((list) =>
-              list.map((task) =>
-                task.id === detail.id ? { ...task, task_assignees: this.details()?.task_assignees } : task,
-              ),
-            );
-          }
+        next: () => {
           this.isReviewing.set(false);
           this.closeReview();
           this.showToast(
             action === 'APPROVE' ? 'admin_tasks.review_approved' : 'admin_tasks.review_rejected',
           );
+          // Re-hydrate the open modal (fresh statuses, scores, notes) and the list.
+          const detail = this.details();
+          if (detail) this.fetchAssignees(detail.id);
           this.refresh();
-          this.refreshDetailsIfOpen(this.details()?.id ?? '');
         },
         error: () => {
           this.isReviewing.set(false);

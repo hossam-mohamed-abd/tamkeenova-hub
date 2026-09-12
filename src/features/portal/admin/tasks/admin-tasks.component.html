@@ -382,17 +382,17 @@
                   </div>
                 }
 
-                @if (row.assignee.score !== null && row.assignee.score !== undefined) {
+                @if (scoreOf(row.assignee) !== null) {
                   <div class="score-row">
                     <i class="fa-solid fa-star"></i>
-                    {{ 'my_tasks.score' | translate }}: <strong>{{ row.assignee.score }}</strong>/100
+                    {{ 'my_tasks.score' | translate }}: <strong>{{ scoreOf(row.assignee) }}</strong>/100
                   </div>
                 }
 
-                @if (row.assignee.review_note) {
+                @if (noteOf(row.assignee); as note) {
                   <p class="review-note">
                     <i class="fa-solid fa-comment-dots"></i>
-                    {{ row.assignee.review_note }}
+                    {{ note }}
                   </p>
                 }
 
@@ -401,11 +401,6 @@
                     <button type="button" class="btn-sm btn-primary-sm" (click)="openReview(row)">
                       <i class="fa-solid fa-clipboard-check"></i>
                       {{ 'admin_tasks.review' | translate }}
-                    </button>
-                  } @else {
-                    <button type="button" class="btn-sm btn-outline-sm" (click)="openReview(row)">
-                      <i class="fa-solid fa-rotate-left"></i>
-                      {{ 'admin_tasks.re_review' | translate }}
                     </button>
                   }
                   <button

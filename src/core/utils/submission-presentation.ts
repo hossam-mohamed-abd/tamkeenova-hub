@@ -10,6 +10,50 @@ export interface SubmissionFile {
 type Json = Record<string, any>;
 
 /**
+ * Builds the admin details rows from the two backend sources:
+ * - assignees: the task roster (GET /tasks and GET /tasks/:id include
+ *   `task_assignees` with nested `users`).
+ * - submissions: GET /tasks/:id/submissions returns SUBMISSION rows
+ *   (task_submissions) each embedding its assignee under `task_assignees`.
+ * The result is one row per assignee with `submission` attached, so names
+ * never vanish and every submission is visible for review.
+ */
+export function mergeSubmissionsIntoAssignees(
+  assignees: Array<Json | null | undefined> | null | undefined,
+  submissions: Array<Json | null | undefined> | null | undefined,
+): Json[] {
+  const rows = new Map<string, Json>();
+  for (const a of Array.isArray(assignees) ? assignees : []) {
+    if (a?.['id'] != null) rows.set(String(a['id']), { ...a });
+  }
+  for (const s of Array.isArray(submissions) ? submissions : []) {
+    const a = (s?.['task_assignees'] ?? {}) as Json;
+    const id = a?.['id'] != null ? String(a['id']) : s?.['assignee_id'] != null ? String(s['assignee_id']) : '';
+    if (!id) continue;
+    const existing = rows.get(id) ?? {};
+    rows.set(id, {
+      ...existing,
+      ...a,
+      users: { ...(existing['users'] ?? {}), ...(a['users'] ?? {}) },
+      submission: {
+        id: s?.['id'] ?? null,
+        content: s?.['content'] ?? null,
+        link_url: s?.['link_url'] ?? null,
+        status: s?.['status'] ?? null,
+        score: s?.['score'] ?? null,
+        review_note: s?.['review_note'] ?? null,
+        submitted_at: s?.['submitted_at'] ?? null,
+        reviewed_at: s?.['reviewed_at'] ?? null,
+        task_submission_attachments: Array.isArray(s?.['task_submission_attachments'])
+          ? s?.['task_submission_attachments']
+          : [],
+      },
+    });
+  }
+  return [...rows.values()];
+}
+
+/**
  * Reads the submission of an assignee row, tolerating alternate backend keys
  * (submission / task_submission / submission_data).
  */
