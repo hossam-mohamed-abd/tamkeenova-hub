@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   CreateTaskPayload,
@@ -85,45 +84,43 @@ export class TasksService {
     );
   }
 
+  // API contract: task_id targets start/submit/comments/details.
+  // The assignee id is ONLY used by the admin review endpoint (assignees/:id/review).
+
   // -- Start Working on a Task --
-  // The endpoint targets the task id, with a graceful fallback to the assignee id.
-  start(taskId: string, fallbackAssigneeId?: string): Observable<unknown> {
-    return this.tryOrFallback(`${this.baseUrl}/${taskId}/start`, `${this.baseUrl}/${fallbackAssigneeId}/start`);
+  start(taskId: string): Observable<unknown> {
+    return this.unwrap(this.http.patch<any>(`${this.baseUrl}/${taskId}/start`, {}));
   }
 
-  // -- Submit Task Deliverables (multipart, up to 10 files) --
-  submit(taskId: string, content: string | null, linkUrl: string | null, files: File[], fallbackAssigneeId?: string): Observable<unknown> {
-    const build = () => {
+  // -- Submit Task Deliverables (up to 10 files) --
+  // With files -> multipart FormData (never set Content-Type manually);
+  // text/link only -> JSON body per API contract.
+  submit(taskId: string, content: string | null, linkUrl: string | null, files: File[]): Observable<unknown> {
+    if (files.length > 0) {
       const fd = new FormData();
       if (content) fd.append('content', content);
       if (linkUrl) fd.append('link_url', linkUrl);
       for (const file of files) fd.append('files', file);
-      return fd;
-    };
-    return this.tryOrFallback(
-      `${this.baseUrl}/${taskId}/submit`,
-      `${this.baseUrl}/${fallbackAssigneeId}/submit`,
-      () => build(),
-    );
+      return this.unwrap(this.http.post<any>(`${this.baseUrl}/${taskId}/submit`, fd));
+    }
+    const payload: Record<string, string> = {};
+    if (content) payload['content'] = content;
+    if (linkUrl) payload['link_url'] = linkUrl;
+    return this.unwrap(this.http.post<any>(`${this.baseUrl}/${taskId}/submit`, payload));
   }
 
   // -- Task Comments --
-  getComments(taskId: string, fallbackAssigneeId?: string): Observable<TaskComment[]> {
-    return this.tryOrFallback(
-      `${this.baseUrl}/${taskId}/comments`,
-      `${this.baseUrl}/${fallbackAssigneeId}/comments`,
-      undefined,
-      (res) => (Array.isArray(res) ? res : (res?.data ?? [])),
+  getComments(taskId: string): Observable<TaskComment[]> {
+    return this.unwrap(
+      this.http.get<any>(`${this.baseUrl}/${taskId}/comments`).pipe(
+        map((res) => (Array.isArray(res) ? res : (res?.data ?? []))),
+      ),
     );
   }
 
   // -- Add a Comment --
-  addComment(taskId: string, body: string, fallbackAssigneeId?: string): Observable<TaskComment> {
-    return this.tryOrFallback(
-      `${this.baseUrl}/${taskId}/comments`,
-      `${this.baseUrl}/${fallbackAssigneeId}/comments`,
-      () => ({ body }),
-    );
+  addComment(taskId: string, body: string): Observable<TaskComment> {
+    return this.unwrap(this.http.post<any>(`${this.baseUrl}/${taskId}/comments`, { body }));
   }
 
   // -- Tasks Dashboard (Employee / Volunteer) --
@@ -137,34 +134,5 @@ export class TasksService {
 
   private unwrap(obs: Observable<any>): Observable<any> {
     return obs.pipe(map((res) => res?.data ?? res));
-  }
-
-  // Tries the documented endpoint shape; on 404/405/400 retries the fallback URL.
-  private tryOrFallback(
-    primaryUrl: string,
-    fallbackUrl: string,
-    body?: () => any,
-    transform?: (res: any) => any,
-  ): Observable<any> {
-    const send = (url: string) => {
-      if (body) {
-        const payload = body();
-        return payload instanceof FormData
-          ? this.http.post<any>(url, payload)
-          : this.http.request<any>('PATCH', url, { body: payload });
-      }
-      return this.http.request<any>('PATCH', url, { body: {} });
-    };
-
-    return send(primaryUrl).pipe(
-      map((res) => (transform ? transform(res) : (res?.data ?? res))),
-      catchError((err) => {
-        const status = err?.status;
-        if (fallbackUrl && (status === 404 || status === 405 || status === 400)) {
-          return send(fallbackUrl).pipe(map((res) => (transform ? transform(res) : (res?.data ?? res))));
-        }
-        return throwError(() => err);
-      }),
-    );
   }
 }

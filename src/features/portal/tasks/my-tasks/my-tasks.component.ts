@@ -173,7 +173,7 @@ export class MyTasksComponent implements OnInit {
 
   private loadComments(item: MyTaskItem): void {
     this.isLoadingComments.set(true);
-    this.tasksService.getComments(item.task_id, item.id).subscribe({
+    this.tasksService.getComments(item.task_id).subscribe({
       next: (list) => {
         this.comments.set(list);
         this.isLoadingComments.set(false);
@@ -186,7 +186,7 @@ export class MyTasksComponent implements OnInit {
 
   startTask(item: MyTaskItem): void {
     this.busy.set(true);
-    this.tasksService.start(item.task_id, item.id).subscribe({
+    this.tasksService.start(item.task_id).subscribe({
       next: () => {
         this.patchItem(item, { status: 'IN_PROGRESS', started_at: new Date().toISOString() });
         this.busy.set(false);
@@ -247,7 +247,7 @@ export class MyTasksComponent implements OnInit {
     this.submitError.set(null);
 
     this.tasksService
-      .submit(item.task_id, content.trim() || null, link_url.trim() || null, files, item.id)
+      .submit(item.task_id, content.trim() || null, link_url.trim() || null, files)
       .subscribe({
         next: () => {
           this.isSubmitting.set(false);
@@ -281,7 +281,7 @@ export class MyTasksComponent implements OnInit {
     }
     const body = this.commentForm.getRawValue().body;
     this.isSendingComment.set(true);
-    this.tasksService.addComment(item.task_id, body, item.id).subscribe({
+    this.tasksService.addComment(item.task_id, body).subscribe({
       next: (comment) => {
         if (comment) this.comments.update((list) => [...list, comment]);
         this.commentForm.reset({ body: '' });
