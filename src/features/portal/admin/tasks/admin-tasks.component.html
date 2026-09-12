@@ -4,8 +4,8 @@
       <h1>{{ 'admin_tasks.title' | translate }}</h1>
       <p class="text-muted">{{ 'admin_tasks.subtitle' | translate }}</p>
     </div>
-    <button type="button" class="btn-primary-sm btn-sm header-btn" (click)="openCreate()">
-      <i class="fa-solid fa-plus"></i>
+    <button type="button" class="btn-hero" (click)="openCreate()">
+      <span class="btn-hero-icon"><i class="fa-solid fa-plus"></i></span>
       {{ 'admin_tasks.create' | translate }}
     </button>
   </div>
@@ -169,6 +169,17 @@
                 />
                 @if (isSearchingMembers()) {
                   <div class="user-picker-loading"><span class="loader-spinner-sm"></span></div>
+                }
+                @if (memberSearchTerm().length === 1) {
+                  <div class="user-picker-hint">
+                    <i class="fa-solid fa-keyboard"></i>
+                    {{ 'admin_tasks.min_chars_hint' | translate }}
+                  </div>
+                } @else if (memberSearchTerm().length >= 2 && memberResults().length === 0 && !isSearchingMembers()) {
+                  <div class="user-picker-empty">
+                    <i class="fa-solid fa-user-slash"></i>
+                    {{ 'admin_tasks.no_member_found' | translate }}
+                  </div>
                 }
                 @if (memberResults().length > 0) {
                   <ul class="user-picker-list">
@@ -455,6 +466,17 @@
               [placeholder]="'admin_tasks.search_member' | translate"
               (input)="searchDetailMembers($any($event.target).value)"
             />
+            @if (detailMemberSearchTerm().length === 1) {
+              <div class="user-picker-hint">
+                <i class="fa-solid fa-keyboard"></i>
+                {{ 'admin_tasks.min_chars_hint' | translate }}
+              </div>
+            } @else if (detailMemberSearchTerm().length >= 2 && detailMemberResults().length === 0 && !isAddingAssignee()) {
+              <div class="user-picker-empty">
+                <i class="fa-solid fa-user-slash"></i>
+                {{ 'admin_tasks.no_member_found' | translate }}
+              </div>
+            }
             @if (detailMemberResults().length > 0) {
               <ul class="user-picker-list">
                 @for (user of detailMemberResults(); track user.id) {

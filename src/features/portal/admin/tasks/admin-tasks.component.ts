@@ -47,7 +47,6 @@ export class AdminTasksComponent implements OnInit {
   hasError = signal(false);
   tasks = signal<Task[]>([]);
   activeFilter = signal<TaskStatus | 'ALL'>('ALL');
-
   submittedCount = computed(
     () =>
       this.tasks().filter((t) => (t.task_assignees ?? []).some((a) => a.status === 'SUBMITTED'))
@@ -74,6 +73,7 @@ export class AdminTasksComponent implements OnInit {
   // -- Assignees picker (create form) --
   pickedUsers = signal<{ user: AdminUser; order: number }[]>([]);
   memberResults = signal<AdminUser[]>([]);
+  memberSearchTerm = signal('');
   isSearchingMembers = signal(false);
 
   // ================= Delete Confirm =================
@@ -105,6 +105,7 @@ export class AdminTasksComponent implements OnInit {
 
   // -- Add assignee (details) --
   detailMemberResults = signal<AdminUser[]>([]);
+  detailMemberSearchTerm = signal('');
   isAddingAssignee = signal(false);
   newAssigneeOrder = this.fb.nonNullable.control<number>(1);
 
@@ -222,6 +223,7 @@ export class AdminTasksComponent implements OnInit {
 
   searchMembers(term: string): void {
     const query = term.trim();
+    this.memberSearchTerm.set(query);
     if (query.length < 2) {
       this.memberResults.set([]);
       return;
@@ -253,6 +255,7 @@ export class AdminTasksComponent implements OnInit {
     const nextOrder = current.length + 1;
     this.pickedUsers.set([...current, { user, order: nextOrder }]);
     this.memberResults.set([]);
+    this.memberSearchTerm.set('');
   }
 
   removePicked(userId: string): void {
@@ -421,6 +424,7 @@ export class AdminTasksComponent implements OnInit {
 
   searchDetailMembers(term: string): void {
     const query = term.trim();
+    this.detailMemberSearchTerm.set(query);
     if (query.length < 2) {
       this.detailMemberResults.set([]);
       return;
@@ -453,6 +457,7 @@ export class AdminTasksComponent implements OnInit {
           t ? { ...t, task_assignees: [...(t.task_assignees ?? []), assignee] } : t,
         );
         this.detailMemberResults.set([]);
+        this.detailMemberSearchTerm.set('');
         this.newAssigneeOrder.setValue((this.details()?.task_assignees?.length ?? 0) + 1);
         this.isAddingAssignee.set(false);
         this.showToast('admin_tasks.assignee_added');

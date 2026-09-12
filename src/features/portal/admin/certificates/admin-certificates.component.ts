@@ -33,6 +33,7 @@ export class AdminCertificatesComponent implements OnInit {
 
   // -- User picker --
   userResults = signal<AdminUser[]>([]);
+  userSearchTerm = signal('');
   isSearchingUsers = signal(false);
   selectedUser = signal<AdminUser | null>(null);
 
@@ -154,6 +155,7 @@ export class AdminCertificatesComponent implements OnInit {
 
   searchUsers(term: string): void {
     const query = term.trim();
+    this.userSearchTerm.set(query);
     if (query.length < 2) {
       this.userResults.set([]);
       return;
@@ -173,6 +175,7 @@ export class AdminCertificatesComponent implements OnInit {
   pickUser(user: AdminUser): void {
     this.selectedUser.set(user);
     this.userResults.set([]);
+    this.userSearchTerm.set('');
   }
 
   clearUser(): void {

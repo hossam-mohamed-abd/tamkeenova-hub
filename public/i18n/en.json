@@ -1117,7 +1117,9 @@
     "deleted": "Certificate deleted",
     "delete_error": "Could not delete the certificate",
     "delete_title": "Delete certificate",
-    "delete_confirm": "Are you sure you want to delete the certificate"
+    "delete_confirm": "Are you sure you want to delete the certificate",
+    "no_user_found": "No user found with this name or email",
+    "min_chars_hint": "Type at least 2 characters to search"
   },
   "admin_corporate": {
     "title": "Corporate Requests",
@@ -1267,7 +1269,9 @@
     "required_score_hint": "Required score to approve:",
     "no_comments": "No comments yet",
     "comment_error": "Could not send the comment",
-    "action_error": "Could not perform the action, please retry"
+    "action_error": "Could not perform the action, please retry",
+    "no_member_found": "No employee or volunteer found with this name",
+    "min_chars_hint": "Type at least 2 characters to search"
   },
   "employee_dashboard": {
     "title": "Employee Dashboard",

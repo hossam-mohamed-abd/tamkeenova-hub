@@ -584,6 +584,10 @@ html[data-theme='dark'] .badge-medium {
   font-size: 0.9rem;
 }
 
+.staff-empty .btn-hero.empty-cta {
+  margin-top: 1.25rem;
+}
+
 /* ================= Progress ring & bars ================= */
 .staff-progress {
   height: 8px;
@@ -742,6 +746,92 @@ html[data-theme='dark'] .badge-medium {
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--color-text-muted);
+}
+
+/* ================= Prominent Action Button (hero) ================= */
+.btn-hero {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  height: 52px;
+  padding-inline: 1.5rem;
+  border: none;
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-primary-hover) 55%,
+      color-mix(in srgb, var(--color-accent) 45%, var(--color-primary-hover)) 100%
+    );
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow:
+    0 8px 20px color-mix(in srgb, var(--color-primary) 32%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: filter var(--transition-fast), box-shadow var(--transition-base);
+}
+
+.btn-hero .btn-hero-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 0.85rem;
+  transition: scale var(--transition-base);
+}
+
+.btn-hero:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow:
+    0 10px 26px color-mix(in srgb, var(--color-primary) 42%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.btn-hero:hover:not(:disabled) .btn-hero-icon {
+  scale: 1.12;
+}
+
+.btn-hero:active:not(:disabled) {
+  scale: 0.98;
+}
+
+.btn-hero:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================= Search picker feedback ================= */
+.user-picker-empty,
+.user-picker-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.user-picker-empty {
+  color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 7%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--color-danger) 30%, transparent);
+}
+
+.user-picker-hint {
+  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-surface-alt) 60%, transparent);
+  border: 1px dashed var(--color-border);
 }
 
 /* ================= User picker (shared) ================= */

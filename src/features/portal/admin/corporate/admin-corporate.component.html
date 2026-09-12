@@ -191,8 +191,11 @@
                       </button>
                     }
                   </div>
-                  @if (employees.length === 0) {
-                    <p class="text-muted no-employees">{{ 'admin_corporate.no_employees' | translate }}</p>
+                  @if (employees().length === 0) {
+                    <div class="user-picker-empty">
+                      <i class="fa-solid fa-user-slash"></i>
+                      {{ 'admin_corporate.no_employees' | translate }}
+                    </div>
                   }
                 }
               </div>
