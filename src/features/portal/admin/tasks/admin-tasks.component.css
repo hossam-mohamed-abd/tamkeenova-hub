@@ -373,3 +373,47 @@
 .comment-form .field-input {
   flex: 1;
 }
+
+/* -- Loading skeletons (opacity pulse only, no movement) -- */
+.skeleton-line {
+  display: block;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-text-muted) 18%, transparent);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.w-30 { width: 30%; }
+.w-40 { width: 40%; }
+.w-55 { width: 55%; }
+.w-70 { width: 70%; }
+.w-80 { width: 80%; }
+
+.skeleton-circle {
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+  border-radius: 50%;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.comment-bubble .skeleton-line {
+  margin: 0.25rem 0;
+}
+
+.skeleton-box {
+  opacity: 0.9;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-line,
+  .skeleton-circle {
+    animation: none;
+    opacity: 0.55;
+  }
+}

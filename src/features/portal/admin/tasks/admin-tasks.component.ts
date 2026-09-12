@@ -89,6 +89,9 @@ export class AdminTasksComponent implements OnInit {
   // Task roster (assignees with users) and raw submission rows, merged in assigneeRows
   private roster = signal<TaskAssignee[]>([]);
   private submissionsRaw = signal<any[]>([]);
+  submissionsLoading = signal(false);
+  // Submissions fetched before are replayed instantly on re-open, then silently refreshed
+  private submissionsCache = new Map<string, any[]>();
   comments = signal<TaskComment[]>([]);
   isLoadingComments = signal(false);
 
@@ -382,7 +385,9 @@ export class AdminTasksComponent implements OnInit {
     // Seed with whatever the list already carries so names render instantly,
     // then hydrate silently from the dedicated endpoints.
     this.roster.set(task.task_assignees ?? []);
-    this.submissionsRaw.set([]);
+    const cachedSubs = this.submissionsCache.get(task.id) ?? [];
+    this.submissionsRaw.set(cachedSubs);
+    this.submissionsLoading.set(cachedSubs.length === 0);
     this.newAssigneeOrder.setValue((task.task_assignees?.length ?? 0) + 1);
     this.isLoadingDetails.set((task.task_assignees?.length ?? 0) === 0);
     this.fetchAssignees(task.id);
@@ -400,6 +405,12 @@ export class AdminTasksComponent implements OnInit {
         if (this.details()?.id !== taskId) return;
         const rows = Array.isArray(task?.task_assignees) ? task.task_assignees : [];
         if (rows.length > 0) this.roster.set(rows);
+        // The details payload already carries the comments — show them at once
+        // instead of waiting for the dedicated comments request.
+        if (this.isLoadingComments() && this.comments().length === 0) {
+          const seeded = Array.isArray(task?.task_comments) ? task.task_comments : [];
+          if (seeded.length > 0) this.comments.set(seeded);
+        }
         // An empty roster is a valid state (no assignees yet) — not an error.
         this.detailsLoadError.set(false);
         this.isLoadingDetails.set(false);
@@ -411,15 +422,18 @@ export class AdminTasksComponent implements OnInit {
       },
     });
 
+    this.submissionsLoading.set(this.submissionsRaw().length === 0);
     this.tasksService.getSubmissions(taskId).subscribe({
       next: (subs) => {
         if (this.details()?.id !== taskId) return;
-        this.submissionsRaw.set(Array.isArray(subs) ? subs : []);
-        this.isLoadingDetails.set(false);
+        const rows = Array.isArray(subs) ? subs : [];
+        this.submissionsCache.set(taskId, rows);
+        this.submissionsRaw.set(rows);
+        this.submissionsLoading.set(false);
       },
       error: () => {
         if (this.details()?.id !== taskId) return;
-        this.isLoadingDetails.set(false);
+        this.submissionsLoading.set(false);
       },
     });
   }
