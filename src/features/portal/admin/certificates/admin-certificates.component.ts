@@ -114,6 +114,7 @@ export class AdminCertificatesComponent implements OnInit {
     this.editTarget.set(null);
     this.selectedUser.set(null);
     this.userResults.set([]);
+    this.userSearchTerm.set('');
     this.formError.set(null);
     this.issueForm.reset({ certificate_type: 'TRAINING' });
     this.showIssueModal.set(true);

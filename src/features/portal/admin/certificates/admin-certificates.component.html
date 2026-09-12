@@ -188,6 +188,17 @@
                   @if (isSearchingUsers()) {
                     <div class="user-picker-loading"><span class="loader-spinner-sm"></span></div>
                   }
+                  @if (userSearchTerm().length === 1) {
+                    <div class="user-picker-hint">
+                      <i class="fa-solid fa-keyboard"></i>
+                      {{ 'admin_certificates.min_chars_hint' | translate }}
+                    </div>
+                  } @else if (userSearchTerm().length >= 2 && userResults().length === 0 && !isSearchingUsers()) {
+                    <div class="user-picker-empty">
+                      <i class="fa-solid fa-user-slash"></i>
+                      {{ 'admin_certificates.no_user_found' | translate }}
+                    </div>
+                  }
                   @if (userResults().length > 0) {
                     <ul class="user-picker-list">
                       @for (user of userResults(); track user.id) {
