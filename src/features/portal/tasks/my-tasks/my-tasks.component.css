@@ -30,7 +30,7 @@
 .picked-remove:hover {
   background: color-mix(in srgb, var(--color-danger) 26%, transparent);
 }
-
+/*  */
 .filter-pills {
   display: flex;
   gap: 0.5rem;
