@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Consultation, ConsultationStatus } from '../../../../core/models/student.model';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-trainer-consultations',
@@ -216,13 +217,12 @@ export class TrainerConsultationsComponent implements OnInit {
     const updated = res?.consultation ?? res?.data ?? res;
     this.consultations.update((list) => list.map((c) => (c.id === sel.id ? { ...c, ...updated } : c)));
     this.selected.set({ ...sel, ...updated });
-    this.showToast('تم تحديث حالة الاستشارة بنجاح');
+    this.showToast('trainer_consultations.status_updated');
   }
 
   private handleUpdateError(err: any): void {
     this.isUpdating.set(false);
-    const msg = err?.error?.message;
-    this.updateError.set(Array.isArray(msg) ? msg[0] : msg ?? 'حدث خطأ، حاول مرة أخرى');
+    this.updateError.set(apiErrorKey(err, 'trainer_consultations.update_error'));
   }
 
   badgeClass(status: string): string {

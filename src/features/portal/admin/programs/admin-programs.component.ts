@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AdminService } from '../../../../core/services/admin.service';
 import { AdminProgram } from '../../../../core/models/admin.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-admin-programs',
@@ -122,9 +123,9 @@ export class AdminProgramsComponent implements OnInit {
         this.showToast(currentlyVisible ? 'admin_programs.hidden' : 'admin_programs.shown');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.busyId.set(null);
-        this.showToast('admin_programs.action_error', true);
+        this.showToast(apiErrorKey(err, 'admin_programs.action_error'), true);
       },
     });
   }
@@ -171,9 +172,9 @@ export class AdminProgramsComponent implements OnInit {
           this.showToast('admin_programs.updated');
           this.refresh();
         },
-        error: () => {
+        error: (err) => {
           this.isSaving.set(false);
-          this.showToast('admin_programs.update_error', true);
+          this.showToast(apiErrorKey(err, 'admin_programs.update_error'), true);
         },
       });
   }
@@ -201,9 +202,9 @@ export class AdminProgramsComponent implements OnInit {
         this.showToast('admin_programs.deleted');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.isDeleting.set(false);
-        this.showToast('admin_programs.delete_error', true);
+        this.showToast(apiErrorKey(err, 'admin_programs.delete_error'), true);
       },
     });
   }

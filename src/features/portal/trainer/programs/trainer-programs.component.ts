@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TrainerService } from '../../../../core/services/trainer.service';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 import {
   ProgramLevel,
   ProgramPayload,
@@ -150,8 +151,7 @@ export class TrainerProgramsComponent {
       },
       error: (err) => {
         this.isSaving.set(false);
-        const msg = err?.error?.message;
-        this.formError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        this.formError.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }

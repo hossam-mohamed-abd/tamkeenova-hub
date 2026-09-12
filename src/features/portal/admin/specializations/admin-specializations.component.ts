@@ -7,6 +7,7 @@ import { SpecializationService } from '../../../../core/services/specialization.
 import { Specialization } from '../../../../core/models/specialization.model';
 import { SpecializationSuggestion } from '../../../../core/models/admin.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-admin-specializations',
@@ -98,9 +99,9 @@ export class AdminSpecializationsComponent implements OnInit {
         this.showToast(approve ? 'admin_specializations.request_approved' : 'admin_specializations.request_rejected');
         this.loadList();
       },
-      error: () => {
+      error: (err) => {
         this.busyRequestId.set(null);
-        this.showToast('admin_specializations.request_error', true);
+        this.showToast(apiErrorKey(err, 'admin_specializations.request_error'), true);
       },
     });
   }
@@ -149,9 +150,9 @@ export class AdminSpecializationsComponent implements OnInit {
         this.showToast(this.editTarget() ? 'admin_specializations.updated' : 'admin_specializations.created');
         this.loadList();
       },
-      error: () => {
+      error: (err) => {
         this.isSaving.set(false);
-        this.showToast('admin_specializations.save_error', true);
+        this.showToast(apiErrorKey(err, 'admin_specializations.save_error'), true);
       },
     });
   }
@@ -177,9 +178,9 @@ export class AdminSpecializationsComponent implements OnInit {
         this.showToast('admin_specializations.deleted');
         this.loadList();
       },
-      error: () => {
+      error: (err) => {
         this.isDeleting.set(false);
-        this.showToast('admin_specializations.delete_error', true);
+        this.showToast(apiErrorKey(err, 'admin_specializations.delete_error'), true);
       },
     });
   }

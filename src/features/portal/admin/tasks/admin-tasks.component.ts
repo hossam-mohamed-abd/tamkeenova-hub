@@ -15,6 +15,7 @@ import {
   TaskSubmission,
 } from '../../../../core/models/tasks.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 interface AssigneeRow {
   assignee: TaskAssignee;
@@ -337,8 +338,7 @@ export class AdminTasksComponent implements OnInit {
       },
       error: (err) => {
         this.isSavingTask.set(false);
-        const msg = err?.error?.message;
-        this.taskFormError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'admin_tasks.save_error'));
+        this.taskFormError.set(apiErrorKey(err, 'admin_tasks.save_error'));
       },
     });
   }
@@ -367,9 +367,9 @@ export class AdminTasksComponent implements OnInit {
         this.showToast('admin_tasks.deleted');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.isDeleting.set(false);
-        this.showToast('admin_tasks.delete_error', true);
+        this.showToast(apiErrorKey(err, 'admin_tasks.delete_error'), true);
       },
     });
   }
@@ -503,9 +503,9 @@ export class AdminTasksComponent implements OnInit {
         this.showToast('admin_tasks.assignee_removed');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.busyId.set(null);
-        this.showToast('admin_tasks.action_error', true);
+        this.showToast(apiErrorKey(err, 'admin_tasks.action_error'), true);
       },
     });
   }
@@ -550,9 +550,9 @@ export class AdminTasksComponent implements OnInit {
         this.refreshDetailsIfOpen(task.id);
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.isAddingAssignee.set(false);
-        this.showToast('admin_tasks.action_error', true);
+        this.showToast(apiErrorKey(err, 'admin_tasks.action_error'), true);
       },
     });
   }
@@ -613,9 +613,9 @@ export class AdminTasksComponent implements OnInit {
           if (detail) this.fetchAssignees(detail.id);
           this.refresh();
         },
-        error: () => {
+        error: (err) => {
           this.isReviewing.set(false);
-          this.showToast('admin_tasks.review_error', true);
+          this.showToast(apiErrorKey(err, 'admin_tasks.review_error'), true);
         },
       });
   }
@@ -636,9 +636,9 @@ export class AdminTasksComponent implements OnInit {
         this.commentForm.reset({ body: '' });
         this.isSendingComment.set(false);
       },
-      error: () => {
+      error: (err) => {
         this.isSendingComment.set(false);
-        this.showToast('admin_tasks.comment_error', true);
+        this.showToast(apiErrorKey(err, 'admin_tasks.comment_error'), true);
       },
     });
   }

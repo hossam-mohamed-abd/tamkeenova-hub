@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthVisualPanelComponent } from '../../../shared/components/auth-visual-panel/auth-visual-panel.component';
 import { PASSWORD_REQUIREMENTS, passwordScore } from '../../../core/utils/password-strength';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 @Component({
   selector: 'app-volunteer-register',
@@ -94,10 +95,7 @@ export class VolunteerRegisterComponent {
         },
         error: (err) => {
           this.isLoading.set(false);
-          const msg = err?.error?.message;
-          this.errorMessage.set(
-            Array.isArray(msg) ? msg[0] : (msg ?? 'auth.volunteer_register.error_generic'),
-          );
+          this.errorMessage.set(apiErrorKey(err, 'auth.volunteer_register.error_generic'));
         },
       });
   }

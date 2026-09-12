@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 @Component({
   selector: 'app-verify-otp',
@@ -46,7 +47,7 @@ export class VerifyOtpComponent {
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set(err?.error?.message ?? 'auth.errors.generic');
+          this.errorMessage.set(apiErrorKey(err, 'auth.errors.generic'));
         },
       });
   }
@@ -63,7 +64,7 @@ export class VerifyOtpComponent {
       },
       error: (err) => {
         this.isResending.set(false);
-        this.errorMessage.set(err?.error?.message ?? 'auth.errors.generic');
+        this.errorMessage.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }

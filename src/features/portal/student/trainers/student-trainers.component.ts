@@ -11,6 +11,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { TrainerService } from '../../../../core/services/trainer.service';
 import { TrainerListItem } from '../../../../core/models/student.model';
 import { Specialization } from '../../../../core/models/specialization.model';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-student-trainers',
@@ -185,11 +186,7 @@ export class StudentTrainersComponent {
         if (err?.status === 409) {
           this.ratingErrors.update((m) => ({ ...m, [trainer.id]: 'student_trainers.already_rated' }));
         } else {
-          const msg = err?.error?.message;
-          this.ratingErrors.update((m) => ({
-            ...m,
-            [trainer.id]: Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic',
-          }));
+          this.ratingErrors.update((m) => ({ ...m, [trainer.id]: apiErrorKey(err, 'auth.errors.generic') }));
         }
         setTimeout(() => {
           this.ratingErrors.update((m) => {

@@ -12,6 +12,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { TrainerService } from '../../../../core/services/trainer.service';
 import { SpecializationService } from '../../../../core/services/specialization.service';
 import { TrainerProfile } from '../../../../core/models/trainer-profile.model';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 const URL_PATTERN = /^https?:\/\/.+/;
 
@@ -200,8 +201,7 @@ export class TrainerProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isUploadingImage.set(false);
-        const msg = err?.error?.message;
-        this.uploadImageError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        this.uploadImageError.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }
@@ -295,8 +295,7 @@ export class TrainerProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isSaving.set(false);
-        const msg = err?.error?.message;
-        this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        this.errorMessage.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }

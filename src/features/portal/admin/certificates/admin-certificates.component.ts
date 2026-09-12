@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { AdminService } from '../../../../core/services/admin.service';
 import { AdminCertificate, AdminUser, CertificateType } from '../../../../core/models/admin.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-admin-certificates',
@@ -288,9 +289,9 @@ export class AdminCertificatesComponent implements OnInit {
         this.showToast('admin_certificates.pdf_uploaded');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.uploadingId.set(null);
-        this.showToast('admin_certificates.pdf_error', true);
+        this.showToast(apiErrorKey(err, 'admin_certificates.pdf_error'), true);
       },
     });
   }
@@ -306,7 +307,7 @@ export class AdminCertificatesComponent implements OnInit {
         this.showToast('admin_certificates.revoked');
         this.refresh();
       },
-      error: () => this.showToast('admin_certificates.revoke_error', true),
+      error: (err) => this.showToast(apiErrorKey(err, 'admin_certificates.revoke_error'), true),
     });
   }
 
@@ -331,9 +332,9 @@ export class AdminCertificatesComponent implements OnInit {
         this.showToast('admin_certificates.deleted');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.isDeleting.set(false);
-        this.showToast('admin_certificates.delete_error', true);
+        this.showToast(apiErrorKey(err, 'admin_certificates.delete_error'), true);
       },
     });
   }
@@ -347,11 +348,8 @@ export class AdminCertificatesComponent implements OnInit {
     }
   }
 
-  private errorMessage(err: { error?: { message?: string | string[] } }, fallbackKey: string): string {
-    const msg = err?.error?.message;
-    if (Array.isArray(msg)) return msg[0];
-    if (msg) return msg;
-    return fallbackKey;
+  private errorMessage(err: unknown, fallbackKey: string): string {
+    return apiErrorKey(err, fallbackKey);
   }
 
   private showToast(key: string, error = false): void {

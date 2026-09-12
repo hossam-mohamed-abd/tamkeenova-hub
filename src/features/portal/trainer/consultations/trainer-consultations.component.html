@@ -183,7 +183,7 @@
         </div>
         }
         @if (updateError()) {
-        <div class="form-error-banner"><i class="fa-solid fa-triangle-exclamation"></i> {{ updateError()! }}</div>
+        <div class="form-error-banner"><i class="fa-solid fa-triangle-exclamation"></i> {{ updateError()! | translate }}</div>
         }
         <button type="button" class="btn-accent btn-update stable-btn" (click)="updateStatus()" [disabled]="isUpdating()">
           @if (isUpdating()) { <div class="loader-spinner-sm"></div> }

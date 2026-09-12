@@ -84,8 +84,11 @@
           </div>
           <span class="field-hint"
             [class.is-error]="isFieldInvalid('username')">
-            @if (isFieldInvalid('username')) { {{
-            'auth.errors.username' | translate }} }
+            @if (isFieldInvalid('username')) {
+              {{ 'auth.errors.username' | translate }}
+            } @else if (serverFieldError()?.field === 'username') {
+              {{ serverFieldError()!.key | translate }}
+            }
           </span>
         </div>
 
@@ -106,8 +109,11 @@
           </div>
           <span class="field-hint"
             [class.is-error]="isFieldInvalid('email')">
-            @if (isFieldInvalid('email')) { {{
-            'auth.errors.email' | translate }} }
+            @if (isFieldInvalid('email')) {
+              {{ 'auth.errors.email' | translate }}
+            } @else if (serverFieldError()?.field === 'email') {
+              {{ serverFieldError()!.key | translate }}
+            }
           </span>
         </div>
 
@@ -129,8 +135,11 @@
           </div>
           <span class="field-hint"
             [class.is-error]="isFieldInvalid('phone')">
-            @if (isFieldInvalid('phone')) { {{
-            'auth.errors.phone' | translate }} }
+            @if (isFieldInvalid('phone')) {
+              {{ 'auth.errors.phone' | translate }}
+            } @else if (serverFieldError()?.field === 'phone') {
+              {{ serverFieldError()!.key | translate }}
+            }
           </span>
         </div>
 

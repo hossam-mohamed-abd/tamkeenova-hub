@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { TasksService } from '../../../../core/services/tasks.service';
 import { submissionFiles } from '../../../../core/utils/submission-presentation';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 import {
   MyTaskItem,
   TaskComment,
@@ -198,9 +199,9 @@ export class MyTasksComponent implements OnInit {
         this.showToast('my_tasks.started');
         this.refresh();
       },
-      error: () => {
+      error: (err) => {
         this.busy.set(false);
-        this.showToast('my_tasks.start_error', true);
+        this.showToast(apiErrorKey(err, 'my_tasks.start_error'), true);
       },
     });
   }
@@ -292,9 +293,9 @@ export class MyTasksComponent implements OnInit {
         this.commentForm.reset({ body: '' });
         this.isSendingComment.set(false);
       },
-      error: () => {
+      error: (err) => {
         this.isSendingComment.set(false);
-        this.showToast('my_tasks.comment_error', true);
+        this.showToast(apiErrorKey(err, 'my_tasks.comment_error'), true);
       },
     });
   }

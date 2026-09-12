@@ -10,6 +10,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { TrainerService } from '../../../../core/services/trainer.service';
 import { AvailabilitySlot } from '../../../../core/models/trainer-profile.model';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 export const DAY_KEYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'] as const;
 
@@ -161,8 +162,7 @@ export class TrainerAvailabilityComponent {
       },
       error: (err) => {
         this.isSaving.set(false);
-        const msg = err?.error?.message;
-        this.formError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        this.formError.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }

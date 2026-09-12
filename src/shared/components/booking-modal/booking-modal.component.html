@@ -154,7 +154,7 @@
             </div>
 
             @if (submitError()) {
-              <div class="booking-error">{{ submitError() }}</div>
+              <div class="booking-error">{{ submitError() | translate }}</div>
             }
 
             <button type="submit" class="btn-primary btn-submit" [disabled]="submitting()">

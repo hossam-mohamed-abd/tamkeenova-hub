@@ -6,6 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { StudentService } from '../../../../core/services/student.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ContactInfo, StudentProfile } from '../../../../core/models/student.model';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 type TabId = 'general' | 'contact' | 'security';
 
@@ -161,8 +162,7 @@ export class StudentProfileComponent implements OnInit {
       },
       error: (err) => {
         this.isUploadingImage.set(false);
-        const msg = err?.error?.message;
-        this.uploadImageError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        this.uploadImageError.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }
@@ -199,7 +199,7 @@ export class StudentProfileComponent implements OnInit {
           if (String(msg).toLowerCase().includes('username')) {
             this.errorMessage.set('student_profile.errors.username_taken');
           } else {
-            this.errorMessage.set(Array.isArray(msg) ? msg[0] : msg || 'auth.errors.generic');
+            this.errorMessage.set(apiErrorKey(err, 'auth.errors.generic'));
           }
         },
       });
@@ -238,7 +238,7 @@ export class StudentProfileComponent implements OnInit {
           } else if (msg.toLowerCase().includes('phone')) {
             this.errorMessage.set('student_profile.errors.phone_taken');
           } else {
-            this.errorMessage.set(msg || 'auth.errors.generic');
+            this.errorMessage.set(apiErrorKey(err, 'auth.errors.generic'));
           }
         },
       });
@@ -275,8 +275,7 @@ export class StudentProfileComponent implements OnInit {
         },
         error: (err) => {
           this.isChangingPassword.set(false);
-          const msg = err?.error?.message;
-          this.passwordError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+          this.passwordError.set(apiErrorKey(err, 'auth.errors.generic'));
         },
       });
   }

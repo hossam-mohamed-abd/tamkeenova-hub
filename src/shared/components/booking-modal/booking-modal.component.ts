@@ -5,6 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { BookingService } from '../../../core/services/booking.service';
 import { ConsultationService } from '../../../core/services/consultation.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 type ContactMethod = 'whatsapp' | 'phone' | 'email';
 
@@ -103,8 +104,7 @@ export class BookingModalComponent {
         },
         error: (err) => {
           this.submitting.set(false);
-          const msg = err?.error?.message;
-          this.submitError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+          this.submitError.set(apiErrorKey(err, 'auth.errors.generic'));
         },
       });
   }

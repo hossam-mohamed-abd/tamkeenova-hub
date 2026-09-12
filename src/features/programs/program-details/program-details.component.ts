@@ -6,6 +6,7 @@ import { StudentService } from '../../../core/services/student.service';
 import { ProgramsService } from '../../../core/services/programs.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { StudentProgramDetails } from '../../../core/models/student.model';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 @Component({
   selector: 'app-program-details',
@@ -127,8 +128,7 @@ export class ProgramDetailsComponent {
         } else if (status === 400) {
           this.enrollError.set('program_details.unavailable');
         } else {
-          const msg = err?.error?.message;
-          this.enrollError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+          this.enrollError.set(apiErrorKey(err, 'auth.errors.generic'));
         }
       },
     });

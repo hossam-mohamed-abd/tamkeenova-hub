@@ -15,6 +15,7 @@ import { SpecializationService } from '../../../core/services/specialization.ser
 import { Specialization } from '../../../core/models/specialization.model';
 import { AuthVisualPanelComponent } from '../../../shared/components/auth-visual-panel/auth-visual-panel.component';
 import { PASSWORD_REQUIREMENTS, passwordScore } from '../../../core/utils/password-strength';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 const URL_PATTERN = /^https?:\/\/.+/;
 
@@ -44,6 +45,9 @@ export class TrainerRegisterComponent {
   specializationsError = signal(false);
 
   private touchedFields = signal<Set<string>>(new Set());
+  // Backend error tied to a specific field (e.g. email exists) — shown inline
+  // under that field, with the wizard jumping back to the step that owns it.
+  serverFieldError = signal<{ field: string; key: string } | null>(null);
 
   readonly passwordRequirements = PASSWORD_REQUIREMENTS;
 
@@ -131,6 +135,8 @@ export class TrainerRegisterComponent {
   }
 
   markTouched(field: string): void {
+    const serverError = this.serverFieldError();
+    if (serverError && serverError.field === field) this.serverFieldError.set(null);
     if (!this.touchedFields().has(field)) {
       this.touchedFields.update((set) => new Set(set).add(field));
     }
@@ -261,8 +267,24 @@ export class TrainerRegisterComponent {
       },
       error: (err) => {
         this.isLoading.set(false);
-        const msg = err?.error?.message;
-        this.errorMessage.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        const key = apiErrorKey(err, 'auth.errors.generic');
+        this.errorMessage.set(key);
+        // Duplicate email/username/phone only surfaces at final submit —
+        // jump back to the step that owns the field and flag it inline.
+        const fieldByError: Record<string, string> = {
+          'errors.AUTH_EMAIL_EXISTS': 'email',
+          'errors.AUTH_USERNAME_EXISTS': 'username',
+          'errors.AUTH_PHONE_EXISTS': 'phone',
+          'errors.AUTH_SPECIALIZATION_NOT_FOUND': 'specialization_id',
+        };
+        const field = fieldByError[key];
+        if (field) {
+          this.serverFieldError.set({ field, key });
+          this.currentStep.set(this.step1Fields.includes(field) ? 1 : this.step2Fields.includes(field) ? 2 : 3);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          this.serverFieldError.set(null);
+        }
       },
     });
   }

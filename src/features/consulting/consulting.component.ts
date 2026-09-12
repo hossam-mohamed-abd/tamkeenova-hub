@@ -9,6 +9,7 @@ import { CorporateRequestService } from '../../core/services/corporate-request.s
 import { ConsultationService } from '../../core/services/consultation.service';
 import { StudentService } from '../../core/services/student.service';
 import { TrainerListItem } from '../../core/models/student.model';
+import { apiErrorKey } from '../../core/utils/api-error';
 
 type AudienceType = 'b2b' | 'b2c';
 type ContactMethod = 'whatsapp' | 'phone' | 'email';
@@ -186,8 +187,7 @@ export class ConsultingComponent {
         },
         error: (err) => {
           this.submitting.set(false);
-          const msg = err?.error?.message;
-          this.submitError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+          this.submitError.set(apiErrorKey(err, 'auth.errors.generic'));
         },
       });
   }
@@ -218,8 +218,7 @@ export class ConsultingComponent {
         },
         error: (err) => {
           this.submitting.set(false);
-          const msg = err?.error?.message;
-          this.submitError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+          this.submitError.set(apiErrorKey(err, 'auth.errors.generic'));
         },
       });
   }
@@ -250,8 +249,7 @@ export class ConsultingComponent {
       },
       error: (err) => {
         this.isUploading.set(false);
-        const msg = err?.error?.message;
-        this.submitError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+        this.submitError.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }

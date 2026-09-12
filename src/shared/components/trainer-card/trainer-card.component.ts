@@ -5,6 +5,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Trainer } from '../../../core/models/trainer.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { TrainerService } from '../../../core/services/trainer.service';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 @Component({
   selector: 'app-trainer-card',
@@ -125,11 +126,10 @@ export class TrainerCardComponent {
       },
       error: (err) => {
         this.isRating.set(false);
-        const msg = err?.error?.message;
         if (err?.status === 409) {
           this.ratingError.set('student_trainers.already_rated');
         } else {
-          this.ratingError.set(Array.isArray(msg) ? msg[0] : msg ?? 'auth.errors.generic');
+          this.ratingError.set(apiErrorKey(err, 'auth.errors.generic'));
         }
         setTimeout(() => this.ratingError.set(null), 3000);
       },

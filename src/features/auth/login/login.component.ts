@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthVisualPanelComponent } from '../../../shared/components/auth-visual-panel/auth-visual-panel.component';
+import { apiErrorKey } from '../../../core/utils/api-error';
 
 @Component({
   selector: 'app-login',
@@ -82,10 +83,7 @@ export class LoginComponent {
       },
       error: (err) => {
         this.isLoading.set(false);
-        const msg = err?.error?.message;
-        this.errorMessage.set(
-          Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.invalid_credentials'),
-        );
+        this.errorMessage.set(apiErrorKey(err, 'auth.errors.invalid_credentials'));
       },
     });
   }

@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CorporateRequestService } from '../../../../core/services/corporate-request.service';
 import { CorporateRequest, CorporateStatus } from '../../../../core/models/student.model';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-student-corporate-requests',
@@ -126,8 +127,7 @@ export class StudentCorporateRequestsComponent {
         },
         error: (err) => {
           this.isSubmitting.set(false);
-          const msg = err?.error?.message;
-          this.formError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+          this.formError.set(apiErrorKey(err, 'auth.errors.generic'));
         },
       });
   }
@@ -191,8 +191,7 @@ export class StudentCorporateRequestsComponent {
       },
       error: (err) => {
         this.isUploading.set(false);
-        const msg = err?.error?.message;
-        this.uploadError.set(Array.isArray(msg) ? msg[0] : (msg ?? 'auth.errors.generic'));
+        this.uploadError.set(apiErrorKey(err, 'auth.errors.generic'));
       },
     });
   }

@@ -10,6 +10,7 @@ import {
   CorporateAction,
 } from '../../../../core/models/admin.model';
 import { AdminNavComponent } from '../admin-nav/admin-nav.component';
+import { apiErrorKey } from '../../../../core/utils/api-error';
 
 @Component({
   selector: 'app-admin-corporate',
@@ -216,9 +217,9 @@ export class AdminCorporateComponent implements OnInit {
             error: () => undefined,
           });
         },
-        error: () => {
+        error: (err) => {
           this.isUpdating.set(false);
-          this.showToast('admin_corporate.update_error', true);
+          this.showToast(apiErrorKey(err, 'admin_corporate.update_error'), true);
         },
       });
   }
