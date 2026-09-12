@@ -416,7 +416,7 @@
 
                 <!-- -- Inline review form -- -->
                 @if (reviewTarget()?.id === row.assignee.id) {
-                  <div class="review-form">
+                  <div class="review-form" [formGroup]="reviewForm">
                     <div class="form-grid form-grid-2">
                       <div class="field">
                         <label class="field-label" for="review-score">{{ 'my_tasks.score' | translate }}</label>

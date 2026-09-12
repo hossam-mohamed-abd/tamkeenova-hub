@@ -546,12 +546,14 @@ export class AdminTasksComponent implements OnInit {
   // ================= Review =================
 
   openReview(row: AssigneeRow): void {
-    this.reviewTarget.set(row.assignee);
+    // Reset BEFORE revealing the block: when the form is created it picks up
+    // these values immediately (zoneless renders on the scheduled tick).
     const previousScore = this.scoreOf(row.assignee);
     this.reviewForm.reset({
       score: previousScore !== null ? previousScore : null,
       note: this.noteOf(row.assignee) ?? '',
     });
+    this.reviewTarget.set(row.assignee);
   }
 
   closeReview(): void {
